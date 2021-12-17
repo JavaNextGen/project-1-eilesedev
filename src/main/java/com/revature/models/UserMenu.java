@@ -6,7 +6,9 @@ public class UserMenu {
 	
 	//Build CLI here
 	public void menuDisplay() {
-		//Instance variables
+//		//Instance variables
+//		String subMenu; //Used to switch into sub-menu
+//		String addReimburse; 
 		
 		boolean menuDisplay = true; 
 		//Accept user input --Scanner class
@@ -30,7 +32,7 @@ public class UserMenu {
 			case "E":{
 				System.out.println("Enter your User ID below: ");//USER VALIDATION -- ALSO LET USER KNOW # NEEDED
 				int id = s.nextInt(); 
-		    	s.nextLine(); //move to nextLine because nextInt() doesnt't 
+		    	s.nextLine(); 
 		    	
 		    	System.out.println("Enter your Username below: ");
 		    	String username = s.nextLine(); 
@@ -38,13 +40,23 @@ public class UserMenu {
 		    	System.out.println("Enter your password below: ");
 		    	String password = s.nextLine(); 
 		    	
-		    	System.out.println("Welcome Employee!");
+		    	//THIS IS WHERE WE BREAK FOR SUB MENUS -- More functionality, less code? ENUMS, MULTITHREADING? 
+		    	System.out.println("Welcome Employee!" + '\n');
+		    	System.out.println("Press 'V' to view past tickets OR");
+		    	System.out.println("Press 'A' to add a reimbursement"); 
+		    	String subMenu = s.nextLine(); 
+		    	if(subMenu.toUpperCase().equals("V")) {
+		    		System.out.println("You are now viewing past tickets");
+		    	} else if(subMenu.toUpperCase().equals("A")) {
+		    		System.out.println("Add a reimbursement");
+		    	}
+		    	//SUB MENU ENDS
 		    	break; 
 			}
 			case "M":{
 				System.out.println("Enter your User ID below: ");//USER VALIDATION -- ALSO LET USER KNOW # NEEDED
 				int mId = s.nextInt(); 
-		    	s.nextLine(); //move to nextLine because nextInt() doesnt't 
+		    	s.nextLine(); 
 		    	
 		    	System.out.println("Enter your Username below: ");
 		    	String mUsername = s.nextLine(); 
@@ -52,7 +64,21 @@ public class UserMenu {
 		    	System.out.println("Enter your password below: ");
 		    	String mPassword = s.nextLine(); 
 		    	
+		    	//THIS IS WHERE WE BREAK FOR SUB MENUS -- More functionality, less code? ENUMS, MULTITHREADING?
 		    	System.out.println("Welcome Manager!");
+		    	System.out.println("Press 'V' to view reimbursements OR");
+		    	System.out.println("Press 'A' to approve or deny a request OR"); 
+		    	System.out.println("Press 'F' to Filter user requests by status"); 
+		    	String subMenu = s.nextLine(); 
+		    	if(subMenu.toUpperCase().equals("V")) {
+		    		System.out.println("You are now viewing reimbursements");
+		    	} else if(subMenu.toUpperCase().equals("A")) {
+		    		System.out.println("Approve or deny request for time off");
+		    	}  else if(subMenu.toUpperCase().equals("F")) {
+		    		System.out.println("You are now viewing all employee requests "
+		    				+ "for time off. Filter your results...");
+		    	} 
+		    	//SUB MENU ENDS
 		    	break; 
 			}
 			case "EXIT":{
@@ -66,9 +92,6 @@ public class UserMenu {
 				break; 
 			}
 			}//End of switch
-			
-			
-			
 			
 		}//End of while loop
 	}

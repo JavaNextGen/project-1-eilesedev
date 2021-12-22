@@ -19,7 +19,7 @@ public class UserMenu {
 		System.out.println("Welcome user: Enter M for Manager or E for Employee");
 		System.out.println("*****************************************************");
 		
-		//display menu as long as menuDisplay boolean is true
+		//display menu as long as menuDisplay boolean is true -- EXTRAS First Name, Last Name, email for both Roles
 		while(menuDisplay) {
 			System.out.println("Hi! Enter M for Manager or E for Employee. "
 					+ "If you want to exit the application type 'exit'");

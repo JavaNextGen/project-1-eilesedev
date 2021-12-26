@@ -16,12 +16,12 @@ public class UserMenu {
 		
 		//Actual menu displayed to user
 		System.out.println("*****************************************************");
-		System.out.println("Welcome user: Enter M for Manager or E for Employee");
+		System.out.println("            Welcome to Your ERS Manager");
 		System.out.println("*****************************************************");
 		
 		//display menu as long as menuDisplay boolean is true -- EXTRAS First Name, Last Name, email for both Roles
 		while(menuDisplay) {
-			System.out.println("Hi! Enter M for Manager or E for Employee. "
+			System.out.println("Please press 'R' to register a new account and 'L' to log-in"
 					+ "If you want to exit the application type 'exit'");
 			
 			//parse user input 
@@ -29,31 +29,48 @@ public class UserMenu {
 			
 			//takes user input and executes appropriate code
 			switch(input.toUpperCase()) {
-			case "E":{
-				System.out.println("Enter your User ID below: ");//USER VALIDATION -- ALSO LET USER KNOW # NEEDED
-				int id = s.nextInt(); 
+			case "R":{
+				//User info entered -- here
+				System.out.println("If you are an Employee, Enter the Number 1 Now"); 
+				System.out.println("If you are a Finance Manager, Enter the Number 2 Now");
+		    	int roleId = s.nextInt(); //pass this as parameter into register method
 		    	s.nextLine(); 
 		    	
-		    	System.out.println("Enter your Username below: ");
+		    	System.out.println("Enter your new username below: ");
 		    	String username = s.nextLine(); 
 		    	
-		    	System.out.println("Enter your password below: ");
+		    	System.out.println("Choose a strong password for your new account below: ");
 		    	String password = s.nextLine(); 
 		    	
+		    	System.out.println("Enter your first name below: ");
+		    	String fName = s.nextLine(); 
+		    	
+		    	System.out.println("Enter your last name below: ");
+		    	String lName = s.nextLine(); 
+		    	
+		    	System.out.println("Enter your email address: ");
+		    	String email = s.nextLine(); 
+		    	
+		    	User newU = new User(roleId, email, email, null, email, email, email); 
+		    	
+		    	
+		    	//Run method to create an account here 
+		    	
 		    	//THIS IS WHERE WE BREAK FOR SUB MENUS -- More functionality, less code? ENUMS, MULTITHREADING? 
-		    	System.out.println("Welcome Employee!" + '\n');
-		    	System.out.println("Press 'V' to view past tickets OR");
-		    	System.out.println("Press 'A' to add a reimbursement"); 
-		    	String subMenu = s.nextLine(); 
-		    	if(subMenu.toUpperCase().equals("V")) {
-		    		System.out.println("You are now viewing past tickets");
-		    	} else if(subMenu.toUpperCase().equals("A")) {
-		    		System.out.println("Add a reimbursement");
-		    	}
-		    	//SUB MENU ENDS
+//		    	System.out.println("Welcome Employee!" + '\n');
+//		    	System.out.println("Press 'V' to view past tickets OR");
+//		    	System.out.println("Press 'A' to add a reimbursement"); 
+//		    	String subMenu = s.nextLine(); 
+//		    	if(subMenu.toUpperCase().equals("V")) {
+//		    		System.out.println("You are now viewing past tickets");
+//		    	} else if(subMenu.toUpperCase().equals("A")) {
+//		    		System.out.println("Add a reimbursement");
+//		    	}
+//		    	//SUB MENU ENDS
 		    	break; 
 			}
-			case "M":{
+			case "L":{
+				//Run method to sign-in here
 				System.out.println("Enter your User ID below: ");//USER VALIDATION -- ALSO LET USER KNOW # NEEDED
 				int mId = s.nextInt(); 
 		    	s.nextLine(); 

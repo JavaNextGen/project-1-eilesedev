@@ -20,7 +20,6 @@ import com.revature.models.User;
  * </ul>
  */
 public class UserService {
-
 	/**
 	 *     Should retrieve a User with the corresponding username or an empty optional if there is no match.
      */

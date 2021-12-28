@@ -45,7 +45,7 @@ public class UserDAO {
     		p.setString(3, userToBeRegistered.getF_Name());
     		p.setString(4, userToBeRegistered.getL_Name());
     		p.setString(5, userToBeRegistered.getEmail());
-    		p.setString(6, userToBeRegistered.getUserRole().name());
+    		p.setInt(6, userToBeRegistered.getUserRole().ordinal()+1); //ordinal returns value of enum (zero-indexed) incremented to match enum vals in database
     		
     		//Command executes SQL CREATE statement
     		p.executeUpdate(); //use for inserts, updates, and deletes

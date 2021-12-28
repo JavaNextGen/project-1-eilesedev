@@ -14,17 +14,23 @@ package com.revature.models;
  * </ul>
  *
  */
-
-
-
 public class User extends AbstractUser {
 	private String f_Name; 
 	private String l_Name; 
 	private String email; 
 	private int p_num; 
 	private String address; 
+	private Role userRole; 
 
-    public String getF_Name() {
+    public Role getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(Role userRole) {
+		this.userRole = userRole;
+	}
+
+	public String getF_Name() {
 		return f_Name;
 	}
 
@@ -77,23 +83,31 @@ public class User extends AbstractUser {
     }
     
     //Basic Functionality to register user
-    public User(String username, String password, int roleId, String fName, String lName, String email) {
-        //enum switch statement here?
-    	super(id, username, password, role);
+    public User(String username, String password, String fName, String lName, String email, Role role) {
+        super.setUsername(username);
+        super.setPassword(password);
+        //The code above should take care of the ID problem
         this.f_Name = fName; 
         this.l_Name = lName; 
         this.email = email; 
+        this.userRole = role; 
     }
     
     
     //Extended functionality -- user enters more information -- some of these fields may be null
-    public User(int id, String username, String password, Role role, String f_name, String l_name, 
-    		String email, int phone, String address) {
+    public User(int id, String username, String password, String f_name, String l_name, 
+    		String email, Role role, int phone, String address) {
     	super(id, username, password, role); 
     	this.f_Name = f_name;
     	this.l_Name = l_name; 
     	this.email = email; 
     	this.p_num = phone; 
     	this.address = address; 
+    }
+    
+    @Override
+    public String toString() {
+        return super.toString() + " User:{First Name =" + f_Name + 
+        		" Last Name = " + l_Name + " email = " + email + "}"; 
     }
 }

@@ -31,7 +31,7 @@ public class UserDAO {
     	
     	try(Connection conn = ConnectionFactory.getConnection()){
     		//Here -- create SQL String statement to insert new User parameters
-    		String sqlCreate = "INSERT INTO ers_users (ers_username, ers_password"
+    		String sqlCreate = "INSERT INTO ers_users (ers_username, ers_password,"
     				+ "user_first_name, user_last_name, user_email, user_role_id)"
     				+ "VALUES (?, ?, ?, ?, ?, ?)";
     		
@@ -45,7 +45,7 @@ public class UserDAO {
     		p.setString(3, userToBeRegistered.getF_Name());
     		p.setString(4, userToBeRegistered.getL_Name());
     		p.setString(5, userToBeRegistered.getEmail());
-    		p.setInt(6, userToBeRegistered.getId());
+    		p.setString(6, userToBeRegistered.getUserRole().name());
     		
     		//Command executes SQL CREATE statement
     		p.executeUpdate(); //use for inserts, updates, and deletes

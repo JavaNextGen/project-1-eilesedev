@@ -2,13 +2,18 @@ package com.revature.models;
 
 import java.util.Scanner;
 
+import com.revature.repositories.UserDAO;
+
 public class UserMenu {
 	
 	//Build CLI here
 	public void menuDisplay() {
-//		//Instance variables
-//		String subMenu; //Used to switch into sub-menu
-//		String addReimburse; 
+		//Instance variables
+		Role userRole = null; 
+		int id = 0; 
+		
+		//Object to use methods in User.java
+		UserDAO newUser = new UserDAO(); 
 		
 		boolean menuDisplay = true; 
 		//Accept user input --Scanner class
@@ -22,7 +27,7 @@ public class UserMenu {
 		//display menu as long as menuDisplay boolean is true -- EXTRAS First Name, Last Name, email for both Roles
 		while(menuDisplay) {
 			System.out.println("Please press 'R' to register a new account and 'L' to log-in"
-					+ "If you want to exit the application type 'exit'");
+					+ " If you want to exit the application type 'exit'");
 			
 			//parse user input 
 			String input = s.nextLine(); 
@@ -30,11 +35,28 @@ public class UserMenu {
 			//takes user input and executes appropriate code
 			switch(input.toUpperCase()) {
 			case "R":{
-				//User info entered -- here
-				System.out.println("If you are an Employee, Enter the Number 1 Now"); 
-				System.out.println("If you are a Finance Manager, Enter the Number 2 Now");
-		    	int roleId = s.nextInt(); //pass this as parameter into register method
-		    	s.nextLine(); 
+				//allow the user to enter employee/manager
+				System.out.println("If you are an Employee, type 'Employee' now"); 
+				System.out.println("If you are a Finance Manager, type 'Finance Manager' now");
+		    	String roleId = s.nextLine(); //pass this as parameter into register method
+//		    	s.nextLine(); 
+		    	
+		    	//Assign ID to enum what if I turn an enum into an ID -- user enters role, I use hash to compare the objects and then enters an Id into the database
+		    	
+		    	//I should be able to allow the user to compare the string they entered with the role
+		    	//If employee enters this then roleID has to be the enum that is entered into the object and how the crud do I pass that object into the database?
+		    	
+		    	//must be able to ignore case
+		    	switch(roleId) { 
+		    	case "Employee": {
+		    			 userRole = Role.EMPLOYEE; 
+		    			 break; 
+		    		}
+		    	case "Finance Manager" : {
+		    			 userRole = Role.FINANCE_MANAGER;
+		    			 break; 
+		    		}
+		    	}
 		    	
 		    	System.out.println("Enter your new username below: ");
 		    	String username = s.nextLine(); 
@@ -51,7 +73,9 @@ public class UserMenu {
 		    	System.out.println("Enter your email address: ");
 		    	String email = s.nextLine(); 
 		    	
-		    	User newU = new User(roleId, email, email, null, email, email, email); 
+		    	User newU = new User(username, password, fName, lName, email, userRole); 
+		    	System.out.println(newU.toString());
+		    	newUser.create(newU); 
 		    	
 		    	
 		    	//Run method to create an account here 

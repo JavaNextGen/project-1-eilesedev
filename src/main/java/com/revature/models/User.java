@@ -81,6 +81,7 @@ public class User extends AbstractUser {
     public User(int id, String username, String password, Role role) {
         super(id, username, password, role);
     }
+
     
     //Basic Functionality to register user
     public User(String username, String password, String fName, String lName, String email, Role role) {

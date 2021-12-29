@@ -66,13 +66,15 @@ public class UserMenu {
 		    	
 		    	System.out.println("Enter your first name below: ");
 		    	String fName = s.nextLine(); 
-		    	
+		    
 		    	System.out.println("Enter your last name below: ");
 		    	String lName = s.nextLine(); 
 		    	
 		    	System.out.println("Enter your email address: ");
 		    	String email = s.nextLine(); 
 		    	
+//		    	int id = 0; 
+		    	//If the user is entering their information they shouldn't be entering the ID 
 		    	User newU = new User(username, password, fName, lName, email, userRole); 
 		    	System.out.println(newU.toString());
 		    	newUser.create(newU); 

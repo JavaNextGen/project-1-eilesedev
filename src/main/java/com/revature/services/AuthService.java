@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.NewUserHasNonZeroIdException;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
@@ -30,6 +31,8 @@ public class AuthService {
      * </ul>
      */
     public User login(String username, String password) {
+    	
+    	//I think that this should logically return userID
         return null;
     }
 
@@ -46,7 +49,7 @@ public class AuthService {
      * Note: userToBeRegistered will have an id=0, additional fields may be null.
      * After registration, the id will be a positive integer.
      */
-    public User register(User userToBeRegistered) {
+    public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException{
     	
     	return uDAO.create(userToBeRegistered); 
     }

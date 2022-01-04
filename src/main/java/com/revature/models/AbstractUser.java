@@ -80,7 +80,7 @@ public class AbstractUser {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role); //SEND THIS TO DATABASE?
+        return Objects.hash(id, username, password, role); //Know what this line does
     }
 
     @Override

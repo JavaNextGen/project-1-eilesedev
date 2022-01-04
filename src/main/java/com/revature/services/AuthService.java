@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import com.revature.exceptions.NewUserHasNonZeroIdException;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
@@ -28,11 +27,17 @@ public class AuthService {
      *     <li>Must compare password provided and stored password for that user.</li>
      *     <li>Should throw exception if the passwords do not match.</li>
      *     <li>Must return user object if the user logs in successfully.</li>
+     *     ----------------------------------------------------------------------
+     *     <li>Can add additional functionality for username or email</li>
      * </ul>
      */
     public User login(String username, String password) {
     	
-    	//I think that this should logically return userID
+    	//Compare with username (see AbstractUser)
+    	
+    	//if password matches username login, if not throw exception
+    	
+    	//I think that this should logically return userID that corresponds to object?
         return null;
     }
 
@@ -49,7 +54,9 @@ public class AuthService {
      * Note: userToBeRegistered will have an id=0, additional fields may be null.
      * After registration, the id will be a positive integer.
      */
-    public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException{
+    public User register(User userToBeRegistered){
+    	
+    	
     	
     	return uDAO.create(userToBeRegistered); 
     }

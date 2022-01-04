@@ -1,7 +1,6 @@
 package com.revature.repositories;
 
-import com.revature.exceptions.NewUserHasNonZeroIdException;
-import com.revature.exceptions.UsernameNotUniqueException;
+import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 
@@ -17,33 +16,59 @@ public class UserDAO {
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
      * @throws SQLException 
      */
-    public Optional<User> getByUsername(String username) throws SQLException {
+    public Optional<User> getByUsername(String username){
+    	 
+    	//Here -- if user tries to register and matches a username in database throw Exceptions
+		/**I want the user to enter their username to register, press sign in and get an 
+		 * error back --username already exists in the database
+		 * 
+		 * Try querying for the specific username and if anything is returned 
+		 * throw exception*/
+//		if(username.equals(rs.toString())) {
+//			throw new UsernameNotUniqueException(); 
+//		}
+    	
+    	
+    	
+    	
+    	//Select a record from the database where these usernames match ***
+    		//Using the .equals() from AbstractUser we can pass in the username? and compare it with what???
+    		//cannot make a static call to a non-static method
+    	
+    	//By the method signature we're checking to see whether or not the User.getByUsername() returns a value from the database
+    	
+    	//if the user doesn't exist in the database we return an empty optional (what is an optional?)
     	try(Connection conn = ConnectionFactory.getConnection()) {
+    		
+    		
     		
     		/**Result set object points to row in database that record exists in 
     		 * set to null for now**/
     		ResultSet rs = null; 
+    		//retrieve user from the database with corresponding username
+			String sqlSelect = "SELECT ers_username FROM ers_users WHERE ers_username= ?";
+			//Put the sql query into our statement object
+    		PreparedStatement ps = conn.prepareStatement(sqlSelect); 
+    		//Here -- create SQL String statement to retrieve user record that matches passed in username
     		
-    		//Here--create SQL string to query the database for the username
-    		String sqlCreate = "SELECT FROM ers_users WHERE ers_username= ?"; 
+    		ps.setString(1, username);
+    		rs = ps.executeQuery(); //Used to retrieve values from database
     		
-    		//Use for SQL commands that use parameters
-    		PreparedStatement p = conn.prepareStatement(sqlCreate); 
+//    		String cat = "Cat"; 
     		
-    		/**Insert argument into prepared statement and set Result set object
-    		 * to this value**/
-    		p.setString(1, username);
+    		String user = rs.toString(); 
+    		//1. Retrieve User from the DB with matching username
+        	Optional<String> empty = Optional.of("Welcome to your ERS management system " + user); //This checks to see if the username is returned from the database
+        	//2. Return an empty optional if there's no match\
+        	String noUser = empty.orElse("No username found. Please register"); //Default value if username is empty
+        	
+        	System.out.println(noUser);
     		
-    		rs = p.executeQuery(); //Used to retrieve values from database
-    		
-    		
-    		
-    	}catch(UsernameNotUniqueException e) {
-    		System.out.println("User already exists! Please sign in");
+    	}catch(SQLException e) {
+    		System.out.println("Something has gone wrong!");
     		e.printStackTrace();
     	}
-    	
-        return Optional.empty();
+		return Optional.empty(); 
     }
 
     /**
@@ -86,7 +111,15 @@ public class UserDAO {
     		
     		//NonZeroException isn't running why???
     		
-    	} catch(SQLException | NewUserHasNonZeroIdException e){
+//    		if(userToBeRegistered.getId() != 0) {
+//    			throw new NewUserHasNonZeroIdException(); 
+    	
+    		
+    		//Not sure how to throw exception for if user is not registered successfully
+    			
+//    		}
+    		
+    	} catch(RegistrationUnsuccessfulException|SQLException e){
     		System.out.println("Registration unsuccessful!");
     		e.printStackTrace();
     	} 

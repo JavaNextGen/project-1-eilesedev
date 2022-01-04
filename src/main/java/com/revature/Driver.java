@@ -2,6 +2,7 @@ package com.revature;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.revature.controllers.UserController;
 import com.revature.models.UserMenu;
 import com.revature.util.ConnectionFactory;
 
@@ -10,6 +11,7 @@ import io.javalin.Javalin;
 public class Driver {
 
     public static void main(String[] args) {
+    	UserController uc = new UserController();
     	
     	//Test database connection -- try with resources
     	try(Connection conn = ConnectionFactory.getConnection()){
@@ -28,6 +30,9 @@ public class Driver {
     				config -> {
     					config.enableCorsForAllOrigins(); //allows server to process Javascript
     				}
-    			).start(3000); 
+    			).start(3002); 
+    	
+    	//Create user object
+    	app.post("/register/user", uc.registerUserHandler);
     }
 }

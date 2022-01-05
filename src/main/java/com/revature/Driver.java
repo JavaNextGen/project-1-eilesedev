@@ -21,18 +21,18 @@ public class Driver {
     		e.printStackTrace(); 
     	}
     	
-    	//Run Menu
-//    	UserMenu user = new UserMenu(); 
-//    	user.menuDisplay();
+//    	Run Menu
+    	UserMenu user = new UserMenu(); 
+    	user.menuDisplay();
     	
     	//Set up Javalin Here
-    	Javalin app = Javalin.create(
-    				config -> {
-    					config.enableCorsForAllOrigins(); //allows server to process Javascript
-    				}
-    			).start(3002); 
-    	
-    	//Create user object
-    	app.post("/register/user", uc.registerUserHandler);
+//    	Javalin app = Javalin.create(
+//    				config -> {
+//    					config.enableCorsForAllOrigins(); //allows server to process Javascript
+//    				}
+//    			).start(3002); 
+//    	
+//    	//Create user object
+//    	app.post("/register/user", uc.registerUserHandler);
     }
 }

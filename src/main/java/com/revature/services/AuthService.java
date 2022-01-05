@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import com.revature.exceptions.UsernameNotUniqueException;
+import com.revature.models.AbstractUser;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
  */
 public class AuthService {
 	UserDAO uDAO = new UserDAO(); 
+	User user = new User(); 
 
     /**
      * <ul>
@@ -33,12 +36,20 @@ public class AuthService {
      */
     public User login(String username, String password) {
     	
-    	//Compare with username (see AbstractUser)
-    	
-    	//if password matches username login, if not throw exception
-    	
-    	//I think that this should logically return userID that corresponds to object?
-        return null;
+    	//Check for matching password 
+    	if(uDAO.getByUsername(username).isPresent() && uDAO.getPassword(password).isPresent()) {
+			System.out.println("Successfully logged in!");
+			System.out.println(user.toString());
+			 
+			
+		} else {
+			System.out.println("Wrong username or password. Try again!");
+			uDAO.getByUsername(username).orElseThrow(UsernameNotUniqueException :: new); 
+			
+			
+			
+		}
+		return user;
     }
 
     /**
@@ -67,6 +78,8 @@ public class AuthService {
      * possibility of a user being unavailable.
      */
     public Optional<User> exampleRetrieveCurrentUser() {
-        return Optional.empty();
+		return Optional.empty();
+    	
+//        return uDAO.getByUsername(username);
     }
 }

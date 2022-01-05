@@ -14,11 +14,18 @@ public class UserController {
 	//CAN context object throw exceptions?
 	
 	//TEST -- Get user record from the database
-	public Handler getUserTestHandler = (ctx) -> {
+	public Handler getUserByUsername = (ctx) -> {
+		//1. Enter username in pathParam
+		//2. Return user record based on username
+		//3. Return empty optional if user doesn't exits
+		//STRETCH -- Redirect user to registration path and have them register
 		if(ctx.req.getSession() != null) {
-			String uId = ctx.pathParam("Id"); 
 			
-			User thisU = auth.
+			String uId = ctx.pathParam("username"); 
+			
+//			User u = 
+			
+//			User thisU = auth.
 		}else {
 			
 		}

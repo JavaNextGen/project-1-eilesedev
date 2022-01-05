@@ -3,6 +3,8 @@ package com.revature.models;
 import java.util.Scanner;
 
 import com.revature.repositories.UserDAO;
+import com.revature.services.AuthService;
+import com.revature.services.UserService;
 
 public class UserMenu {
 	
@@ -13,7 +15,11 @@ public class UserMenu {
 		int id = 0; 
 		
 		//Object to use methods in User.java
-		UserDAO newUser = new UserDAO(); 
+		UserDAO newUser = new UserDAO(); //Let's get rid of this if the service layer works DAO should not be exposed
+		
+		AuthService auth = new AuthService(); 
+		
+		UserService newServ = new UserService(); 
 		
 		boolean menuDisplay = true; 
 		//Accept user input --Scanner class
@@ -77,7 +83,8 @@ public class UserMenu {
 		    	//If the user is entering their information they shouldn't be entering the ID 
 		    	User newU = new User(username, password, fName, lName, email, userRole); 
 		    	System.out.println(newU.toString());
-		    	newUser.create(newU); 
+//		    	newUser.create(newU); 
+		    	auth.register(newU);
 		    	
 		    	
 		    	//Run method to create an account here 
@@ -96,32 +103,45 @@ public class UserMenu {
 		    	break; 
 			}
 			case "L":{
+				//User is asked to login in the UserMenu class
 				//Run method to sign-in here
-				System.out.println("Enter your User ID below: ");//USER VALIDATION -- ALSO LET USER KNOW # NEEDED
-				int mId = s.nextInt(); 
-		    	s.nextLine(); 
+				System.out.println("Enter your Username below: ");
+				String username = s.nextLine(); 
+				
+				System.out.println("Enter the password for your account below: ");
+		    	String password = s.nextLine(); 
 		    	
-		    	System.out.println("Enter your Username below: ");
-		    	String mUsername = s.nextLine(); 
+//		    	System.out.println("Enter your password below: ");
+//		    	String mPassword = s.nextLine(); 
 		    	
-		    	System.out.println("Enter your password below: ");
-		    	String mPassword = s.nextLine(); 
+
+//				newServ.getByUsername(username); THIS WORKS!!!
+				
+				auth.login(username, password);
 		    	
+		    	//Take username and return User from database 
+		    	//If the username doesn't exist prompt the user to register
+		    	
+		    	//if username does exist check to make sure that passwords match
+		    	
+		    	//if the passwords match sign in the user and return a welcome message based on their name found in the database
+		    	
+//		    	NO LONGER NEED HERE--KEEPING FOR FUNC
 		    	//THIS IS WHERE WE BREAK FOR SUB MENUS -- More functionality, less code? ENUMS, MULTITHREADING?
-		    	System.out.println("Welcome Manager!");
-		    	System.out.println("Press 'V' to view reimbursements OR");
-		    	System.out.println("Press 'A' to approve or deny a request OR"); 
-		    	System.out.println("Press 'F' to Filter user requests by status"); 
-		    	String subMenu = s.nextLine(); 
-		    	if(subMenu.toUpperCase().equals("V")) {
-		    		System.out.println("You are now viewing reimbursements");
-		    	} else if(subMenu.toUpperCase().equals("A")) {
-		    		System.out.println("Approve or deny request for time off");
-		    	}  else if(subMenu.toUpperCase().equals("F")) {
-		    		System.out.println("You are now viewing all employee requests "
-		    				+ "for time off. Filter your results...");
-		    	} 
-		    	//SUB MENU ENDS
+//		    	System.out.println("Welcome Manager!");
+//		    	System.out.println("Press 'V' to view reimbursements OR");
+//		    	System.out.println("Press 'A' to approve or deny a request OR"); 
+//		    	System.out.println("Press 'F' to Filter user requests by status"); 
+//		    	String subMenu = s.nextLine(); 
+//		    	if(subMenu.toUpperCase().equals("V")) {
+//		    		System.out.println("You are now viewing reimbursements");
+//		    	} else if(subMenu.toUpperCase().equals("A")) {
+//		    		System.out.println("Approve or deny request for time off");
+//		    	}  else if(subMenu.toUpperCase().equals("F")) {
+//		    		System.out.println("You are now viewing all employee requests "
+//		    				+ "for time off. Filter your results...");
+//		    	} 
+//		    	//SUB MENU ENDS
 		    	break; 
 			}
 			case "EXIT":{

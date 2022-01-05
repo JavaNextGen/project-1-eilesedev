@@ -1,6 +1,7 @@
 package com.revature.repositories;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
+import com.revature.models.AbstractUser;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 
@@ -11,37 +12,18 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserDAO {
+	
+	AbstractUser newU = new User(); 
+	
 
     /**
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
      * @throws SQLException 
      */
     public Optional<User> getByUsername(String username){
-    	 
-    	//Here -- if user tries to register and matches a username in database throw Exceptions
-		/**I want the user to enter their username to register, press sign in and get an 
-		 * error back --username already exists in the database
-		 * 
-		 * Try querying for the specific username and if anything is returned 
-		 * throw exception*/
-//		if(username.equals(rs.toString())) {
-//			throw new UsernameNotUniqueException(); 
-//		}
     	
-    	
-    	
-    	
-    	//Select a record from the database where these usernames match ***
-    		//Using the .equals() from AbstractUser we can pass in the username? and compare it with what???
-    		//cannot make a static call to a non-static method
-    	
-    	//By the method signature we're checking to see whether or not the User.getByUsername() returns a value from the database
-    	
-    	//if the user doesn't exist in the database we return an empty optional (what is an optional?)
     	try(Connection conn = ConnectionFactory.getConnection()) {
-    		
-    		
-    		
+    	
     		/**Result set object points to row in database that record exists in 
     		 * set to null for now**/
     		ResultSet rs = null; 
@@ -54,21 +36,18 @@ public class UserDAO {
     		ps.setString(1, username);
     		rs = ps.executeQuery(); //Used to retrieve values from database
     		
-//    		String cat = "Cat"; 
     		
-    		String user = rs.toString(); 
-    		//1. Retrieve User from the DB with matching username
-        	Optional<String> empty = Optional.of("Welcome to your ERS management system " + user); //This checks to see if the username is returned from the database
-        	//2. Return an empty optional if there's no match\
-        	String noUser = empty.orElse("No username found. Please register"); //Default value if username is empty
-        	
-        	System.out.println(noUser);
+    		//Test if successful
+    		System.out.println("Username exists! ");
     		
     	}catch(SQLException e) {
     		System.out.println("Something has gone wrong!");
     		e.printStackTrace();
     	}
-		return Optional.empty(); 
+    	
+    	return Optional.empty();
+
+   
     }
 
     /**
@@ -128,4 +107,37 @@ public class UserDAO {
     	
         return userToBeRegistered;
     }
+    
+    
+    //This will get the user password 
+ public Optional<User> getPassword(String password){
+    	
+    	try(Connection conn = ConnectionFactory.getConnection()) {
+    	
+    		/**Result set object points to row in database that record exists in 
+    		 * set to null for now**/
+    		ResultSet rs = null; 
+    		//retrieve user from the database with corresponding username
+			String sqlSelect = "SELECT ers_password FROM ers_users WHERE ers_password= ?";
+			//Put the sql query into our statement object
+    		PreparedStatement ps = conn.prepareStatement(sqlSelect); 
+    		//Here -- create SQL String statement to retrieve user record that matches passed in username
+    		
+    		ps.setString(1, password);
+    		rs = ps.executeQuery(); //Used to retrieve values from database
+    		
+    		
+    		//Test if successful
+    		System.out.println("Password matches!");
+    		
+    	}catch(SQLException e) {
+    		System.out.println("Something has gone wrong!");
+    		e.printStackTrace();
+    	}
+    	
+    	return Optional.empty();
+
+   
+    }
+    
 }

@@ -7,7 +7,7 @@ public class UsernameNotUniqueException extends RuntimeException {
     }
 
     public UsernameNotUniqueException(String message) {
-        super(message);
+        super("Username already exists!");
     }
 
     public UsernameNotUniqueException(String message, Throwable cause) {

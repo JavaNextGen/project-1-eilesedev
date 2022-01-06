@@ -22,6 +22,8 @@ public class UserMenu {
 		
 		UserService newServ = new UserService(); 
 		
+		User u = new User(); 
+		
 		boolean menuDisplay = true; 
 		//Accept user input --Scanner class
 		Scanner s = new Scanner(System.in); 
@@ -112,44 +114,33 @@ public class UserMenu {
 				System.out.println("Enter the password for your account below: ");
 		    	String password = s.nextLine(); 
 		    	
-//		    	System.out.println("Enter your password below: ");
-//		    	String mPassword = s.nextLine(); 
-		    	
-
-				Optional<User> usernombre = newServ.getByUsername(username); //THIS WORKS!!!				
+				Optional<User> usernombre = newServ.getByUsername(username); 				
 				auth.login(usernombre.toString(), password);
-		    	
-		    	//Take username and return User from database 
-		    	//If the username doesn't exist prompt the user to register
-		    	
-		    	//if username does exist check to make sure that passwords match
-		    	
-		    	//if the passwords match sign in the user and return a welcome message based on their name found in the database
-		    	
-//		    	NO LONGER NEED HERE--KEEPING FOR FUNC
-		    	//THIS IS WHERE WE BREAK FOR SUB MENUS -- More functionality, less code? ENUMS, MULTITHREADING?
-//		    	System.out.println("Welcome Manager!");
-//		    	System.out.println("Press 'V' to view reimbursements OR");
-//		    	System.out.println("Press 'A' to approve or deny a request OR"); 
-//		    	System.out.println("Press 'F' to Filter user requests by status"); 
-//		    	String subMenu = s.nextLine(); 
-//		    	if(subMenu.toUpperCase().equals("V")) {
-//		    		System.out.println("You are now viewing reimbursements");
-//		    	} else if(subMenu.toUpperCase().equals("A")) {
-//		    		System.out.println("Approve or deny request for time off");
-//		    	}  else if(subMenu.toUpperCase().equals("F")) {
-//		    		System.out.println("You are now viewing all employee requests "
-//		    				+ "for time off. Filter your results...");
-//		    	} 
-//		    	//SUB MENU ENDS
+				
+				//need to create a user object here so that I can have access to it's information to pass into methods
+				
+				System.out.println("Hi Again " + newServ.getByUsername(username).get().getF_Name());
+				System.out.println("You are a(n) " + usernombre.get().getUserRole());
+				
+				if(usernombre.get().getUserRole().equals(Role.EMPLOYEE)) {
+					System.out.println("Enter your reimbursement request below: ");
+					
+//					(int id, Status status, User author, User resolver, double amount)
+					
+					System.out.println("Enter your reimbursement amount below: ");
+					double amount = s.nextDouble(); 
+					s.nextLine();
+					
+					//Create new reimbursement object
+					Reimbursement newReimb = new Reimbursement(Status.PENDING, usernombre.get(), amount);  
+					
+					newReimb.toString(); 
+				}
+				
+				
 		    	break; 
 			}
-			case"LIST":{
-				
-				auth.returnAll(); 
-				
-		    	break; 
-		    	}
+			
 			
 			case "EXIT":{
 				System.out.println("You've exited the menu. Goodbye!");

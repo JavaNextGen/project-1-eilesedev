@@ -39,17 +39,6 @@ public class AuthService {
     public User login(String username, String password) {
     	
     	
-    	//How am I supposed to call the Optional return in here
-//    	us.getByUsername(username).ifPresentOrElse(password.equals(uDAO.)), LoginException::new);
-    	
-    	
-    	
-    	//See if the generic employee returned from user service matches the username and password that the user passes in
-    	
-    	//Pull UserService method here
-    	
-    	
-    	
     	//return user object if user logs in successfully
 		return uDAO.getPassword(username, password);
     }
@@ -86,8 +75,8 @@ public class AuthService {
 //        return uDAO.getByUsername(username);
     }
     
-    public User returnAll() {
-    	uDAO.getAllUsers();
-		return user;
-    }
+//    public User returnAll() {
+//    	uDAO.getAllUsers();
+//		return user;
+//    }
 }

@@ -3,6 +3,8 @@ package com.revature.services;
 import com.revature.models.Reimbursement;
 import com.revature.models.Status;
 import com.revature.models.User;
+import com.revature.repositories.ReimbursementDAO;
+import com.revature.repositories.UserDAO;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,9 @@ import java.util.List;
  * </ul>
  */
 public class ReimbursementService {
+	
+	UserDAO uDAO = new UserDAO(); 
+	ReimbursementDAO rDAO = new ReimbursementDAO(); 
 
     /**
      * <ul>
@@ -40,6 +45,11 @@ public class ReimbursementService {
      * The Resolver should be null. Additional fields may be null.
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
      */
+	public Reimbursement create(Reimbursement newReimbursement) {
+		
+        return rDAO.create(newReimbursement);
+    }
+	
     public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
         return null;
     }

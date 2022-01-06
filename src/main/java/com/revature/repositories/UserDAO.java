@@ -170,40 +170,40 @@ public class UserDAO {
 
 	}
 	
-	public List<User> getAllUsers() {
-		try (Connection conn = ConnectionFactory.getConnection()) {
-			
-			ResultSet rs = null; 
-
-			
-			String sqlSelect = "SELECT * FROM ers_users";
-			
-			Statement s = conn.createStatement();
-			
-			rs = s.executeQuery(sqlSelect); // Used to retrieve values from database
-			
-			List<User> users = new ArrayList<>();
-
-			while(rs.next()) {
-						User u = new User(
-						rs.getInt("ers_users_id"), 
-						rs.getString("ers_username"),
-						rs.getString("ers_password"),
-						// I take an ID -- int value from this column and have to turn it into a Role
-						// enum
-						Role.values()[rs.getInt("user_role_id") - 1]
-						);
-						
-					users.add(u);
-			}
-			return users;
-
-		} catch (SQLException e) {
-			System.out.println("Something has gone wrong!");
-			e.printStackTrace();
-		}
-		
-		return null; 
-	}
+//	public List<User> getAllUsers() {
+//		try (Connection conn = ConnectionFactory.getConnection()) {
+//			
+//			ResultSet rs = null; 
+//
+//			
+//			String sqlSelect = "SELECT * FROM ers_users";
+//			
+//			Statement s = conn.createStatement();
+//			
+//			rs = s.executeQuery(sqlSelect); // Used to retrieve values from database
+//			
+//			List<User> users = new ArrayList<>();
+//
+//			while(rs.next()) {
+//						User u = new User(
+//						rs.getInt("ers_users_id"), 
+//						rs.getString("ers_username"),
+//						rs.getString("ers_password"),
+//						// I take an ID -- int value from this column and have to turn it into a Role
+//						// enum
+//						Role.values()[rs.getInt("user_role_id") - 1]
+//						);
+//						
+//					users.add(u);
+//			}
+//			return users;
+//
+//		} catch (SQLException e) {
+//			System.out.println("Something has gone wrong!");
+//			e.printStackTrace();
+//		}
+//		
+//		return null; 
+//	}
 
 }

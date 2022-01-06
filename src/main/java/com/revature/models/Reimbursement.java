@@ -1,5 +1,12 @@
 package com.revature.models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.revature.exceptions.RegistrationUnsuccessfulException;
+import com.revature.util.ConnectionFactory;
+
 /**
  * This concrete Reimbursement class can include additional fields that can be used for
  * extended functionality of the ERS application.
@@ -23,7 +30,36 @@ public class Reimbursement extends AbstractReimbursement {
      * This includes the minimum parameters needed for the {@link com.revature.models.AbstractReimbursement} class.
      * If other fields are needed, please create additional constructors.
      */
-    public Reimbursement(int id, Status status, User author, User resolver, double amount) {
+    public Reimbursement(int id, Status status, User author, User resolver, double amount) {	
         super(id, status, author, resolver, amount);
     }
+    
+    
+    //Basic Functionality to register user
+//    public User(String username, String password, String fName, String lName, String email, Role role) {
+//        super.setUsername(username);
+//        super.setPassword(password);
+//        //The code above should take care of the ID problem
+//        this.f_Name = fName; 
+//        this.l_Name = lName; 
+//        this.email = email; 
+//        this.userRole = role; 
+//    }
+//    
+    
+    
+    //Create reimbursements--no ID -- serial in database
+    public Reimbursement(Status status, User author, double amount) {	
+        super.setStatus(status);
+        super.setAuthor(author);
+        super.setAmount(amount);
+    }
+    
+    
+    //constructor if User wants to enter what reimbursement is for --ADD in after basic func -- create enum for type
+//    public Reimbursement(int id, Status status, User author, User resolver, double amount) {	
+//        super(id, status, author, resolver, amount);
+//    }
+    
+
 }

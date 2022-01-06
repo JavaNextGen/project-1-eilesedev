@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.revature.exceptions.NewUserHasNonZeroIdException;
 import com.revature.exceptions.RegistrationUnsuccessfulException;
+import com.revature.exceptions.UserLoginFailedException;
 import com.revature.repositories.UserDAO;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -84,7 +85,7 @@ public class AuthServiceTest {
 	}
 
 	@Test
-	public void testLoginPassesWhenUsernameDoesExistAndPasswordMatches() {
+	public void testLoginPassesWhenUsernameDoesExistAndPasswordMatches() throws UserLoginFailedException {
 		when(userService.getByUsername(anyString())).thenReturn(Optional.of(GENERIC_EMPLOYEE_1));//Return user object in UserService.getByUsername() method
 
 		assertEquals(GENERIC_EMPLOYEE_1, authService.login(GENERIC_EMPLOYEE_1.getUsername(), GENERIC_EMPLOYEE_1.getPassword()));

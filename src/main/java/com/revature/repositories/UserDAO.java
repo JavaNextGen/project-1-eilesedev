@@ -25,28 +25,40 @@ public class UserDAO {
 	 * 
 	 * @throws SQLException
 	 */
-	public Optional<User> getByUsername(String username) {
-
+	public Optional<User> getByUsername(String username) { //See code on Github to fix if needed NOT WORKING YET
+		
 		try (Connection conn = ConnectionFactory.getConnection()) {
-			
-			
-
+//			User opt = new User(); 
 			/**
 			 * Result set object points to row in database that record exists in set to null
 			 * for now
 			 **/
-//			ResultSet rs = null;
+			ResultSet rs = null;
 			// retrieve user from the database with corresponding username
-			String sqlSelect = "SELECT ers_username FROM ers_users WHERE ers_username= ?";
+			String sqlSelect = "SELECT * FROM ers_users WHERE ers_username= ?";
 			// Put the sql query into our statement object
 			PreparedStatement ps = conn.prepareStatement(sqlSelect);
 			// Here -- create SQL String statement to retrieve user record that matches
 			// passed in username
 
 			ps.setString(1, username);
-			ps.executeQuery(); // Used to retrieve values from database
-
-			System.out.println("Username " + username + " exists!");
+			rs = ps.executeQuery(); // Used to retrieve values from database
+			
+			while(rs.next()) {
+				User opt = new User(
+						rs.getInt("ers_users_id"), 
+						rs.getString("ers_username"),
+						rs.getString("ers_password"),
+						// I take an ID -- int value from this column and have to turn it into a Role
+						// enum
+						Role.values()[rs.getInt("user_role_id") - 1]
+						);
+				System.out.println("Username for " + opt.getId() + " exists!");
+				return Optional.of(opt);
+			}
+			
+			 
+			
 
 		} catch (SQLException e) {
 			System.out.println("Something has gone wrong!");

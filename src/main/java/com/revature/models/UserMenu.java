@@ -3,6 +3,7 @@ package com.revature.models;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.revature.exceptions.UserLoginFailedException;
 import com.revature.repositories.UserDAO;
 import com.revature.services.AuthService;
 import com.revature.services.UserService;
@@ -114,25 +115,35 @@ public class UserMenu {
 				System.out.println("Enter the password for your account below: ");
 		    	String password = s.nextLine(); 
 		    	
-				Optional<User> usernombre = newServ.getByUsername(username); 				
-				auth.login(usernombre.toString(), password);
+		    	//Create user from object pulled from database
+//				User dbU = new User();
+		    	Optional<User> usernombre = newServ.getByUsername(username); 
+		    	System.out.println("your username is " + usernombre.get().getUsername()); //STUB - testing - need to have this object be pop w/db vals
+				try {
+					auth.login(usernombre.toString(), password);
+				} catch (UserLoginFailedException e) {
+					System.out.println("Login failed ");
+					e.printStackTrace();
+				}
 				
-				//need to create a user object here so that I can have access to it's information to pass into methods
+				System.out.println("Hi Again " + usernombre.get().getF_Name());
+				Role uRole = usernombre.get().getUserRole();
+				System.out.println("You are a(n) " + uRole);
 				
-				System.out.println("Hi Again " + newServ.getByUsername(username).get().getF_Name());
-				System.out.println("You are a(n) " + usernombre.get().getUserRole());
 				
-				if(usernombre.get().getUserRole().equals(Role.EMPLOYEE)) {
+				
+				if(uRole.equals(Role.EMPLOYEE)) {
 					System.out.println("Enter your reimbursement request below: ");
-					
-//					(int id, Status status, User author, User resolver, double amount)
-					
-					System.out.println("Enter your reimbursement amount below: ");
+
 					double amount = s.nextDouble(); 
 					s.nextLine();
 					
+//					 public Reimbursement(Status status, User author, double amount)
+					
 					//Create new reimbursement object
 					Reimbursement newReimb = new Reimbursement(Status.PENDING, usernombre.get(), amount);  
+					
+					System.out.println("Success your reimbursement has been added!");
 					
 					newReimb.toString(); 
 				}

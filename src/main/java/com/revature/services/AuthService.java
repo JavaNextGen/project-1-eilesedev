@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.UserLoginFailedException;
 import com.revature.models.AbstractUser;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
@@ -35,9 +36,26 @@ public class AuthService {
      *     ----------------------------------------------------------------------
      *     <li>Can add additional functionality for username or email</li>
      * </ul>
+     * @throws UserLoginFailedException 
      */
-    public User login(String username, String password) {
+    public User login(String username, String password) throws UserLoginFailedException {
+
     	
+    	//compare with UserService getByUsername method if they match pass the username into the database and return user if one exists
+    	if(uDAO.getByUsername(username).isPresent()) {
+//        	Create flag for user login
+        	boolean login = false; 
+    		login = password.equals(uDAO.getByUsername(username).get().getPassword());
+    		if(login = true) {
+    			System.out.println("Log in successful!");
+    		} else {
+    			System.out.println("Log in failed!");
+    			throw new UserLoginFailedException(); 
+    		}
+    	};
+    	//if the passwords don't match throw exception
+    	
+    	//return a user object if user logs in successfully
     	
     	//return user object if user logs in successfully
 		return uDAO.getPassword(username, password);

@@ -66,8 +66,8 @@ public class AbstractUser {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(Role i) {
+        this.role = i;
     }
 
     @Override

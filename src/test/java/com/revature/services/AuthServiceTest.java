@@ -85,7 +85,7 @@ public class AuthServiceTest {
 
 	@Test
 	public void testLoginPassesWhenUsernameDoesExistAndPasswordMatches() {
-		when(userService.getByUsername(anyString())).thenReturn(Optional.of(GENERIC_EMPLOYEE_1));
+		when(userService.getByUsername(anyString())).thenReturn(Optional.of(GENERIC_EMPLOYEE_1));//Return user object in UserService.getByUsername() method
 
 		assertEquals(GENERIC_EMPLOYEE_1, authService.login(GENERIC_EMPLOYEE_1.getUsername(), GENERIC_EMPLOYEE_1.getPassword()));
 

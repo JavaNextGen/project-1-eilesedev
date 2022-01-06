@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.revature.repositories.UserDAO;
@@ -115,9 +116,8 @@ public class UserMenu {
 //		    	String mPassword = s.nextLine(); 
 		    	
 
-//				newServ.getByUsername(username); THIS WORKS!!!
-				
-				auth.login(username, password);
+				Optional<User> usernombre = newServ.getByUsername(username); //THIS WORKS!!!				
+				auth.login(usernombre.toString(), password);
 		    	
 		    	//Take username and return User from database 
 		    	//If the username doesn't exist prompt the user to register
@@ -144,6 +144,13 @@ public class UserMenu {
 //		    	//SUB MENU ENDS
 		    	break; 
 			}
+			case"LIST":{
+				
+				auth.returnAll(); 
+				
+		    	break; 
+		    	}
+			
 			case "EXIT":{
 				System.out.println("You've exited the menu. Goodbye!");
 				s.close();

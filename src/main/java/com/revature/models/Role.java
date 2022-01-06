@@ -19,17 +19,21 @@ package com.revature.models;
  */
 public enum Role {
 
-    EMPLOYEE {
+    EMPLOYEE (1) {
         @Override
         public String toString() {
             return "Employee";
         }
     },
-    FINANCE_MANAGER {
+    FINANCE_MANAGER (2) {
         @Override
         public String toString() {
             return "Finance Manager";
         }
-    }
+    };
+
+	Role(int i) {
+		// TODO Auto-generated constructor stub
+	}
 
 }

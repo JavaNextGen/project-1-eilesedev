@@ -1,11 +1,12 @@
 package com.revature.services;
 
-import com.revature.exceptions.UsernameNotUniqueException;
 import com.revature.models.AbstractUser;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
 import java.util.Optional;
+
+import javax.security.auth.login.LoginException;
 
 /**
  * The AuthService should handle login and registration for the ERS application.
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class AuthService {
 	UserDAO uDAO = new UserDAO(); 
 	User user = new User(); 
+	UserService us = new UserService();
 
     /**
      * <ul>
@@ -36,20 +38,20 @@ public class AuthService {
      */
     public User login(String username, String password) {
     	
-    	//Check for matching password 
-    	if(uDAO.getByUsername(username).isPresent() && uDAO.getPassword(password).isPresent()) {
-			System.out.println("Successfully logged in!");
-			System.out.println(user.toString());
-			 
-			
-		} else {
-			System.out.println("Wrong username or password. Try again!");
-			uDAO.getByUsername(username).orElseThrow(UsernameNotUniqueException :: new); 
-			
-			
-			
-		}
-		return user;
+    	
+    	//How am I supposed to call the Optional return in here
+//    	us.getByUsername(username).ifPresentOrElse(password.equals(uDAO.)), LoginException::new);
+    	
+    	
+    	
+    	//See if the generic employee returned from user service matches the username and password that the user passes in
+    	
+    	//Pull UserService method here
+    	
+    	
+    	
+    	//return user object if user logs in successfully
+		return uDAO.getPassword(username, password);
     }
 
     /**
@@ -78,8 +80,14 @@ public class AuthService {
      * possibility of a user being unavailable.
      */
     public Optional<User> exampleRetrieveCurrentUser() {
-		return Optional.empty();
+		
+    	return Optional.empty();
     	
 //        return uDAO.getByUsername(username);
+    }
+    
+    public User returnAll() {
+    	uDAO.getAllUsers();
+		return user;
     }
 }

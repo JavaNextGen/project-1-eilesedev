@@ -6,23 +6,23 @@ package com.revature.models;
  *
  * Example fields:
  * <ul>
- *     <li>First Name</li>
- *     <li>Last Name</li>
- *     <li>Email</li>
- *     <li>Phone Number</li> may be null
- *     <li>Address</li> may be null
+ * <li>First Name</li>
+ * <li>Last Name</li>
+ * <li>Email</li>
+ * <li>Phone Number</li> may be null
+ * <li>Address</li> may be null
  * </ul>
  *
  */
 public class User extends AbstractUser {
-	private String f_Name; 
-	private String l_Name; 
-	private String email; 
-	private int p_num; 
-	private String address; 
-	private Role userRole; 
+	private String f_Name;
+	private String l_Name;
+	private String email;
+	private int p_num;
+	private String address;
+	private Role userRole;
 
-    public Role getUserRole() {
+	public Role getUserRole() {
 		return userRole;
 	}
 
@@ -71,65 +71,91 @@ public class User extends AbstractUser {
 	}
 
 	public User() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * This includes the minimum parameters needed for the {@link com.revature.models.AbstractUser} class.
-     * If other fields are needed, please create additional constructors.
-     */
-    public User(int id, String username, String password, Role role) {
-        super(id, username, password, role);
-    }
+	/**
+	 * This includes the minimum parameters needed for the
+	 * {@link com.revature.models.AbstractUser} class. If other fields are needed,
+	 * please create additional constructors.
+	 */
+	public User(int id, String username, String password, Role role) {
+		super(id, username, password, role);
+	}
 
-    
-    //Basic Functionality to register user
-    public User(String username, String password, String fName, String lName, String email, Role role) {
-        super.setUsername(username);
-        super.setPassword(password);
-        //The code above should take care of the ID problem
-        this.f_Name = fName; 
-        this.l_Name = lName; 
-        this.email = email; 
-        this.userRole = role; 
-    }
-    
-    //Basic Functionality to get user by ID
-    public User(int id, String username, String password, String fName, String lName, String email, Role role) {
+	// Basic Functionality to register user
+	public User(String username, String password, String fName, String lName, String email, Role role) {
+		super.setUsername(username);
+		super.setPassword(password);
+		// The code above should take care of the ID problem
+		this.f_Name = fName;
+		this.l_Name = lName;
+		this.email = email;
+		this.userRole = role;
+	}
+
+	// Basic Functionality to get user by ID
+	public User(int id, String username, String password, String fName, String lName, String email, Role role) {
 //        super.setUsername(username);
 //        super.setPassword(password);
-    	super(id, username, password, role);
-        //The code above should take care of the ID problem
-        this.f_Name = fName; 
-        this.l_Name = lName; 
-        this.email = email; 
+		super(id, username, password, role);
+		// The code above should take care of the ID problem
+		this.f_Name = fName;
+		this.l_Name = lName;
+		this.email = email;
 //        this.userRole = role; 
-    }
-    
+	}
+
 //    //This will be used to create dummy manager user for pending requests -- need to update user once request is no longer pending
 //    public User(int id, Role role) {
 //    	super.setId(id);
 //    	super.setRole(role);
 //    }
-    
-    
-    //Extended functionality -- user enters more information -- some of these fields may be null
-    public User(int id, String username, String password, String f_name, String l_name, 
-    		String email, Role role, int phone, String address) {
-    	super(id, username, password, role); 
-    	this.f_Name = f_name;
-    	this.l_Name = l_name; 
-    	this.email = email; 
-    	this.p_num = phone; 
-    	this.address = address; 
-    }
+
+	// Extended functionality -- user enters more information -- some of these
+	// fields may be null
+	public User(int id, String username, String password, String f_name, String l_name, String email, Role role,
+			int phone, String address) {
+		super(id, username, password, role);
+		this.f_Name = f_name;
+		this.l_Name = l_name;
+		this.email = email;
+		this.p_num = phone;
+		this.address = address;
+	}
+
+	// Constructor to return from DB
+	public User(int id, String username, String password, int roleId) {
+		super.setId(id);
+		super.setUsername(username);
+		super.setPassword(password);
+
+		if (roleId == 1)
+			this.userRole = Role.EMPLOYEE;
+		else
+			this.userRole = Role.FINANCE_MANAGER;
+	}
 
 	@Override
 	public String toString() {
-		return "User [getId()=" + getId() + ", getUsername()=" + getUsername()
-				+ ", getPassword()=" + getPassword() + "userRole=" + getUserRole() + "]";
+		return "User [getId()=" + getId() + ", getUsername()=" + getUsername() + ", getPassword()=" + getPassword()
+				+ "userRole=" + getUserRole() + "]";
 	}
-    
+
+	public int roleToInt(Role role) {
+		if (role.equals(Role.EMPLOYEE))
+			return 1;
+		else
+			return 2;
+	}
+
+	Role findRole(int i) {
+		if (i == 1) {
+			return userRole = Role.EMPLOYEE;
+		}
+		return userRole = Role.FINANCE_MANAGER;
+	}
+
 //    @Override
 //    public String toString() {
 //        return super.toString() + " User:{First Name =" + f_Name + 

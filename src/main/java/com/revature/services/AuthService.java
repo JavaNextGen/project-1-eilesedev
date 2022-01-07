@@ -39,6 +39,19 @@ public class AuthService {
      * @throws UserLoginFailedException 
      */
     public User login(String username, String password) {
+    	
+    	if(uDAO.getByUsername(username).isPresent()) {
+    		String userName = username;
+    		String passWord = uDAO.getByUsername(userName).get().getPassword(); 
+    		
+    		if(passWord.equals(password)) {
+    			return uDAO.logInUser(userName, passWord);
+    			
+    		} else {
+    			System.out.println("Incorrect Password! Try again");
+    		}
+    	}
+    		 
 
     	
     	//compare with UserService getByUsername method if they match pass the username into the database and return user if one exists
@@ -63,7 +76,7 @@ public class AuthService {
     	//return a user object if user logs in successfully
     	
     	//return user object if user logs in successfully
-		return uDAO.logInUser(username, password);
+		return null;
     }
 
     /**

@@ -17,8 +17,9 @@ import java.util.Optional;
 
 public class UserDAO {
 
-	AbstractUser newU = new User(); 
+//	User newU = new User(); 
 	Role setRole;
+	User u = new User(); 
 
 	/**
 	 * Should retrieve a User from the DB with the corresponding username or an
@@ -46,23 +47,34 @@ public class UserDAO {
 			rs = ps.executeQuery(); // Used to retrieve values from database
 			
 //			int enumVal = rs.getInt("user_role_id"); 
+			int roleId; 
+			
+			
 			
 			while(rs.next()) {
+//				Role r = null; 
+//				if(rs.getInt("user_role_id") == 1) {
+//					r = Role.EMPLOYEE;
+//				} else {
+//					r = Role.FINANCE_MANAGER;
+//				}
 				User opt = new User(
 						rs.getInt("ers_users_id"), 
 						rs.getString("ers_username"),
 						rs.getString("ers_password"),
-						// I take an ID -- int value from this column and have to turn it into a Role
-						// enum
-//						Role.convertInttoRole(rs.getInt("user_role_id"))
-						Role.values()[rs.getInt("user_role_id") - 1]  //Working??
-								
+						rs.getInt("user_role_id")
+//						Role.values()[) - 1]//Working??		
 						); 
 //						Role.values()[getInt("user_role_id"]
-//						
+//						Role.values(rs.getInt("user_role_id"))
+				// I take an ID -- int value from this column and have to turn it into a Role
+				// enum
+//				Role.convertInttoRole(rs.getInt("user_role_id"))
+//				
+//				setRole.valueOf(rs.getInt("user_role_id"))
 						
 				System.out.println("Username for " + opt.toString() + " exists!");
-				return Optional.ofNullable(new User());
+				return Optional.ofNullable(opt);
 			}
 			
 			 
@@ -73,7 +85,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 
-		return Optional.empty();
+		return Optional.ofNullable(null);
 
 	}
 
@@ -164,13 +176,17 @@ public class UserDAO {
 			// record in the database
 			// I may not need an extra method in this class if I do this correctly
 			while(rs.next()) {
+//				Role r = null; 
+//				if(rs.getInt("user_role_id") == 1) {
+//					r = Role.EMPLOYEE;
+//				} else {
+//					r = Role.FINANCE_MANAGER;
+//				}
 				User u = new User(
 						rs.getInt("ers_users_id"), 
 						rs.getString("ers_username"),
 						rs.getString("ers_password"),
-						// I take an ID -- int value from this column and have to turn it into a Role
-						// enum
-						Role.values()[rs.getInt("user_role_id") - 1]
+						rs.getInt("user_role_id")
 						);
 				System.out.println(u.toString()); 
 				return u; 

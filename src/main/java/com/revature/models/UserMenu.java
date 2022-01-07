@@ -20,7 +20,7 @@ public class UserMenu {
 	public void menuDisplay() {
 		//Instance variables
 		Role userRole = null; 
-		int id = 0; 
+//		int id = 0; 
 
 //        Date currentDate = Calendar.getInstance(TimeZone.getDefault()).getTime() 
 		
@@ -67,6 +67,8 @@ public class UserMenu {
 		    	
 		    	//I should be able to allow the user to compare the string they entered with the role
 		    	//If employee enters this then roleID has to be the enum that is entered into the object and how the crud do I pass that object into the database?
+		    	
+		    	
 		    	
 		    	//must be able to ignore case
 		    	switch(roleId) { 
@@ -130,26 +132,27 @@ public class UserMenu {
 		    	//Create user from object pulled from database
 //				User dbU = new User();
 		    	Optional<User> usernombre = newServ.getByUsername(username); 
-
 		    	
-		    	//Create variables for user object
-		    	int loginId; 
-//		    	String loginUnm; 
-//		    	String loginPas; 
-		    	Role loginRole; 
-
-//					if(auth.login(usernombre.get().toString(), password) != null) {
-						int logInId = auth.login(username, password).getId(); 
-						String logInUsername = auth.login(username, password).getUsername(); 
-						String logInPswd = auth.login(logInUsername, password).getPassword();
-						Role logInRole = auth.login(logInUsername, password).getRole(); 
-						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
-						
-//						User absManager = new User(0, Role.FINANCE_MANAGER); 
-						
-						System.out.println("You are a(n) " + loggedInUser.getRole());
-						
-						if(logInRole.equals(Role.EMPLOYEE)) {
+		    	User loggedInUser = auth.login(username, password);
+		    	
+//		    	Create variables for user object
+//		    	int loginId; 
+////		    	String loginUnm; 
+////		    	String loginPas; 
+//		    	Role loginRole; 
+//
+////					if(auth.login(usernombre.get().toString(), password) != null) {
+//						int logInId = auth.login(username, password).getId(); 
+//						String logInUsername = auth.login(username, password).getUsername(); 
+//						String logInPswd = auth.login(logInUsername, password).getPassword();
+//						Role logInRole = auth.login(username, password).getRole(); 
+//						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
+//						
+////						User absManager = new User(0, Role.FINANCE_MANAGER); 
+//						
+//						System.out.println("You are a(n) " + loggedInUser.getRole());
+//						
+						if(loggedInUser.getUserRole().equals(Role.EMPLOYEE)) {
 							System.out.println("Enter your reimbursement request below: ");
 
 							double amount = s.nextDouble(); 

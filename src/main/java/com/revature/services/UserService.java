@@ -32,15 +32,18 @@ public class UserService {
      */
 	public Optional<User> getByUsername(String username) {
 		
+		
 //		If username is present in the database get and return the username
 		if(uDAO.getByUsername(username).isPresent()) {
 			
-			User fromUnm = new User(); 
-//			fromUnm = uDAO.getByUsername(username).get(); 
-//			return Optional.of(uDAO.getByUsername(username).get());
-			return Optional.of(fromUnm); 
+//			User user = new User();
+//			
+//			user.setUsername(username);
 			
-		} else return Optional.empty(); 
+			
+			return Optional.ofNullable(uDAO.getByUsername(username).get()); 
+			
+		} else return Optional.ofNullable(null); 
 		
 	//=========================================ALREADY WORKS TESTING OTHER METHODS==============================================
 		

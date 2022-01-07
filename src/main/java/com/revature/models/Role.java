@@ -19,21 +19,53 @@ package com.revature.models;
  */
 public enum Role {
 
-    EMPLOYEE (1) {
+    EMPLOYEE(1) {
         @Override
         public String toString() {
             return "Employee";
         }
     },
-    FINANCE_MANAGER (2) {
+    FINANCE_MANAGER(2) {
         @Override
         public String toString() {
             return "Finance Manager";
         }
     };
+	
+	private int i; 
 
 	Role(int i) {
-		// TODO Auto-generated constructor stub
+		this.i = i; 
 	}
 
+	public int getI() {
+		return i;
+	}
+	
+//	public static Color convertIntToColor(int iColor) {
+//    for (Color color : Color.values()) {
+//        if (color.getColorAsInt() == iColor) {
+//            return color;
+//        }
+//    }
+//    return null;
+//}
+	
+	public static Role convertInttoRole(int dbint) {
+		for(Role role : Role.values()) {
+			if(role.getI() == dbint) {
+				return role; 
+		}
+	}
+		return null; 
+	}
+
+//
+//	public Role setI(int i) {
+//		this.i = i; 
+//		return Role.values()[i]; 
+//	}
+
 }
+
+

@@ -3,6 +3,8 @@ package com.revature.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.TimeZone;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.util.ConnectionFactory;
@@ -21,6 +23,8 @@ import com.revature.util.ConnectionFactory;
  *
  */
 public class Reimbursement extends AbstractReimbursement {
+	
+	private TimeZone newDate; 
 
     public Reimbursement() {
         super();
@@ -49,11 +53,20 @@ public class Reimbursement extends AbstractReimbursement {
     
     
     //Create reimbursements--no ID -- serial in database
-    public Reimbursement(Status status, User author, double amount) {	
+    public Reimbursement(Status status, User author, TimeZone date, double amount) {	
         super.setStatus(status);
         super.setAuthor(author);
         super.setAmount(amount);
+        this.newDate = date;
     }
+
+	public TimeZone getNewDate() {
+		return newDate;
+	}
+
+	public void setNewDate(TimeZone newtime) {
+		this.newDate = newtime;
+	}
     
     
     //constructor if User wants to enter what reimbursement is for --ADD in after basic func -- create enum for type

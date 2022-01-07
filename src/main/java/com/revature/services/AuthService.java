@@ -38,27 +38,32 @@ public class AuthService {
      * </ul>
      * @throws UserLoginFailedException 
      */
-    public User login(String username, String password) throws UserLoginFailedException {
+    public User login(String username, String password) {
 
     	
     	//compare with UserService getByUsername method if they match pass the username into the database and return user if one exists
-    	if(uDAO.getByUsername(username).isPresent()) {
-//        	Create flag for user login
-        	boolean login = false; 
-    		login = password.equals(uDAO.getByUsername(username).get().getPassword());
-    		if(login = true) {
-    			System.out.println("Log in successful!");
-    		} else {
-    			System.out.println("Log in failed!");
-    			throw new UserLoginFailedException(); 
-    		}
-    	};
+//    	if(uDAO.getByUsername(username).isPresent()) {
+//    	
+//    		
+////        	Create flag for user login
+////        	boolean login = false; 
+////    		boolean login = ;
+//    		if(password.equals(uDAO.getByUsername(username).get().getPassword())) {
+//    			System.out.println("Log in successful!");
+//    			//Create a user object that I return
+//    			
+//    			
+//    		} else {
+//    			System.out.println("Log in failed!");
+////    			throw new UserLoginFailedException(); 
+//    		}
+//    	};
     	//if the passwords don't match throw exception
     	
     	//return a user object if user logs in successfully
     	
     	//return user object if user logs in successfully
-		return uDAO.getPassword(username, password);
+		return uDAO.logInUser(username, password);
     }
 
     /**

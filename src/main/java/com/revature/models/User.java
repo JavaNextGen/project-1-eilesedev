@@ -94,6 +94,12 @@ public class User extends AbstractUser {
         this.userRole = role; 
     }
     
+    //This will be used to create dummy manager user for pending requests -- need to update user once request is no longer pending
+    public User(int id, Role role) {
+    	super.setId(id);
+    	super.setRole(role);
+    }
+    
     
     //Extended functionality -- user enters more information -- some of these fields may be null
     public User(int id, String username, String password, String f_name, String l_name, 
@@ -105,10 +111,16 @@ public class User extends AbstractUser {
     	this.p_num = phone; 
     	this.address = address; 
     }
+
+	@Override
+	public String toString() {
+		return "User [getId()=" + getId() + ", getUsername()=" + getUsername()
+				+ ", getPassword()=" + getPassword() + "userRole=" + getUserRole() + "]";
+	}
     
-    @Override
-    public String toString() {
-        return super.toString() + " User:{First Name =" + f_Name + 
-        		" Last Name = " + l_Name + " email = " + email + "}"; 
-    }
+//    @Override
+//    public String toString() {
+//        return super.toString() + " User:{First Name =" + f_Name + 
+//        		" Last Name = " + l_Name + " email = " + email + "}"; 
+//    }
 }

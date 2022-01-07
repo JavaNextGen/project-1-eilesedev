@@ -9,11 +9,17 @@ import com.revature.util.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+//import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 public class ReimbursementDAO {
+	 Calendar newCal = Calendar.getInstance();
+	TimeZone newtime = TimeZone.getDefault(); 
 
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
@@ -45,19 +51,19 @@ public class ReimbursementDAO {
     		
     		// Create new reimbursement request
     		String sqlCreate = "INSERT INTO ers_reimbursement (reimb_status_id, reimb_author,"
-    				+ "reimb_resolver, reimb_amount)" + "VALUES (?, ?, ?, ?)";
+    				+ "reimb_submitted, reimb_amount)" + "VALUES (?, ?, ?, ?)";
     		
     		PreparedStatement p = conn.prepareStatement(sqlCreate);
     		
     		p.setInt(1, newReimbursement.getStatus().ordinal() + 1);
     		p.setInt(2, newReimbursement.getAuthor().getId());
-    		p.setInt(3, newReimbursement.getResolver().getId());
+    		p.setTimestamp(3, Timestamp.valueOf("2022-01-07 05:20:02"));
     		p.setDouble(4, newReimbursement.getAmount());
     		
     		p.executeUpdate(); // use for inserts, updates, and deletes
     		
     		// TEST - send to console if successful
-    		System.out.println("Reimbursement Successfully added " + newReimbursement.getAuthor().getF_Name() + "!");
+    		System.out.println("Reimbursement Successfully added!");
     		System.out.println("Please check in on the status of your reimbursement in a few weeks");
     		
     		

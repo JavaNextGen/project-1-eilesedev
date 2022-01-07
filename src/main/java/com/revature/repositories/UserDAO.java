@@ -18,6 +18,7 @@ import java.util.Optional;
 public class UserDAO {
 
 	AbstractUser newU = new User(); 
+	Role setRole;
 
 	/**
 	 * Should retrieve a User from the DB with the corresponding username or an
@@ -44,6 +45,8 @@ public class UserDAO {
 			ps.setString(1, username);
 			rs = ps.executeQuery(); // Used to retrieve values from database
 			
+//			int enumVal = rs.getInt("user_role_id"); 
+			
 			while(rs.next()) {
 				User opt = new User(
 						rs.getInt("ers_users_id"), 
@@ -51,10 +54,15 @@ public class UserDAO {
 						rs.getString("ers_password"),
 						// I take an ID -- int value from this column and have to turn it into a Role
 						// enum
-						Role.values()[rs.getInt("user_role_id") - 1]
-						);
-				System.out.println("Username for " + opt.getId() + " exists!");
-				return Optional.of(opt);
+//						Role.convertInttoRole(rs.getInt("user_role_id"))
+						Role.values()[rs.getInt("user_role_id") - 1]  //Working on getting this to work
+								
+						); 
+//						Role.values()[getInt("user_role_id"]
+//						
+						
+				System.out.println("Username for " + opt.toString() + " exists!");
+				return Optional.ofNullable(new User());
 			}
 			
 			 
@@ -125,11 +133,12 @@ public class UserDAO {
 
 		return userToBeRegistered;
 	}
-
+	
+	
 	// This will handle the user login with the database
 	
 	
-	public User getPassword(String username, String password) {
+	public User logInUser(String username, String password) {
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
@@ -163,14 +172,17 @@ public class UserDAO {
 						// enum
 						Role.values()[rs.getInt("user_role_id") - 1]
 						);
+				System.out.println(u.toString()); 
+				return u; 
 				
-				if(newU.equals(u)) {//Tests need to change here
-					// Test if successful
-					System.out.println("Password matches!");
-					return u; 
-				} else {
-					throw new RegistrationUnsuccessfulException(); 
-				}
+//				if(newU.equals(u)) {//Tests need to change here
+//					// Test if successful
+//					System.out.println("Password matches!");
+//					
+//				} else {
+//					throw new RegistrationUnsuccessfulException(); 
+//				}
+				
 
 			}
 		} catch (SQLException e) {

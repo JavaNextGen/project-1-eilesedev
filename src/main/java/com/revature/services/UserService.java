@@ -32,44 +32,59 @@ public class UserService {
      */
 	public Optional<User> getByUsername(String username) {
 		
+//		If username is present in the database get and return the username
+		if(uDAO.getByUsername(username).isPresent()) {
+			
+			User fromUnm = new User(); 
+//			fromUnm = uDAO.getByUsername(username).get(); 
+//			return Optional.of(uDAO.getByUsername(username).get());
+			return Optional.of(fromUnm); 
+			
+		} else return Optional.empty(); 
+		
 	//=========================================ALREADY WORKS TESTING OTHER METHODS==============================================
 		
-		
-		if(uDAO.getByUsername(username).isPresent()) {
-			System.out.println("User exists in UserService!");
-			User fromDAO = uDAO.getByUsername(username).get();
-			
-//			System.out.println("Hey " + fromDAO.getF_Name()); // this doesn't access every column in the DAO
+//		
+//		if(uDAO.getByUsername(username).isPresent()) { //This method only pulls the user name and password from the DB
+//			System.out.println("User exists in UserService!");
+//			User fromDAO = uDAO.getByUsername(username).get();
 //			
-			return Optional.of(fromDAO); 
-			
-		} else {
-			uDAO.getByUsername(username).orElseThrow(UsernameNotUniqueException :: new); 
-					
-		}
-//		return Optional.of(user);//using username return the entire object
-		return Optional.empty(); 
-		
+//			System.out.println("Hey " + fromDAO.getUsername()); // this doesn't access every column in the DAO
+//			System.out.println("Your password is " + fromDAO.getPassword());
+//			System.out.println("You are a(n) " + fromDAO.getUserRole());
+////			
+//			return Optional.of(fromDAO); 
+//			
+//		} else {
+//			uDAO.getByUsername(username).orElseThrow(UsernameNotUniqueException :: new); //need to change this exception
+//					
+//		}
+////		return Optional.of(user);//using username return the entire object
+//		return Optional.empty(); 
+//		
 //=========================================ALREADY WORKS TESTING OTHER METHODS==============================================
 		
 		
-//		Optional<User> opt = uDAO.getByUsername(username); 
-//		
-//		
-//		User user = new User(); 
-//		
-//		//Create Consumer<User>
-//		Consumer<User> setU = a -> user.setUsername(username);
-//		
-////		String userNom; 
-//		uDAO.getByUsername(username).ifPresentOrElse(setU, UsernameNotUniqueException::new);
-//		
-//	uDAO.getByUsername(username).ifPresentOrElse(userNom -> uDAO.getByUsername(username).get(), UsernameNotUniqueException::new);
-	
-//	user.setUsername(userNom);	
+//		User fromDAO = uDAO.getByUsername(username).get(); //will this create an object
+//		System.out.println("Hello from User Service");
+//		fromDAO.toString(); 
+//////		if(fromDAO != Optional.empty()) { //This method only pulls the user name and password from the DB
+////			System.out.println("User exists in UserService!");
+////			User fromDAO = uDAO.getByUsername(username).get();
+////			
+////			System.out.println("Hey " + fromDAO.getUsername()); // this doesn't access every column in the DAO
+////			System.out.println("Your password is " + fromDAO.getPassword());
+////			System.out.println("You are a(n) " + fromDAO.getUserRole());
+//////			
+////			return Optional.of(fromDAO); 
+////			
+////		} else {
+////			uDAO.getByUsername(username).orElseThrow(UsernameNotUniqueException :: new); //need to change this exception
+//					
+////		}
+////		return Optional.of(user);//using username return the entire object
+//		return Optional.empty(); 
 		
-		
-//		return opt;
 		
 
 		

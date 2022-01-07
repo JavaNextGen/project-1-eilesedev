@@ -1,29 +1,39 @@
 package com.revature.models;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 import com.revature.exceptions.UserLoginFailedException;
 import com.revature.repositories.UserDAO;
 import com.revature.services.AuthService;
+import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 
 public class UserMenu {
+	Calendar newCal = Calendar.getInstance(); 
+	TimeZone today = TimeZone.getDefault();
 	
 	//Build CLI here
 	public void menuDisplay() {
 		//Instance variables
 		Role userRole = null; 
 		int id = 0; 
+
+//        Date currentDate = Calendar.getInstance(TimeZone.getDefault()).getTime() 
 		
 		//Object to use methods in User.java
-		UserDAO newUser = new UserDAO(); //Let's get rid of this if the service layer works DAO should not be exposed
+//		UserDAO newUser = new UserDAO(); //Let's get rid of this if the service layer works DAO should not be exposed
 		
 		AuthService auth = new AuthService(); 
 		
 		UserService newServ = new UserService(); 
 		
-		User u = new User(); 
+//		User u = new User(); 
+		
+		ReimbursementService reimb = new ReimbursementService(); 
 		
 		boolean menuDisplay = true; 
 		//Accept user input --Scanner class
@@ -118,35 +128,61 @@ public class UserMenu {
 		    	//Create user from object pulled from database
 //				User dbU = new User();
 		    	Optional<User> usernombre = newServ.getByUsername(username); 
-		    	System.out.println("your username is " + usernombre.get().getUsername()); //STUB - testing - need to have this object be pop w/db vals
-				try {
-					auth.login(usernombre.toString(), password);
-				} catch (UserLoginFailedException e) {
-					System.out.println("Login failed ");
-					e.printStackTrace();
-				}
-				
-				System.out.println("Hi Again " + usernombre.get().getF_Name());
-				Role uRole = usernombre.get().getUserRole();
-				System.out.println("You are a(n) " + uRole);
-				
-				
-				
-				if(uRole.equals(Role.EMPLOYEE)) {
-					System.out.println("Enter your reimbursement request below: ");
 
-					double amount = s.nextDouble(); 
-					s.nextLine();
+		    	
+		    	//Create variables for user object
+		    	int loginId; 
+//		    	String loginUnm; 
+//		    	String loginPas; 
+		    	Role loginRole; 
+
+//					if(auth.login(usernombre.get().toString(), password) != null) {
+						int logInId = auth.login(username, password).getId(); 
+						String logInUsername = auth.login(username, password).getUsername(); 
+						String logInPswd = auth.login(logInUsername, password).getPassword();
+						Role logInRole = auth.login(logInUsername, password).getRole(); 
+						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
+						
+						User absManager = new User(0, Role.FINANCE_MANAGER); 
+						
+						System.out.println("You are a(n) " + loggedInUser.getRole());
+						
+						if(logInRole.equals(Role.EMPLOYEE)) {
+							System.out.println("Enter your reimbursement request below: ");
+
+							double amount = s.nextDouble(); 
+							s.nextLine();
+							
+//							 public Reimbursement(Status status, User author, double amount)
+							
+							//Create new reimbursement object
+							Reimbursement newReimb = new Reimbursement(Status.PENDING, loggedInUser, today, amount);  
+							reimb.create(newReimb); 
+							
+//							System.out.println("Success your reimbursement has been added!");
+							
+							newReimb.toString();
+						}
+//					}
+						
+				
 					
-//					 public Reimbursement(Status status, User author, double amount)
 					
-					//Create new reimbursement object
-					Reimbursement newReimb = new Reimbursement(Status.PENDING, usernombre.get(), amount);  
 					
-					System.out.println("Success your reimbursement has been added!");
-					
-					newReimb.toString(); 
-				}
+				
+			
+				
+//				String f_name = usernombre.get().getF_Name();
+				
+//				System.out.println("Hi Again " + f_name);
+//				Role uRole = usernombre.get().getUserRole();
+//				System.out.println("You are a(n) " + loginRole);
+//				User us = new User(usernombre.get().getUsername()); 
+				
+				
+				
+				 
+				
 				
 				
 		    	break; 

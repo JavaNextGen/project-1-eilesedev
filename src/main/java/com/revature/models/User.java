@@ -94,11 +94,23 @@ public class User extends AbstractUser {
         this.userRole = role; 
     }
     
-    //This will be used to create dummy manager user for pending requests -- need to update user once request is no longer pending
-    public User(int id, Role role) {
-    	super.setId(id);
-    	super.setRole(role);
+    //Basic Functionality to get user by ID
+    public User(int id, String username, String password, String fName, String lName, String email, Role role) {
+//        super.setUsername(username);
+//        super.setPassword(password);
+    	super(id, username, password, role);
+        //The code above should take care of the ID problem
+        this.f_Name = fName; 
+        this.l_Name = lName; 
+        this.email = email; 
+//        this.userRole = role; 
     }
+    
+//    //This will be used to create dummy manager user for pending requests -- need to update user once request is no longer pending
+//    public User(int id, Role role) {
+//    	super.setId(id);
+//    	super.setRole(role);
+//    }
     
     
     //Extended functionality -- user enters more information -- some of these fields may be null

@@ -2,14 +2,22 @@ package com.revature.repositories;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.models.Reimbursement;
+import com.revature.models.Role;
 import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 
+//import static org.junit.Assert.assertEquals;
+//import static org.mockito.Matchers.any;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -31,9 +39,64 @@ public class ReimbursementDAO {
     /**
      * Should retrieve a List of Reimbursements from the DB with the corresponding Status or an empty List if there are no matches.
      */
-    public List<Reimbursement> getByStatus(Status status) {
-        return Collections.emptyList();
-    }
+
+	public List<Reimbursement> getByStatus(Status status) {
+		int statusId;
+
+		switch (status) {
+		case PENDING: {
+			statusId = 1;
+			break;
+		}
+		case APPROVED: {
+			statusId = 2;
+			break;
+		}
+		case DENIED: {
+			statusId = 3;
+			break;
+		}
+		}
+
+		try (Connection conn = ConnectionFactory.getConnection()) {
+			// Any reimbursement status passed in should return a list of all reimbursements
+			// of that type
+
+			ResultSet rs = null;
+
+			String sql = "SELECT * from ers_reimbursement WHERE reimb_status_id=statusId";
+			
+			PreparedStatement ps = conn.prepareStatement(sql); 
+			
+			rs = ps.executeQuery(); 
+			
+			List<Reimbursement> reimbursementList = new ArrayList<>(); 
+			
+			while(rs.next()) {
+				Reimbursement r = new Reimbursement(
+						rs.getInt("reimb_id"),
+						Status.values()[rs.getInt("reimb_status_id") - 1],
+						rs.getInt("reimb_author"),
+						rs.getInt("reimb_resolver"),
+						rs.getFloat("reimb_amount"),
+						rs.getTimestamp("reimb_submitted"), 
+						rs.getTimestamp("reimb_resolved")					
+						);
+				
+				reimbursementList.add(r); 
+
+			}
+			
+			return reimbursementList; 
+
+		} catch (SQLException e) {
+			System.out.println("Something has gone wrong!");
+			e.printStackTrace();
+		}
+
+		// Or an empty list if there are no reimbursements
+		return Collections.emptyList();
+	}
 
     /**
      * <ul>

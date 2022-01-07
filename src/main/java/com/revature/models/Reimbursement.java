@@ -3,10 +3,12 @@ package com.revature.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.TimeZone;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
+import com.revature.repositories.UserDAO;
 import com.revature.util.ConnectionFactory;
 
 /**
@@ -23,8 +25,15 @@ import com.revature.util.ConnectionFactory;
  *
  */
 public class Reimbursement extends AbstractReimbursement {
+	User u = new User(); 
+	UserDAO uDAO = new UserDAO(); 
+	
+
 	
 	private TimeZone newDate; 
+	private Timestamp newTime; 
+	private Timestamp resolved;
+	
 
     public Reimbursement() {
         super();
@@ -60,12 +69,38 @@ public class Reimbursement extends AbstractReimbursement {
         this.newDate = date;
     }
 
+	public Reimbursement(int id, Status status, int author, int resolver, float amount, Timestamp submitted, Timestamp resolved) {
+		super.setId(id);
+		super.setStatus(status);
+		super.setAuthor(uDAO.getUserById(author)); 
+		super.setResolver(uDAO.getUserById(resolver));
+		super.setAmount(amount);
+		this.newTime = submitted; 
+		this.resolved = resolved; 
+	}
+
 	public TimeZone getNewDate() {
 		return newDate;
 	}
 
 	public void setNewDate(TimeZone newtime) {
 		this.newDate = newtime;
+	}
+
+	public Timestamp getNewTime() {
+		return newTime;
+	}
+
+	public void setNewTime(Timestamp newTime) {
+		this.newTime = newTime;
+	}
+
+	public Timestamp getResolved() {
+		return resolved;
+	}
+
+	public void setResolved(Timestamp resolved) {
+		this.resolved = resolved;
 	}
     
     

@@ -57,7 +57,16 @@ public class ReimbursementService {
     /**
      * Should retrieve all reimbursements with the correct status.
      */
+//    when(reimbursementDAO.getByStatus(any())).thenReturn(GENERIC_ALL_PENDING_REIMBURSEMENTS);
+//	
+//	assertEquals(GENERIC_ALL_PENDING_REIMBURSEMENTS, reimbursementService.getReimbursementsByStatus(Status.PENDING));
+//	
+//	verify(reimbursementDAO).getByStatus(Status.PENDING);
     public List<Reimbursement> getReimbursementsByStatus(Status status) {
-        return Collections.emptyList();
+    	
+    	
+    	
+    	
+        return rDAO.getByStatus(status);
     }
 }

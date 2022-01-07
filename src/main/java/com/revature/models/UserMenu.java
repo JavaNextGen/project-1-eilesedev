@@ -46,7 +46,9 @@ public class UserMenu {
 		
 		//display menu as long as menuDisplay boolean is true -- EXTRAS First Name, Last Name, email for both Roles
 		while(menuDisplay) {
-			System.out.println("Please press 'R' to register a new account and 'L' to log-in"
+			System.out.println("Please press 'R' to register a new account"
+					+ "'L' to log-in "
+					+ "'V' to view all Reimbursement Requests"
 					+ " If you want to exit the application type 'exit'");
 			
 			//parse user input 
@@ -143,7 +145,7 @@ public class UserMenu {
 						Role logInRole = auth.login(logInUsername, password).getRole(); 
 						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
 						
-						User absManager = new User(0, Role.FINANCE_MANAGER); 
+//						User absManager = new User(0, Role.FINANCE_MANAGER); 
 						
 						System.out.println("You are a(n) " + loggedInUser.getRole());
 						
@@ -163,31 +165,21 @@ public class UserMenu {
 							
 							newReimb.toString();
 						}
-//					}
-						
-				
-					
-					
-					
-				
-			
-				
-//				String f_name = usernombre.get().getF_Name();
-				
-//				System.out.println("Hi Again " + f_name);
-//				Role uRole = usernombre.get().getUserRole();
-//				System.out.println("You are a(n) " + loginRole);
-//				User us = new User(usernombre.get().getUsername()); 
-				
-				
-				
-				 
-				
-				
-				
+
 		    	break; 
 			}
 			
+			case "V":{
+				System.out.println("Enter 1 to view all pending requests, "
+						+ "2 to view all approved requests, "
+						+ "and 3 to review denied requests"); 
+				
+				//Create Reimbursement Object and Scanner Here
+				
+				break; 
+				
+			}
+
 			
 			case "EXIT":{
 				System.out.println("You've exited the menu. Goodbye!");

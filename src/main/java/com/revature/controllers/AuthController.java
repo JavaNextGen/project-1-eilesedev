@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.google.gson.Gson;
+import com.revature.models.LoginDTO;
 import com.revature.models.RegistrationDTO;
 import com.revature.models.User;
 import com.revature.services.AuthService;
@@ -40,5 +41,32 @@ public class AuthController {
 			
 		}
 	};
+	
+	public Handler loginUserHandler = (ctx) -> {
+		
+		String body = ctx.body(); 
+		
+		Gson gson = new Gson(); 
+		
+		//Create loginDTO and place here
+		LoginDTO ldto = gson.fromJson(body, LoginDTO.class);  
+		
+		if(auth.login(ldto.getUsername(), ldto.getPassword()) != null){
+			
+			ctx.req.getSession(); 
+			
+			ctx.status(202);
+			
+			ctx.result("Login Successful!"); 
+					
+		} else {
+			
+			ctx.status(401); 
+			
+			ctx.result("Login Failed!");
+		}
+
+	};
+	
 
 }

@@ -1,11 +1,17 @@
 package com.revature.services;
 
 import com.revature.exceptions.NewUserHasNonZeroIdException;
+import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.exceptions.UserLoginFailedException;
 import com.revature.exceptions.UsernameNotUniqueException;
 import com.revature.models.AbstractUser;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
+
+//import static org.junit.Assert.assertEquals;
+//import static org.mockito.Matchers.anyString;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -34,7 +40,7 @@ public class AuthService {
 	 * <li>Needs to check for existing users with username/email provided.</li>
 	 * <li>Must throw exception if user does not exist.</li>
 	 * <li>Must compare password provided and stored password for that user.</li>
-	 * <li>Should throw exception if the passwords do not match.</li>
+	 * <li>Should throw exception if the passwords do not match.</li> *****
 	 * <li>Must return user object if the user logs in successfully.</li>
 	 * ----------------------------------------------------------------------
 	 * <li>Can add additional functionality for username or email</li>
@@ -42,21 +48,28 @@ public class AuthService {
 	 * 
 	 * @throws UserLoginFailedException
 	 */
-	public User login(String username, String password) {
+	public User login(String username, String password) throws UserLoginFailedException{
 
 		UserDAO uDAO = new UserDAO();
+		
+		UserService newServ = new UserService(); 
 
-		if (uDAO.getByUsername(username).isPresent()) {
-			String userName = username;
-			String passWord = uDAO.getByUsername(userName).get().getPassword();
-
+		if (newServ.getByUsername(username).isPresent()) {
+			
+			User byUnm = newServ.getByUsername(username).get(); //Generic Employee
+			
+			String userName = byUnm.getUsername();
+			String passWord = byUnm.getPassword();
+			
 			if (passWord.equals(password)) {
 				return uDAO.logInUser(userName, passWord);
 
 			} else {
-				System.out.println("Incorrect Password! Try again");
+				System.out.println("Incorrect Password!");
+				throw new UserLoginFailedException(); 
 			}
-		}
+			
+		} 
 
 		return null;
 	}
@@ -68,15 +81,16 @@ public class AuthService {
 	 * <li>Should persist the user object upon successful registration.</li> *******
 	 * <li>Must throw exception if registration is unsuccessful.</li>
 	 * <li>Must return user object if the user registers successfully.</li>
-	 * <li>Must throw exception if provided user has a non-zero ID</li> CREATE
-	 * CUSTOM EXCEPTION ***
+	 * <li>Must throw exception if provided user has a non-zero ID</li>
 	 * </ul>
 	 *
 	 * Note: userToBeRegistered will have an id=0, additional fields may be null.
 	 * After registration, the id will be a positive integer.
 	 */
-	public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException, UsernameNotUniqueException {
+	public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException, UsernameNotUniqueException, RegistrationUnsuccessfulException {
 
+//		NEED TO CREATE A CHECK IF REGISTRATION UNSUCCESSFUL
+		
 		UserDAO uDAO = new UserDAO();
 
 		if (userToBeRegistered != null) {

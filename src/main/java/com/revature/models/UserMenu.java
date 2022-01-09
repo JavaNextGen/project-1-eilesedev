@@ -120,57 +120,57 @@ public class UserMenu {
 //		    	//SUB MENU ENDS
 		    	break; 
 			}
-			case "L":{
-				//User is asked to login in the UserMenu class
-				//Run method to sign-in here
-				System.out.println("Enter your Username below: ");
-				String username = s.nextLine(); 
-				
-				System.out.println("Enter the password for your account below: ");
-		    	String password = s.nextLine(); 
-		    	
-		    	//Create user from object pulled from database
-//				User dbU = new User();
-		    	Optional<User> usernombre = newServ.getByUsername(username); 
-		    	
-		    	User loggedInUser = auth.login(username, password);
-		    	
-//		    	Create variables for user object
-//		    	int loginId; 
-////		    	String loginUnm; 
-////		    	String loginPas; 
-//		    	Role loginRole; 
+//			case "L":{
+//				//User is asked to login in the UserMenu class
+//				//Run method to sign-in here
+//				System.out.println("Enter your Username below: ");
+//				String username = s.nextLine(); 
+//				
+//				System.out.println("Enter the password for your account below: ");
+//		    	String password = s.nextLine(); 
+//		    	
+//		    	//Create user from object pulled from database
+////				User dbU = new User();
+//		    	Optional<User> usernombre = newServ.getByUsername(username); 
+//		    	
+//		    	User loggedInUser = auth.login(username, password);
+//		    	
+////		    	Create variables for user object
+////		    	int loginId; 
+//////		    	String loginUnm; 
+//////		    	String loginPas; 
+////		    	Role loginRole; 
+////
+//////					if(auth.login(usernombre.get().toString(), password) != null) {
+////						int logInId = auth.login(username, password).getId(); 
+////						String logInUsername = auth.login(username, password).getUsername(); 
+////						String logInPswd = auth.login(logInUsername, password).getPassword();
+////						Role logInRole = auth.login(username, password).getRole(); 
+////						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
+////						
+//////						User absManager = new User(0, Role.FINANCE_MANAGER); 
+////						
+////						System.out.println("You are a(n) " + loggedInUser.getRole());
+////						
+//						if(loggedInUser.getUserRole().equals(Role.EMPLOYEE)) {
+//							System.out.println("Enter your reimbursement request below: ");
 //
-////					if(auth.login(usernombre.get().toString(), password) != null) {
-//						int logInId = auth.login(username, password).getId(); 
-//						String logInUsername = auth.login(username, password).getUsername(); 
-//						String logInPswd = auth.login(logInUsername, password).getPassword();
-//						Role logInRole = auth.login(username, password).getRole(); 
-//						User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
-//						
-////						User absManager = new User(0, Role.FINANCE_MANAGER); 
-//						
-//						System.out.println("You are a(n) " + loggedInUser.getRole());
-//						
-						if(loggedInUser.getUserRole().equals(Role.EMPLOYEE)) {
-							System.out.println("Enter your reimbursement request below: ");
-
-							double amount = s.nextDouble(); 
-							s.nextLine();
-							
-//							 public Reimbursement(Status status, User author, double amount)
-							
-							//Create new reimbursement object
-							Reimbursement newReimb = new Reimbursement(Status.PENDING, loggedInUser, today, amount);  
-							reimb.create(newReimb); 
-							
-//							System.out.println("Success your reimbursement has been added!");
-							
-							newReimb.toString();
-						}
-
-		    	break; 
-			}
+//							double amount = s.nextDouble(); 
+//							s.nextLine();
+//							
+////							 public Reimbursement(Status status, User author, double amount)
+//							
+//							//Create new reimbursement object
+//							Reimbursement newReimb = new Reimbursement(Status.PENDING, loggedInUser, today, amount);  
+//							reimb.create(newReimb); 
+//							
+////							System.out.println("Success your reimbursement has been added!");
+//							
+//							newReimb.toString();
+//						}
+//
+//		    	break; 
+//			}
 			
 			case "V":{
 				System.out.println("Enter 1 to view all pending requests, "

@@ -36,7 +36,10 @@ public class Driver {
     				}
     			).start(3002); 
     	
-    	//Create user object
+    	//Register user
     	app.post("/auth/register", ac.registerUserHandler);
+    	
+    	//Login user
+    	app.post("/auth/login", ac.loginUserHandler);
     }
 }

@@ -2,8 +2,6 @@ package com.revature.models;
 
 public class RegistrationDTO {
 
-//	public User(String username, String password, String fName, String lName, String email, Role role)
-
 	private String username;
 	private String password;
 	private String fName;

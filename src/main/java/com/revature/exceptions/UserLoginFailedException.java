@@ -3,7 +3,9 @@ package com.revature.exceptions;
 import java.io.IOException;
 
 public class UserLoginFailedException extends IOException{
-	 public UserLoginFailedException() {
+
+
+	public UserLoginFailedException() {
 	        super();
 	    }
 
@@ -19,8 +21,5 @@ public class UserLoginFailedException extends IOException{
 	        super(cause);
 	    }
 
-//		public Exception getMessage(String string) {
-//			Exception msg = new 
-//		}
 
 }

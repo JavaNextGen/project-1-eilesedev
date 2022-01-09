@@ -37,8 +37,16 @@ public class AbstractUser {
         this.password = password;
         this.role = role;
     }
+    
+    
 
-    public int getId() {
+    public AbstractUser(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
+	public int getId() {
         return id;
     }
 

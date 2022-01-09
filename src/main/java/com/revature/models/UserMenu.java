@@ -99,10 +99,10 @@ public class UserMenu {
 		    	
 //		    	int id = 0; 
 		    	//If the user is entering their information they shouldn't be entering the ID 
-		    	User newU = new User(username, password, fName, lName, email, userRole); 
-		    	System.out.println(newU.toString());
-//		    	newUser.create(newU); 
-		    	auth.register(newU);
+//		    	User newU = new User(username, password, fName, lName, email, userRole); 
+//		    	System.out.println(newU.toString());
+////		    	newUser.create(newU); 
+//		    	auth.register(newU);
 		    	
 		    	
 		    	//Run method to create an account here 

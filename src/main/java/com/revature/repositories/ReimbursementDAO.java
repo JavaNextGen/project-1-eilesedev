@@ -9,6 +9,12 @@ import com.revature.util.ConnectionFactory;
 
 //import static org.junit.Assert.assertEquals;
 //import static org.mockito.Matchers.any;
+//import static org.mockito.Matchers.anyInt;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
+
+//import static org.junit.Assert.assertEquals;
+//import static org.mockito.Matchers.any;
 //import static org.mockito.Mockito.verify;
 //import static org.mockito.Mockito.when;
 
@@ -106,8 +112,25 @@ public class ReimbursementDAO {
      * </ul>
      */
     public Reimbursement update(Reimbursement unprocessedReimbursement) {
+    	
     	return null;
     }
+    /**
+     * public void testProcessPassesWhenUserIsFinanceManagerAndReimbursementExistsAndUpdateSuccessful() {
+		when(reimbursementDAO.getById(anyInt())).thenReturn(Optional.of(GENERIC_REIMBURSEMENT_1));
+		when(reimbursementDAO.update(any())).thenReturn(GENERIC_REIMBURSEMENT_2);
+		
+		assertEquals(GENERIC_REIMBURSEMENT_2, reimbursementService.process(REIMBURSEMENT_TO_PROCESS, Status.APPROVED, GENERIC_FINANCE_MANAGER_1));
+		
+		verify(reimbursementDAO).getById(REIMBURSEMENT_TO_PROCESS.getId());
+		verify(reimbursementDAO).update(REIMBURSEMENT_TO_PROCESS);
+	}
+     * 
+     * 
+     * 
+     * */
+    
+    
     
     public Reimbursement create(Reimbursement newReimbursement) {
     	try (Connection conn = ConnectionFactory.getConnection()){

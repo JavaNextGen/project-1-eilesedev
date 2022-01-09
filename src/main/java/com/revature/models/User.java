@@ -84,14 +84,17 @@ public class User extends AbstractUser {
 	}
 
 	// Basic Functionality to register user
-	public User(String username, String password, String fName, String lName, String email, Role role) {
+	public User(String username, String password, String fName, String lName, String email, int roleId) {
 		super.setUsername(username);
 		super.setPassword(password);
-		// The code above should take care of the ID problem
 		this.f_Name = fName;
 		this.l_Name = lName;
 		this.email = email;
-		this.userRole = role;
+		
+		if (roleId == 1)
+			this.userRole = Role.EMPLOYEE;
+		else
+			this.userRole = Role.FINANCE_MANAGER;
 	}
 
 	// Basic Functionality to get user by ID

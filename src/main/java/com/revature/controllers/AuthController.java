@@ -55,6 +55,8 @@ public class AuthController {
 			
 			ctx.req.getSession(); 
 			
+			//Is there a way to pass back permissions?
+			
 			ctx.status(202);
 			
 			ctx.result("Login Successful!"); 

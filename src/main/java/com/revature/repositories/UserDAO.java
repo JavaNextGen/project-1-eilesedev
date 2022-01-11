@@ -226,19 +226,22 @@ public User getUserById(int id) {
 			
 			rs = ps.executeQuery();
 
-			User user = new User(
-					rs.getInt("ers_users_id"), 
-					rs.getString("ers_username"),
-					rs.getString("ers_password"),
-					rs.getString("user_first_name"),
-					rs.getString("user_last_name"),
-					rs.getString("user_email"),
-					// I take an ID -- int value from this column and have to turn it into a Role
-					// enum
-					Role.values()[rs.getInt("user_role_id") - 1]
-					);
-		
-			return user;
+			while(rs.next()) {
+				User user = new User(
+						rs.getInt("ers_users_id"), 
+						rs.getString("ers_username"),
+						rs.getString("ers_password"),
+						rs.getString("user_first_name"),
+						rs.getString("user_last_name"),
+						rs.getString("user_email"),
+						// I take an ID -- int value from this column and have to turn it into a Role
+						// enum
+						rs.getInt("user_role_id")
+						);
+			
+				return user;
+			}
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Something went wrong with your database!"); 

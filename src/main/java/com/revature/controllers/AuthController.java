@@ -17,7 +17,7 @@ public class AuthController {
 
 	public Handler registerUserHandler = (ctx) -> {
 		
-		if(ctx.req.getSession() != null) {
+		if(ctx.req.getSession(true) != null) {
 			String body = ctx.body(); 
 			
 			Gson gson = new Gson(); 

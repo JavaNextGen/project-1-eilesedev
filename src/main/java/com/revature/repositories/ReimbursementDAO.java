@@ -5,6 +5,7 @@ import com.revature.models.Reimbursement;
 import com.revature.models.Role;
 import com.revature.models.Status;
 import com.revature.models.User;
+import com.revature.services.UserService;
 import com.revature.util.ConnectionFactory;
 
 //import static org.junit.Assert.assertEquals;
@@ -32,8 +33,9 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 public class ReimbursementDAO {
-	 Calendar newCal = Calendar.getInstance();
-	TimeZone newtime = TimeZone.getDefault(); 
+	
+	UserService us = new UserService(); 
+
 
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
@@ -135,20 +137,25 @@ public class ReimbursementDAO {
     public Reimbursement create(Reimbursement newReimbursement) {
     	try (Connection conn = ConnectionFactory.getConnection()){
     		
+//    		Reimbursement r = new Reimbursement();
+    		
+//    		long time = ; 
+    		
     		// Create new reimbursement request
-    		String sqlCreate = "INSERT INTO ers_reimbursement (reimb_status_id, reimb_author,"
-    				+ "reimb_submitted, reimb_amount)" + "VALUES (?, ?, ?, ?)";
+    		String sqlCreate = "INSERT INTO ers_reimbursement (reimb_amount, reimb_author, reimb_status_id,"
+    				+ "reimb_type_id)" + "VALUES (?, ?, ?, ?)";
     		
     		PreparedStatement p = conn.prepareStatement(sqlCreate);
     		
-    		p.setInt(1, newReimbursement.getStatus().ordinal() + 1);
+    		p.setDouble(1, newReimbursement.getAmount());	//should this be an int?
     		p.setInt(2, newReimbursement.getAuthor().getId());
-    		p.setTimestamp(3, Timestamp.valueOf("2022-01-07 05:20:02"));
-    		p.setDouble(4, newReimbursement.getAmount());
+    		p.setInt(1, newReimbursement.getStatus().ordinal() + 1);
+    		p.setInt(5, newReimbursement.getType().ordinal() + 1);
     		
     		p.executeUpdate(); // use for inserts, updates, and deletes
     		
     		// TEST - send to console if successful
+    		System.out.println(newReimbursement.toString());
     		System.out.println("Reimbursement Successfully added!");
     		System.out.println("Please check in on the status of your reimbursement in a few weeks");
     		

@@ -3,35 +3,39 @@ package com.revature.controllers;
 import com.google.gson.Gson;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.UserService;
 
 import io.javalin.http.Handler;
 
 public class UserController {
-	
-	User user = new User(); 
-	
-	AuthService auth = new AuthService(); 
 
-	// CAN context object throw exceptions?
+	User user = new User();
 
-	// TEST -- Get user record from the database
-	public Handler getUserByUsername = (ctx) -> {
-		// 1. Enter username in pathParam
-		// 2. Return user record based on username
-		// 3. Return empty optional if user doesn't exits
-		// STRETCH -- Redirect user to registration path and have them register
-		if (ctx.req.getSession() != null) {
+	AuthService auth = new AuthService();
+	UserService us = new UserService();
 
-			String uId = ctx.pathParam("username");
+	public Handler getUserByIdHandler = (ctx) -> {
+		if (ctx.req.getSession(true) != null) {
 
-//			User u = 
+			String uId = ctx.pathParam("Id");
 
-//			User thisU = auth.
-		} else {
+			User userById = us.getUserById(Integer.parseInt(uId));
+
+			Gson gson = new Gson();
+
+			String JSONEmp = gson.toJson(userById);
+
+			ctx.result(JSONEmp);
+
+			ctx.status(200);
 
 		}
+
+		else {
+			ctx.result("Failed to retrieve employees!");
+			ctx.status(404);
+		}
 	};
-	// Handler to register new user
 
 //	public Handler registerUserHandler = (ctx) -> {
 //

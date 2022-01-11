@@ -23,6 +23,7 @@ public class AbstractReimbursement {
 
     private int id;
     private Status status;
+    private int statusId; 
     private User author;
     private User resolver;
     private double amount;
@@ -48,6 +49,8 @@ public class AbstractReimbursement {
         this.id = id;
     }
 
+//	public Reimbursement( double amount, int author, int statusId,  int typeId)
+    
     public Status getStatus() {
         return status;
     }
@@ -79,8 +82,17 @@ public class AbstractReimbursement {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+    
 
-    @Override
+    public int getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

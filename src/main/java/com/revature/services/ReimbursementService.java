@@ -32,48 +32,15 @@ public class ReimbursementService {
 	UserDAO uDAO = new UserDAO();
 	ReimbursementDAO rDAO = new ReimbursementDAO();
 	AuthService as = new AuthService();
-	UserService us = new UserService(); 
+	UserService us = new UserService();
 
 	public Reimbursement create(Reimbursement newReimbursement) {
-		
-//		if(as.login(us.getByUsername(username).get(), password))
-		
-//		User loggedInUser = auth.login(username, password);
-		
+
+		int Id = newReimbursement.getAuthor().getId();
+
+		System.out.println(Id);
+
 		return rDAO.create(newReimbursement);
-
-
-
-
-//		if(auth.login(usernombre.get().toString(), password) != null) {
-////		int logInId = auth.login(username, password).getId(); 
-////		String logInUsername = auth.login(username, password).getUsername(); 
-////		String logInPswd = auth.login(logInUsername, password).getPassword();
-////		Role logInRole = auth.login(username, password).getRole(); 
-////		User loggedInUser = new User(logInId, logInUsername, logInPswd,logInRole);
-////		
-//////		User absManager = new User(0, Role.FINANCE_MANAGER); 
-////		
-////		System.out.println("You are a(n) " + loggedInUser.getRole());
-////		
-//		if(loggedInUser.getUserRole().equals(Role.EMPLOYEE)) {
-//			System.out.println("Enter your reimbursement request below: ");
-//
-//			double amount = s.nextDouble(); 
-//			s.nextLine();
-//			
-////			 public Reimbursement(Status status, User author, double amount)
-//			
-//			//Create new reimbursement object
-//			Reimbursement newReimb = new Reimbursement(Status.PENDING, loggedInUser, today, amount);  
-//			reimb.create(newReimb); 
-//			
-////			
-
-		// Control flow--no finance managers can create their own reimbursements only
-		// employees;
-
-//		return null;
 
 	}
 
@@ -106,7 +73,7 @@ public class ReimbursementService {
 //	assertEquals(GENERIC_ALL_PENDING_REIMBURSEMENTS, reimbursementService.getReimbursementsByStatus(Status.PENDING));
 //	
 //	verify(reimbursementDAO).getByStatus(Status.PENDING);
-	public List<Reimbursement> getReimbursementsByStatus(Status status) {
+	public List<Reimbursement> getReimbursementsByStatus(int status) {
 
 		return rDAO.getByStatus(status);
 	}

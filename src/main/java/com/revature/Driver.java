@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.revature.controllers.AuthController;
 import com.revature.controllers.ReimbursementController;
 import com.revature.controllers.UserController;
+import com.revature.exceptions.UserLoginFailedException;
 import com.revature.models.UserMenu;
 import com.revature.util.ConnectionFactory;
 
@@ -12,7 +13,7 @@ import io.javalin.Javalin;
 
 public class Driver {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UserLoginFailedException {
     	
     	AuthController ac = new AuthController();
     	UserController uc = new UserController(); 
@@ -48,6 +49,8 @@ public class Driver {
     	app.get("/employee/{Id}", uc.getUserByIdHandler);
     	
     	//Create Reimbursement
-    	app.post("/reimbursements/create", rc.createReimbursementHandler);
+    	app.post("/reimbursements/create", rc.createReimbursementHandler); //Half working
+    	
+    	app.get("reimbursements/get/{statusId}", rc.getAllReimbursementsHandler);
     }
 }

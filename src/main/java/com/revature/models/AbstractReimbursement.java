@@ -24,9 +24,9 @@ public class AbstractReimbursement {
     private int id;
     private Status status;
     private int statusId; 
-    private User author;
+    private User reimb_author;
     private User resolver;
-    private double amount;
+    private double reimb_amount;
 
     public AbstractReimbursement() {
         super();
@@ -36,9 +36,9 @@ public class AbstractReimbursement {
         super();
         this.id = id;
         this.status = status;
-        this.author = author;
+        this.reimb_author = author;
         this.resolver = resolver;
-        this.amount = amount;
+        this.reimb_amount = amount;
     }
 
     public int getId() {
@@ -60,11 +60,11 @@ public class AbstractReimbursement {
     }
 
     public User getAuthor() {
-        return author;
+        return reimb_author;
     }
 
     public void setAuthor(User author) {
-        this.author = author;
+        this.reimb_author = author;
     }
 
     public User getResolver() {
@@ -76,33 +76,25 @@ public class AbstractReimbursement {
     }
 
     public double getAmount() {
-        return amount;
+        return reimb_amount;
     }
 
     public void setAmount(double amount) {
-        this.amount = amount;
+        this.reimb_amount = amount;
     }
     
-
-    public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
-	}
 
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractReimbursement that = (AbstractReimbursement) o;
-        return id == that.id && Double.compare(that.amount, amount) == 0 && status == that.status && Objects.equals(author, that.author) && Objects.equals(resolver, that.resolver);
+        return id == that.id && Double.compare(that.reimb_amount, reimb_amount) == 0 && status == that.status && Objects.equals(reimb_author, that.reimb_author) && Objects.equals(resolver, that.resolver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, author, resolver, amount);
+        return Objects.hash(id, status, reimb_author, resolver, reimb_amount);
     }
 
     @Override
@@ -110,9 +102,9 @@ public class AbstractReimbursement {
         return "AbstractReimbursement{" +
                 "id=" + id +
                 ", status=" + status +
-                ", author=" + author +
+                ", author=" + reimb_author +
                 ", resolver=" + resolver +
-                ", amount=" + amount +
-                '}';
+                ", amount=" + reimb_amount +
+                '}' ;
     }
 }

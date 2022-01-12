@@ -106,6 +106,7 @@ public class User extends AbstractUser {
 		this.f_Name = fName;
 		this.l_Name = lName;
 		this.email = email;
+		super.setId(id);
 //        this.userRole = role; 
 	}
 

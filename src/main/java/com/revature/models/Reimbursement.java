@@ -1,6 +1,6 @@
 package com.revature.models;
-import java.sql.Timestamp;
 
+import java.sql.Timestamp;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.repositories.UserDAO;
@@ -23,21 +23,18 @@ import com.revature.util.ConnectionFactory;
 public class Reimbursement extends AbstractReimbursement {
 	User u = new User();
 	UserDAO uDAO = new UserDAO();
-	UserService us = new UserService(); 
-
+	UserService us = new UserService();
 
 	private Timestamp submitted;
 	private Timestamp resolved;
-	private ReimbursementType type;
-	private int typeId; 
+	private ReimbursementType reimb_type_id;
+	private int typeId;
+	private int rmbId;
+	private int reimb_status_id;
+
+
+//	private int reimb_status_id;
 //	private int author; 
-
-
-
-
-	public Reimbursement() {
-		super();
-	}
 
 	/**
 	 * This includes the minimum parameters needed for the
@@ -47,56 +44,62 @@ public class Reimbursement extends AbstractReimbursement {
 	public Reimbursement(int id, Status status, User author, User resolver, double amount) {
 		super(id, status, author, resolver, amount);
 	}
-
-	// Basic Functionality to register user
-//    public User(String username, String password, String fName, String lName, String email, Role role) {
-//        super.setUsername(username);
-//        super.setPassword(password);
-//        //The code above should take care of the ID problem
-//        this.f_Name = fName; 
-//        this.l_Name = lName; 
-//        this.email = email; 
-//        this.userRole = role; 
-//    }
-//    
-
-	// Create reimbursements--no ID -- serial in database
 	
-//	p.setDouble(1, newReimbursement.getAmount());	
-//	p.setInt(2, newReimbursement.getAuthor().getId());
-//	p.setInt(1, newReimbursement.getStatus().ordinal() + 1);
-//	p.setInt(5, newReimbursement.getType().ordinal() + 1);
 	
-	public Reimbursement( double amount, int author, int status,  int type) { //
+    //This is what I'm trying now to fix issue with creating reimbursements 1/11/22
+	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) { 
+		
+		super.setAmount(reimb_amount);
+		super.setAuthor(author);
+		
+		
+		super.setStatus(status);
+		this.setType(reimbType);
+
+	}
+
+	//Tried this not working
+	public Reimbursement(Status pending, User author, User resolver, double d, ReimbursementType type) {
+		super.setStatus(pending);
+		super.setAuthor(author);
+		super.setResolver(resolver);
+		super.setAmount(d);
+		this.setType(type);
+
+	}
+
+	// Pulled from previous versions -- WAS WORKING!!!!!!!!!!!!!
+	public Reimbursement(Status status, User author, double amount) {
+		super.setStatus(status);
+		super.setAuthor(author);
+		super.setAmount(amount);
+	}
+
+	// Reimbursement created from front-end
+//	{"typeId":"1","amount":"20000","status":1}
+
+	public Reimbursement(int typeId, int amount, int status) { //
+
+		// Loding ID to Lodging
+		if (typeId == 1) {
+			this.setType(ReimbursementType.LODGING);
+		} else if (typeId == 2) {
+			this.setType(ReimbursementType.TRAVEL);
+		} else if (typeId == 3) {
+			this.setType(ReimbursementType.FOOD);
+		} else if (typeId == 4) {
+			this.setType(ReimbursementType.OTHER);
+		}
 
 		// status ID to Status
 		if (status == 1)
 			super.setStatus(Status.PENDING);
-		else if (status == 2) {
-			super.setStatus(Status.APPROVED);
-		} else {
-			super.setStatus(Status.DENIED);
-		}
 
-		// Loding ID to Lodging
-		if (type == 1) {
-			this.setType(ReimbursementType.LODGING);
-		} else if (type == 2) {
-			this.setType(ReimbursementType.TRAVEL);
-		} else if (type == 3) {
-			this.setType(ReimbursementType.FOOD);
-		} else {
-			this.setType(ReimbursementType.OTHER);
-		}
-		
-		//user passes in an ID; convert here from User ID to user object and set Abstract Reimbursement Author
-
-		super.setAuthor(us.getUserById(author));
 		super.setAmount(amount);
 
 	}
 
-	public Reimbursement(int id, Status status, int author, int resolver, float amount, Timestamp submitted,
+	public Reimbursement(int id, Status status, int author, int resolver, int amount, Timestamp submitted,
 			Timestamp resolved) {
 		super.setId(id);
 		super.setStatus(status);
@@ -106,7 +109,6 @@ public class Reimbursement extends AbstractReimbursement {
 		this.submitted = submitted;
 		this.resolved = resolved;
 	}
-
 
 	public Timestamp getSubmittedTime() {
 		return submitted;
@@ -123,30 +125,40 @@ public class Reimbursement extends AbstractReimbursement {
 	public void setResolved(Timestamp resolved) {
 		this.resolved = resolved;
 	}
-	
-
 
 	public ReimbursementType getType() {
-		return type;
+		return reimb_type_id;
 	}
 
 	public void setType(ReimbursementType type) {
-		this.type = type;
+		this.reimb_type_id = type;
 	}
 
-	public int getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
-	}
 	
-
+	public Reimbursement() {
+		super();
+	}
 	// constructor if User wants to enter what reimbursement is for --ADD in after
 	// basic func -- create enum for type
 //    public Reimbursement(int id, Status status, User author, User resolver, double amount) {	
 //        super(id, status, author, resolver, amount);
 //    }
+
+
+	@Override
+	public String toString() {
+		return "Reimbursement [getSubmittedTime()=" + getSubmittedTime() + ", getResolved()=" + getResolved()
+				+ ", getType()=" + getType() + ", getId()=" + getId() + ", getStatus()=" + getStatus()
+				+ ", getAuthor()=" + getAuthor() + ", getResolver()=" + getResolver() + ", getAmount()=" + getAmount()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + ", getClass()=" + getClass()
+				+ "]";
+	}
+
+
+
+
+
+
+	
 
 }

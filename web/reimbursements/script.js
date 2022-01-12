@@ -6,13 +6,14 @@ document.getElementById("submit_reimb").addEventListener("click", submitReimb);
 async function submitReimb() {
 
     let reimb_type = document.getElementById("reimb_type_select").value; 
+
     let reimb_amount = document.getElementById("amount").value; 
     let status_id = 1; 
 
     let submitted_reimb = {
-        typeId:reimb_type, 
-        amount:reimb_amount, 
-        status:status_id
+        reimb_type_id:reimb_type, 
+        reimb_amount:reimb_amount, 
+        reimb_status_id:status_id
     }
 
     console.log(submitted_reimb); 
@@ -20,6 +21,7 @@ async function submitReimb() {
     let response = await fetch(url + "reimbursements/create", {
         method: "POST", 
         body: JSON.stringify(submitted_reimb), 
+        //include header here?
         credentials: "include"
     });
 

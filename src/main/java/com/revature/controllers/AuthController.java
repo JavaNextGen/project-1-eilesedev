@@ -1,5 +1,9 @@
 package com.revature.controllers;
 
+import java.security.Principal;
+
+import org.eclipse.jetty.server.Response;
+
 import com.google.gson.Gson;
 import com.revature.models.LoginDTO;
 import com.revature.models.RegistrationDTO;
@@ -55,9 +59,13 @@ public class AuthController {
 			
 			ctx.req.getSession(); 
 			
+			
+			
 			//Is there a way to pass back permissions?
 			
 			ctx.status(202);
+			
+//			ctx.response(auth.login(ldto.getUsername(), ldto.getPassword()));
 			
 			ctx.result("Login Successful!"); 
 					

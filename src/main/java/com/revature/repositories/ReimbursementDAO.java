@@ -127,21 +127,30 @@ public class ReimbursementDAO {
 	public Reimbursement create(Reimbursement newReimbursement) {
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
+			
+			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
+			System.out.println(authorId);
+			
+			int statusId = newReimbursement.getStatus().ordinal(); //THIS ALSO WORKS
+			System.out.println(statusId);
+			
+			int reimbId = newReimbursement.getType().ordinal(); 
+			System.out.println(reimbId);
 
 
 //			INSERT INTO ers_reimbursement(reimb_amount, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
 //			VALUES (500.00, 1, NULL, 1, 2); 
 
-			String sql = "INSERT INTO ers_reimbursement (reimb_amount, reimb_author"
+			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author"
 					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
 
 			PreparedStatement p = conn.prepareStatement(sql);
 
 			
-			p.setDouble(1, newReimbursement.getAmount());
-			p.setObject(2, newReimbursement.getAuthor());
-			p.setObject(3, newReimbursement.getStatus().ordinal() + 1);
-			p.setObject(4, newReimbursement.getType().ordinal() + 1);
+			p.setInt(1, newReimbursement.getAmount());
+			p.setInt(2, authorId);
+			p.setInt(3, statusId + 1);
+			p.setInt(4, reimbId + 1);
 
 			p.executeUpdate();
 

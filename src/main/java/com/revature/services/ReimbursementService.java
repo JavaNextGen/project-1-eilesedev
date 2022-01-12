@@ -1,6 +1,8 @@
 package com.revature.services;
 
+import com.revature.exceptions.UserLoginFailedException;
 import com.revature.models.Reimbursement;
+import com.revature.models.Role;
 import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.repositories.ReimbursementDAO;
@@ -61,7 +63,37 @@ public class ReimbursementService {
 	 * changed to either APPROVED or DENIED.
 	 */
 
-	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
+	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver){
+		
+		try {
+			if(as.login(resolver.getUsername(), resolver.getPassword()) != null && resolver.getUserRole() == Role.FINANCE_MANAGER) {
+				
+				//Check to see that the reimbursement request exists -- how?
+				if(rDAO.getById(unprocessedReimbursement.getId()) != null) {
+					
+				} else {
+					System.out.println("Reimbursement Request not found! Please create a request.");
+					throw new UserLoginFailedException(); 
+				}
+				
+				Status newStatus = finalStatus; 
+				Reimbursement processedReimb = unprocessedReimbursement; 
+				processedReimb.setStatus(newStatus); 
+				processedReimb.setResolver(resolver);
+				
+				return rDAO.update(processedReimb); 
+				
+			} else {
+				
+				System.out.println("Reimbursement could not be processed! Try again!");
+				throw new UserLoginFailedException(); 
+			}
+		} catch (UserLoginFailedException e) {
+			System.out.println("You're not logged in as a finance manager!");
+			e.printStackTrace();
+		}
+		
+		
 		return null;
 	}
 

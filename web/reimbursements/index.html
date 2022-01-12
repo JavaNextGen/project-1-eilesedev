@@ -17,28 +17,31 @@
 
         <div class="row">
             <!-- Column takes up about 2/3rds of page to create reimbursement -->
-            <div class="col-8 border-end border-secondary">
+            <div class="col-8 border-end border-secondary" style="padding-left: 3%; display: block;">
                 <h3 class="mx-auto" style="padding-top: 2%; color: #009888; font-weight: 700;">Hi [Name] Welcome to your
                     Personal VocFinTech ERS System</h3>
 
-                <div class="container" id="reimb_container">
-                    <select name="Reimbursement Type" class="mx-auto" id="reimb_type_select">
+                <div class="container mx-auto" id="reimb_container">
+
+
+                    <!-- Amount -->
+                    <div class="form-group mx-auto" style="padding:3% 0; display: block;">
+                        <label for="amount">Reimbursement Amount:</label>
+                        <input type="number" min="1" step="any" id="amount" name="amount"
+                            placeholder="Enter Reimbursement Amount" required>
+                    </div>
+                    <div class="form-group" style="padding:3% 0; display: block;">Reimbursement Type
+                    <select name="Reimbursement Type"  id="reimb_type_select">
                         <option value="1">Lodging</option>
                         <option value="2">Travel</option>
                         <option value="3">Food</option>
                         <option value="4">Other</option>
                     </select>
-
-                    <!-- Amount -->
-                    <div class="form-group mx-auto" style="padding: 3%; display: block;">
-                        <label for="amount">Reimbursement Amount:</label>
-                        <input type="number" min="1" step="any" id="amount" name="amount" placeholder="Enter Reimbursement Amount"
-                            required>
-                    </div>
+                </div>
 
                     <!-- Block level element for button -->
                     <div class="container">
-                        <button type="button" class="btn btn-primary mx-auto" style="display:block; margin-bottom:3% ;"
+                        <button type="button" class="btn btn-primary mx-auto" style="display: inline; margin-bottom:3% ;"
                             id="submit_reimb">Submit
                             Reimbursement</button>
                     </div>
@@ -52,6 +55,15 @@
             <!-- Column 1/3 of page to view all past reimbursements -->
             <div class="col-4">
                 <h3 class="mx-auto" style="padding-top: 3%; color: #009889a1; font-weight: 700;">View Past Tickets</h3>
+
+                <!-- User enters Employee/User ID, clicks a button and all their reimbursements populate -->
+
+                <!-- Pending: Blue -->
+                <!-- Approved: Green -->
+                <!-- Denied: Red -->
+
+
+
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati natus inventore nostrum expedita
                     fugiat excepturi itaque maxime sit. Fugiat inventore velit accusantium perferendis voluptates
                     architecto qui repellendus sed quod debitis.</p>

@@ -133,7 +133,7 @@ public class UserMenu {
 				if (loggedInUser.getUserRole().equals(Role.EMPLOYEE)) {
 					System.out.println("Enter your reimbursement request below: ");
 
-					double amount = s.nextDouble();
+					int amount = s.nextInt();
 					s.nextLine();
 
 //							 public Reimbursement(Status status, User author, double amount)

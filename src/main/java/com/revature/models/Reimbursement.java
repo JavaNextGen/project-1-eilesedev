@@ -27,10 +27,10 @@ public class Reimbursement extends AbstractReimbursement {
 
 	private Timestamp submitted;
 	private Timestamp resolved;
-	private ReimbursementType reimb_type_id;
+	private ReimbursementType reimb_type;
 	private int typeId;
 	private int rmbId;
-	private int reimb_status_id;
+//	private int reimb_status_id;
 
 
 //	private int reimb_status_id;
@@ -41,13 +41,13 @@ public class Reimbursement extends AbstractReimbursement {
 	 * {@link com.revature.models.AbstractReimbursement} class. If other fields are
 	 * needed, please create additional constructors.
 	 */
-	public Reimbursement(int id, Status status, User author, User resolver, double amount) {
+	public Reimbursement(int id, Status status, User author, User resolver, int amount) {
 		super(id, status, author, resolver, amount);
 	}
 	
 	
     //This is what I'm trying now to fix issue with creating reimbursements 1/11/22
-	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) { 
+	public Reimbursement(int reimb_amount, User author, Status status, ReimbursementType reimbType) { 
 		
 		super.setAmount(reimb_amount);
 		super.setAuthor(author);
@@ -59,7 +59,7 @@ public class Reimbursement extends AbstractReimbursement {
 	}
 
 	//Tried this not working
-	public Reimbursement(Status pending, User author, User resolver, double d, ReimbursementType type) {
+	public Reimbursement(Status pending, User author, User resolver, int d, ReimbursementType type) {
 		super.setStatus(pending);
 		super.setAuthor(author);
 		super.setResolver(resolver);
@@ -69,7 +69,7 @@ public class Reimbursement extends AbstractReimbursement {
 	}
 
 	// Pulled from previous versions -- WAS WORKING!!!!!!!!!!!!!
-	public Reimbursement(Status status, User author, double amount) {
+	public Reimbursement(Status status, User author, int amount) {
 		super.setStatus(status);
 		super.setAuthor(author);
 		super.setAmount(amount);
@@ -127,11 +127,11 @@ public class Reimbursement extends AbstractReimbursement {
 	}
 
 	public ReimbursementType getType() {
-		return reimb_type_id;
+		return reimb_type;
 	}
 
 	public void setType(ReimbursementType type) {
-		this.reimb_type_id = type;
+		this.reimb_type = type;
 	}
 
 	

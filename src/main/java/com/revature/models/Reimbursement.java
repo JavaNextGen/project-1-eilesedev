@@ -41,13 +41,13 @@ public class Reimbursement extends AbstractReimbursement {
 	 * {@link com.revature.models.AbstractReimbursement} class. If other fields are
 	 * needed, please create additional constructors.
 	 */
-	public Reimbursement(int id, Status status, User author, User resolver, int amount) {
-		super(id, status, author, resolver, amount);
+	public Reimbursement(int id, Status status, User author, User resolver, double reimb_amount) {
+		super(id, status, author, resolver, reimb_amount);
 	}
 	
 	
     //This is what I'm trying now to fix issue with creating reimbursements 1/11/22
-	public Reimbursement(int reimb_amount, User author, Status status, ReimbursementType reimbType) { 
+	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) { 
 		
 		super.setAmount(reimb_amount);
 		super.setAuthor(author);
@@ -69,7 +69,7 @@ public class Reimbursement extends AbstractReimbursement {
 	}
 
 	// Pulled from previous versions -- WAS WORKING!!!!!!!!!!!!!
-	public Reimbursement(Status status, User author, int amount) {
+	public Reimbursement(Status status, User author, double amount) {
 		super.setStatus(status);
 		super.setAuthor(author);
 		super.setAmount(amount);
@@ -78,8 +78,10 @@ public class Reimbursement extends AbstractReimbursement {
 	// Reimbursement created from front-end
 //	{"typeId":"1","amount":"20000","status":1}
 
-	public Reimbursement(int typeId, int amount, int status) { //
+	public Reimbursement(int id, int typeId, double amount, int status) { //
 
+		super.setId(id);
+		
 		// Loding ID to Lodging
 		if (typeId == 1) {
 			this.setType(ReimbursementType.LODGING);
@@ -99,8 +101,8 @@ public class Reimbursement extends AbstractReimbursement {
 
 	}
 
-	public Reimbursement(int id, Status status, int author, int resolver, int amount, Timestamp submitted,
-			Timestamp resolved) {
+	public Reimbursement(int id, Status status, int author, int resolver, double amount, Timestamp submitted,
+			Timestamp resolved, ReimbursementType type) {
 		super.setId(id);
 		super.setStatus(status);
 		super.setAuthor(uDAO.getUserById(author));
@@ -108,6 +110,7 @@ public class Reimbursement extends AbstractReimbursement {
 		super.setAmount(amount);
 		this.submitted = submitted;
 		this.resolved = resolved;
+		this.reimb_type = type; 
 	}
 
 	public Timestamp getSubmittedTime() {
@@ -134,10 +137,7 @@ public class Reimbursement extends AbstractReimbursement {
 		this.reimb_type = type;
 	}
 
-	
-	public Reimbursement() {
-		super();
-	}
+
 	// constructor if User wants to enter what reimbursement is for --ADD in after
 	// basic func -- create enum for type
 //    public Reimbursement(int id, Status status, User author, User resolver, double amount) {	

@@ -26,13 +26,13 @@ public class AbstractReimbursement {
     private int statusId; 
     private User reimb_author;
     private User resolver;
-    private int reimb_amount;
+    private double reimb_amount;
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, int amount) {
+    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount) {
         super();
         this.id = id;
         this.reimb_status_id = status;
@@ -75,11 +75,11 @@ public class AbstractReimbursement {
         this.resolver = resolver;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return reimb_amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.reimb_amount = amount;
     }
     

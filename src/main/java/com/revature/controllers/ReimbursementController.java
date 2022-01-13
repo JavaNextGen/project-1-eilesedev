@@ -50,9 +50,20 @@ public class ReimbursementController {
 	public Handler getAllReimbursementsHandler = (ctx) -> {
 		if (ctx.req.getSession(true) != null) {
 			
-			String sId = ctx.pathParam("statusId");
+			String status = ctx.pathParam("Status");
+			Status s = Status.PENDING; 
+			
+			if(status.equalsIgnoreCase("pending"))
+				s = Status.PENDING; 
+			else if(status.equalsIgnoreCase("approved"))
+				s = Status.APPROVED; 
+			else if(status.equalsIgnoreCase("denied"))
+				s = Status.DENIED;
+			
+			
+			//How do I pass in an enum into the path param of the ctx object?
 
-			List<Reimbursement> allReimbursements = rs.getReimbursementsByStatus(Integer.parseInt(sId));
+			List<Reimbursement> allReimbursements = rs.getReimbursementsByStatus(s);
 
 			Gson gson = new Gson();
 

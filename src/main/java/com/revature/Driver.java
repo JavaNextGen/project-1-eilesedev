@@ -51,6 +51,6 @@ public class Driver {
     	//Create Reimbursement
     	app.post("/reimbursements/create", rc.createReimbursementHandler); //Half working
     	
-    	app.get("reimbursements/get/{statusId}", rc.getAllReimbursementsHandler);
+    	app.get("/reimbursements/get/{Status}", rc.getAllReimbursementsHandler);
     }
 }

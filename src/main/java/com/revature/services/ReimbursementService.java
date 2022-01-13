@@ -105,7 +105,9 @@ public class ReimbursementService {
 //	assertEquals(GENERIC_ALL_PENDING_REIMBURSEMENTS, reimbursementService.getReimbursementsByStatus(Status.PENDING));
 //	
 //	verify(reimbursementDAO).getByStatus(Status.PENDING);
-	public List<Reimbursement> getReimbursementsByStatus(int status) {
+	public List<Reimbursement> getReimbursementsByStatus(Status status) {
+
+		//Changing it back for tests; need to check postman to see if it passes
 
 		return rDAO.getByStatus(status);
 	}

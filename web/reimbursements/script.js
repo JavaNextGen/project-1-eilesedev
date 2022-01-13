@@ -1,39 +1,71 @@
 const url = "http://localhost:3002/"; 
 
+document.getElementById("getEmpReimbursements").addEventListener("click", getReimbursements);
 
-document.getElementById("submit_reimb").addEventListener("click", submitReimb);
+  //Session storage stores username and password
+  let u = sessionStorage.getItem("u");
+  let p = sessionStorage.getItem("p");
 
-async function submitReimb() {
+  let persisted_user = {
+    username:u, 
+    password:p
+}
 
-    let reimb_type = document.getElementById("reimb_type_select").value; 
+console.log(persisted_user);
 
-    let reimb_amount = document.getElementById("amount").value; 
-    let status_id = 1; 
 
-    let submitted_reimb = {
-        reimb_type_id:reimb_type, 
-        reimb_amount:reimb_amount, 
-        reimb_status_id:status_id
-    }
+async function getReimbursements() {
 
-    console.log(submitted_reimb); 
-
-    let response = await fetch(url + "reimbursements/create", {
+    //Trying to persist user login
+    let reimb_login = await fetch(url + "auth/login", {
         method: "POST", 
-        body: JSON.stringify(submitted_reimb), 
-        //include header here?
+        body: JSON.stringify(logged_in_user), 
         credentials: "include"
     });
 
-    console.log(response.status); 
+    if()
 
-    if(response.status === 201){
-        let textnode = document.createTextNode("Reimbursement Successfully Added!");
-        document.getElementById("reimb_container").appendChild(textnode);  
-    } else{
-        let textnode = document.createTextNode("Reimbursement Could Not be added. Refresh and try again");
-        document.getElementById("reimb_container").appendChild(textnode);  
+    //End - trying to persist user login
+
+
+    let response = await fetch(url + "reimbursements/get/" + "Pending", {credentials: "include"});
+
+    console.log(response);
+
+    if(response.status === 200){
+
+        let data = await response.json(); 
+
+        console.log(data);
+
+        for(let reimbursement of data){
+
+            let row = document.createElement("tr");
+
+            let id = document.createElement("td");
+            id.innerHTML = reimbursement.id;
+            row.appendChild(id);
+
+            let amount = document.createElement("td"); 
+            amount.innerHTML = reimbursement.reimb_amount; 
+            row.appendChild(amount); 
+
+            let reimbStatus = document.createElement("td"); 
+            reimbStatus.innerHTML = reimbursement.reimb_status_id; 
+            row.appendChild(reimbStatus); 
+
+            let reimbType = document.createElement("td"); 
+            reimbType.innerHTML = reimbursement.reimb_type; 
+            row.appendChild(reimbType); 
+            
+
+            // Check HTML and come back here
+            document.getElementById("reimbBody").appendChild(row);
+        }
+
     }
 
 
 }
+
+

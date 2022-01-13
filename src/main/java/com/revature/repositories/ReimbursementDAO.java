@@ -50,7 +50,16 @@ public class ReimbursementDAO {
 	 * Status or an empty List if there are no matches.
 	 */
 
-	public List<Reimbursement> getByStatus(int status) {
+	public List<Reimbursement> getByStatus(Status status) {
+		
+		int s; 
+		
+		if(status == Status.PENDING)
+			s = 1; 
+		else if(status == Status.APPROVED)
+			s = 2; 
+		else
+			s = 3; 
 		
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -64,7 +73,7 @@ public class ReimbursementDAO {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, status);
+			ps.setInt(1, s);
 
 			rs = ps.executeQuery();
 
@@ -74,7 +83,7 @@ public class ReimbursementDAO {
 				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
 						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-						rs.getTimestamp("reimb_resolved"));
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
 
 				reimbursementList.add(r);
 
@@ -147,7 +156,7 @@ public class ReimbursementDAO {
 			PreparedStatement p = conn.prepareStatement(sql);
 
 			
-			p.setInt(1, newReimbursement.getAmount());
+			p.setDouble(1, newReimbursement.getAmount());
 			p.setInt(2, authorId);
 			p.setInt(3, statusId + 1);
 			p.setInt(4, reimbId + 1);

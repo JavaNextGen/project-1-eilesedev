@@ -65,7 +65,8 @@ public class AuthController {
 
 //			ctx.response(auth.login(ldto.getUsername(), ldto.getPassword()));
 
-			ctx.result("Login Successful!");
+			ctx.result(ctx.json(us.getByUsername(ldto.getUsername())).resultString()); //TESTING NOW How do I pass this back to the front end?
+			
 
 		} else {
 

@@ -33,9 +33,12 @@ async function loginUser() {
         credentials: "include"
     });
 
+    
+
     console.log(response.status); 
 
     if(response.status === 202){
+        sessionStorage.setItem("userObj", response.credentials);
         document.getElementById("login_row").innerText = `Welcome back! press the button below to enter your VocFinTech ERS System!`; 
         let enter = document.getElementById("enter"); 
         enter.hidden = !enter.hidden; 

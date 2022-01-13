@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import java.util.Optional;
+
 import com.google.gson.Gson;
 import com.revature.models.User;
 import com.revature.services.AuthService;
@@ -37,27 +39,28 @@ public class UserController {
 		}
 	};
 
-//	public Handler registerUserHandler = (ctx) -> {
-//
-//		if (ctx.req.getSession(true) != null) {
-//			String body = ctx.body();
-//
-//			Gson gson = new Gson();
-//
-//			User JSONRegisteredUser = gson.fromJson(body, User.class);
-//
-//			auth.register(JSONRegisteredUser);
-//
-//			ctx.result("User Successfully Registered!");
-//
-//			ctx.status(201);
-//
-//		} else {
-//			ctx.result("Registration Unsuccessful");
-//			ctx.status(406);
-//
-//		}
-//	};
+	public Handler getUserByUsernameHandler = (ctx) -> {
+		if (ctx.req.getSession(true) != null) {
+
+			String username = ctx.pathParam("username");
+
+			Optional<User> userByUsername = us.getByUsername(username);
+
+			Gson gson = new Gson();
+
+			String JSONUser = gson.toJson(userByUsername);
+
+			ctx.result(JSONUser);
+
+			ctx.status(200);
+
+		}
+
+		else {
+			ctx.result("Failed to retrieve employees!");
+			ctx.status(404);
+		}
+	};
 
 	// Create a Handler for Employee Login
 

@@ -4,7 +4,8 @@ document.getElementById("getEmpReimbursements").addEventListener("click", getRei
 
 document.getElementById("userName").innerHTML = sessionStorage.getItem("f_name");
 
-let reimbursement; 
+// let reimbursement; 
+const reimbArr = [];
 
 
 async function getReimbursements() {
@@ -17,130 +18,119 @@ async function getReimbursements() {
 
         let data = await response.json();
 
-        console.log(data);
-
-        let idArr = new Array;
-
+        console.log(data); //DONE TESTING
 
 
 
         for (reimbursement of data) {
+            let reimb = {
+                "id": reimbursement.id,
+                "reimb_amount": reimbursement.reimb_amount,
+                "first": reimbursement.reimb_author.f_Name,
+                "last": reimbursement.reimb_author.l_Name,
+                "reimb_status_id": reimbursement.reimb_status_id,
+                "reimb_type": reimbursement.reimb_type
+
+            }
+
+            reimbArr.push(reimb);
 
             let row = document.createElement("tr");
 
             let id = document.createElement("td");
-            id.innerHTML = reimbursement.id;
-            idArr.push(reimbursement.id);
+            id.innerHTML = reimb.id;
             row.appendChild(id);
 
-            let name = document.createElement("td");
-            name.innerHTML = reimbursement.reimb_author.f_Name + " " + reimbursement.reimb_author.l_Name;
-            row.appendChild(name);
+            let employee = document.createElement("td");
+            employee.innerHTML = reimb.first + " " + reimb.last;
+            row.appendChild(employee);
 
             let amount = document.createElement("td");
-            amount.innerHTML = reimbursement.reimb_amount;
+            amount.innerHTML = reimb.reimb_amount;
             row.appendChild(amount);
 
             let reimbStatus = document.createElement("td");
-            reimbStatus.innerHTML = reimbursement.reimb_status_id;
+            reimbStatus.innerHTML = reimb.reimb_status_id;
             row.appendChild(reimbStatus);
 
             let reimbType = document.createElement("td");
-            reimbType.innerHTML = reimbursement.reimb_type;
+            reimbType.innerHTML = reimb.reimb_type;
             row.appendChild(reimbType);
 
-            row.addEventListener("click", updateReimbursements);
 
+            // Check HTML and come back here
             document.getElementById("reimbBody").appendChild(row);
         }
 
-        console.log(idArr);
+        console.log(reimbArr);
+
+        document.getElementById("approveReimbursement").addEventListener("click", approveReimb);
+        document.getElementById("denyReimbursement").addEventListener("click", denyReimb);
+
+        //Access data in array and print it out on card with a button to approve/deny
+
+
+        //Handle logic on backend
+
+        //Handle issues on server
 
 
 
-        function updateReimbursements(data, idArr) {
 
-            let rId = reimbursement.id; 
-            console.log(rId); 
-
-            let process = confirm("Press okay to confirm this request. To deny press cancel");
-
-                    if (process == true) {
-                        reimbStatus = "APPROVED";
-                        console.log(reimbStatus);
-                        return true;
-                    } else {
-                        reimbStatus = "DENIED";
-                        console.log(reimbStatus);
-                        return false;
-                    }
-            }
-
-        }
-
+    } else {
+        alert("Reimbursement Update failed Failed! Refresh the page and try again");
     }
 
+}
 
 
+// let updatedRBody;
+let rId; 
+let resolver =  sessionStorage.getItem("userID");
+let reimb_status_id;
 
 
+function approveReimb() {
+    let rId = prompt("Enter the value of the Reimbursement ID you want to APPROVE here: ");
 
+    console.log(rId);
 
+    if (rId != null) {
+        reimb_status_id = "APPROVED"
+        updateReimbursements(); 
+    } else {
+        alert("You must enter a Reimbursement ID");
+    }
+}
 
+function denyReimb() {
+    rId = prompt("Enter the value of the Reimbursement ID you want to DENY here: ");
 
+    console.log(rId);
 
-//then update table
-// alert("this works!"); 
-//on row click pull reimbursement ID
+    if (rId != null) {
+        reimb_status_id = "DENIED"
+        updateReimbursements(); 
+    } else {
+        alert("You must enter a Reimbursement ID");
+    }
+}
 
-//update reimbursement status to whatever button is pressed (alert)
+async function updateReimbursements() {
 
-//change status in the table and reload it
-
-//I can pass the User ID from session storage but that means that I have to find user by ID in controller to pass through to the DAO
-
-async function updatedReimbursement() {
-
-
-
-    console.log(updatedR);
-
-    let response3 = await fetch(url + "reimbursements/update", {
+    let response1 = await fetch(url + "reimbursements/update/" + rId + "/" + resolver + "/" +   reimb_status_id, { 
         method: "PUT",
-        body: JSON.stringify(updatedR),
-        credentials: "include"
-    });
+        credentials: "include" });
 
-    if (response3.status === 20) {
+    console.log(response1);
 
-        document.getElementById("reimbBody").innerHTML = " ";
+  
 
-        //Refresh table
-        for (let reimbursement of data) {
+    if (response1.status === 200) {
 
-            let row = document.createElement("tr");
-
-            let name = document.createElement("td");
-            name.innerHTML = reimbursement.reimb_author.f_Name + " " + reimbursement.reimb_author.l_Name;
-            row.appendChild(name);
-
-            let amount = document.createElement("td");
-            amount.innerHTML = reimbursement.reimb_amount;
-            row.appendChild(amount);
-
-            let reimbStatus = document.createElement("td");
-            reimbStatus.innerHTML = reimbursement.reimb_status_id;
-            row.appendChild(reimbStatus);
-
-            let reimbType = document.createElement("td");
-            reimbType.innerHTML = reimbursement.reimb_type;
-            row.appendChild(reimbType);
-
-            row.addEventListener("click", updateReimbursements);
-
-            document.getElementById("reimbBody").appendChild(row);
-        }
-
+       alert("successfully updated reimbursement");
+    } else{
+        console.log(response1.status);
+        alert("Reimbursement could not be updated");
     }
-
 }

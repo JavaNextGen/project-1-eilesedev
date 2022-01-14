@@ -112,15 +112,33 @@ public class ReimbursementController {
 
 		if (ctx.req.getSession(true) != null) {
 			
-			 String body = ctx.body();
+			String rId = ctx.pathParam("rId");
+			String rsv = ctx.pathParam("resolver");
+			String sts = ctx.pathParam("status");
+			
+			Reimbursement rById = rs.getById(Integer.parseInt(rId)).get();
+			User userR = us.getUserById(Integer.parseInt(rsv));
+			
 
-	            Gson gson = new Gson();
+//            Gson gson = new Gson();
+			
+			
+			if(sts.equals("APPROVED")) {
+				rById.setStatus(Status.APPROVED);
+			} else if(sts.equals("DENIED")) {
+				rById.setStatus(Status.APPROVED); 
+			}
+			
+			Status s = rById.getStatus(); 
+			
+//			 String body = ctx.body();
 
-	            Reimbursement updated = gson.fromJson(body, Reimbursement.class);
-	            Status status = gson.fromJson(body, Status.class);
-				User resolver = gson.fromJson(body, User.class);
 
-	            rs.process(updated, status, resolver);
+//	            Status status = gson.fromJson(body, Status.class);
+
+				
+
+	            rs.process(rById, s, userR);
 
 			ctx.result("Reimbursement successfully updated!");
 			ctx.status(200);

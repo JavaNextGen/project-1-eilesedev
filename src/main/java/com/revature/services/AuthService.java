@@ -114,6 +114,8 @@ public class AuthService {
 				throw new NewUserHasNonZeroIdException();
 
 			}
+			
+			return registeredUser; 
 
 		}
 

@@ -99,6 +99,8 @@ public class User extends AbstractUser {
 
 	// Basic Functionality to get user by ID
 	public User(int id, String username, String password, String fName, String lName, String email, int roleId) {
+		super.setUsername(username);
+		super.setPassword(password);
 		if (roleId == 1)
 			this.userRole = Role.EMPLOYEE;
 		else

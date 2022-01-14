@@ -1,5 +1,9 @@
 const url = "http://localhost:3002/"; 
 
+if(sessionStorage.getItem("role") == "FINANCE_MANAGER"){
+    window.location.replace("file:///C:/Users/jenea/OneDrive/02-Revature%20Paid%20Internship/Projects-FOR%20SUBMISSION/Project%201/project-1-eilesedev/web/managerPortal/index.html");
+}
+
 document.getElementById("getEmpReimbursements").addEventListener("click", getReimbursements);
 
   //Session storage stores username and password
@@ -15,18 +19,6 @@ console.log(persisted_user);
 
 
 async function getReimbursements() {
-
-    //Trying to persist user login
-    let reimb_login = await fetch(url + "auth/login", {
-        method: "POST", 
-        body: JSON.stringify(logged_in_user), 
-        credentials: "include"
-    });
-
-    if()
-
-    //End - trying to persist user login
-
 
     let response = await fetch(url + "reimbursements/get/" + "Pending", {credentials: "include"});
 

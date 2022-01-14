@@ -27,7 +27,7 @@ public class UserDAO {
 	 * 
 	 * @throws SQLException
 	 */
-	public Optional<User> getByUsername(String username) { //See code on Github to fix if needed NOT WORKING YET
+	public Optional<User> getByUsername(String username) { 
 		
 		try (Connection conn = ConnectionFactory.getConnection()) {
 //			User opt = new User(); 
@@ -58,10 +58,14 @@ public class UserDAO {
 //				} else {
 //					r = Role.FINANCE_MANAGER;
 //				}
+//				(int id, String username, String password, String fName, String lName, String email, int roleId)
 				User opt = new User(
 						rs.getInt("ers_users_id"), 
 						rs.getString("ers_username"),
 						rs.getString("ers_password"),
+						rs.getString("user_first_name"), 
+						rs.getString("user_last_name"),
+						rs.getString("user_email"), 
 						rs.getInt("user_role_id")
 //						Role.values()[) - 1]//Working??		
 						); 

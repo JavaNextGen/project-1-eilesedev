@@ -6,16 +6,16 @@ if(sessionStorage.getItem("role") == "FINANCE_MANAGER"){
 
 document.getElementById("getEmpReimbursements").addEventListener("click", getReimbursements);
 
-  //Session storage stores username and password
-  let u = sessionStorage.getItem("u");
-  let p = sessionStorage.getItem("p");
+  //Session storage stores username and password Already stored at login
+//   let u = sessionStorage.getItem("u");
+//   let p = sessionStorage.getItem("p");
 
-  let persisted_user = {
-    username:u, 
-    password:p
-}
+//   let persisted_user = {
+//     username:u, 
+//     password:p
+// }
 
-console.log(persisted_user);
+// console.log(persisted_user);
 
 
 async function getReimbursements() {

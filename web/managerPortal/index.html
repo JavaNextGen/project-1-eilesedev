@@ -26,11 +26,10 @@
             <table id="krustyTable" class="table table-sm table-hover border table-light border-2 rounded">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Employee</th>
                         <th>Amount</th>
                         <th>Reimbursement Status</th>
                         <th>Reimbursement Type</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="reimbBody">
@@ -41,7 +40,9 @@
             </table>
         </div>
 
-        <div class="btn-group" role="group" >
+        <!-- Create a dropdown list and place all the employee reimbursements here that are pending -->
+
+        <div class="btn-group" role="group" style="margin-left: -12px; margin-right: -12px;" >
             <button id="getEmpReimbursements" class="btn btn-primary">View All Reimbursements</button>
             <button type="button" class="btn btn-secondary"></button>
             <button type="button" class="btn btn-secondary">Middle</button>

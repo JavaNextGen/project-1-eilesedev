@@ -15,46 +15,16 @@
     <section class="container border border-info border-2 rounded mx-auto d-grid gap-3" style="margin-top: 3%;">
 
 
-        <div class="row">
+        <div class="container">
             <!-- Column takes up about 2/3rds of page to create reimbursement -->
-            <div class="col-7 border-end border-secondary" style="padding-left: 3%; display: block;">
-                <h3 class="mx-auto" style="padding-top: 2%; color: #009888; font-weight: 700;">Hi [Name] Welcome to your
+            <div class="row" style="padding-left: 3%; display: block;">
+                <h3 class="mx-auto" style="padding-top: 2%; color: #009888; font-weight: 700;">Hi <span id="userName"></span> Welcome to your
                     Personal VocFinTech ERS System</h3>
 
-                <div class="container mx-auto" id="reimb_container">
 
-
-                    <!-- Amount -->
-                    <div class="form-group mx-auto" style="padding:3% 0; display: block;">
-                        <label for="amount">Reimbursement Amount:</label>
-                        <input type="number" min="1" step="any" id="amount" name="amount"
-                            placeholder="Enter Reimbursement Amount" required>
-                    </div>
-                    <div class="form-group" style="padding:3% 0; display: block;">Reimbursement Type
-                    <select name="Reimbursement Type"  id="reimb_type_select">
-                        <option value="1">Lodging</option>
-                        <option value="2">Travel</option>
-                        <option value="3">Food</option>
-                        <option value="4">Other</option>
-                    </select>
-                </div>
-
-                    <!-- Block level element for button -->
-                    <div class="container">
-                        <button type="button" class="btn btn-primary mx-auto" style="display: inline; margin-bottom:3% ;"
-                            id="submit_reimb">Submit
-                            Reimbursement</button>
-                    </div>
-
-                </div>
-
-
-
-            </div>
-
-            <!-- Column 1/3 of page to view all past reimbursements -->
-            <div class="col-5">
-                <h3 class="mx-auto" style="padding-top: 3%; color: #009889a1; font-weight: 700;">View Past Tickets</h3>
+                              <!-- Column 1/3 of page to view all past reimbursements -->
+            <div class="row">
+                <h3 class="mx-auto" style="padding-top: 3%; color: #009889a1; font-weight: 700;">View Pending Requests</h3>
 
                 <!-- User enters Employee/User ID, clicks a button and all their reimbursements populate -->
 
@@ -87,6 +57,13 @@
 
                 <button id="getEmpReimbursements" class="btn btn-primary">Show Your Reimbursements</button>
             </div>
+      
+
+
+
+            </div>
+
+  
         </div>
 
     </section>

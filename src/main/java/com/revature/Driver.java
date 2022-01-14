@@ -49,9 +49,11 @@ public class Driver {
     	app.get("/employee/{Id}", uc.getUserByIdHandler);
     	
     	//Create Reimbursement
-    	app.post("/reimbursements/create", rc.createReimbursementHandler); //Half working
+//    	app.post("/reimbursements/create/{authorId}", rc.createReimbursementHandler); //Half working
     	
-    	app.get("/reimbursements/get/{Status}", rc.getAllReimbursementsHandler);
+    	app.get("/reimbursements/get/{Status}", rc.getReimbByStatusHandler);
+    	
+    	app.get("/reimbursements/get/author/{authorId}", rc.getReimbByAuthorHandler);
     	
     	app.get("/employee/username/{username}", uc.getUserByUsernameHandler);
     	

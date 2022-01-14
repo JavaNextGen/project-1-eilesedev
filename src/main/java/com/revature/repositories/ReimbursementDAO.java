@@ -42,7 +42,35 @@ public class ReimbursementDAO {
 	 * empty optional if there is no match.
 	 */
 	public Optional<Reimbursement> getById(int id) {
-		return Optional.empty();
+		
+		try (Connection conn = ConnectionFactory.getConnection()) {
+
+			ResultSet rs = null;
+			// retrieve user from the database with corresponding username
+			String sql = "SELECT * from ers_reimbursement WHERE reimb_id=?";
+			// Put the sql query into our statement object
+			PreparedStatement ps = conn.prepareStatement(sql);
+			// Here -- create SQL String statement to retrieve user record that matches
+			// passed in username
+
+			ps.setInt(1, id);
+			rs = ps.executeQuery(); // Used to retrieve values from database
+			
+
+			Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+					Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+					rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+					rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
+						
+				System.out.println("Reimbursement " + r.toString() + " exists!");
+				return Optional.ofNullable(r);
+			}  catch (SQLException e) {
+				System.out.println("Something has gone wrong!");
+				e.printStackTrace();
+			}
+
+			return Optional.ofNullable(null);
+		
 	}
 
 	/**
@@ -138,71 +166,31 @@ public class ReimbursementDAO {
 
 
 	
-	public Reimbursement create(Reimbursement newReimbursement) {
-
-		try (Connection conn = ConnectionFactory.getConnection()) {
-			
-			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
-			System.out.println(authorId);
-			
-			int statusId = newReimbursement.getStatus().ordinal(); //THIS ALSO WORKS
-			System.out.println(statusId);
-			
-			int reimbId = newReimbursement.getType().ordinal(); 
-			System.out.println(reimbId);
-
-
-
-			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author"
-					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
-
-			PreparedStatement p = conn.prepareStatement(sql);
-
-			
-			p.setDouble(1, newReimbursement.getAmount());
-			p.setInt(2, authorId);
-			p.setInt(3, statusId + 1);
-			p.setInt(4, reimbId + 1);
-
-			p.executeUpdate();
-
-			// TEST - send to console if successful
-			System.out.println(newReimbursement.toString());
-			System.out.println("Reimbursement Successfully added!");
-			System.out.println("Please check in on the status of your reimbursement in a few weeks");
-
-		} catch (SQLException e) {
-
-			System.out.println("Reimbursement could not be created!");
-			e.getStackTrace();
-
-		}
-
-		return newReimbursement;
-	}
-
-	
-	//THIS IS THE ONE THAT I'M HAVING PROBLEMS WITH TESTING ANOTHER SOLUTION
-	
 //	public Reimbursement create(Reimbursement newReimbursement) {
 //
 //		try (Connection conn = ConnectionFactory.getConnection()) {
+//			
+//			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
+//			System.out.println(authorId);
+//			
+//			int statusId = newReimbursement.getStatus().ordinal() + 1; //THIS ALSO WORKS
+//			System.out.println(statusId);
+//			
+//			int reimbId = newReimbursement.getType().ordinal() + 1; 
+//			System.out.println(reimbId);
 //
-////    		Status pending, User author, User resolver, double d, ReimbursementType type
-//			//Trying to fix db create issue on reimbursements
-////			INSERT INTO ers_reimbursement(reimb_amount, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
-////			VALUES (500.00, 1, NULL, 1, 2); 
 //
-//			String sql = "INSERT INTO ers_reimbursement (reimb_status_id, reimb_author, reimb_resolver"
-//					+ "reimb_amount, reimb_type_id)" + "VALUES (?, ?, ?, ?, ?)";
+//
+//			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author"
+//					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
 //
 //			PreparedStatement p = conn.prepareStatement(sql);
 //
-//			p.setInt(1, newReimbursement.getStatus().ordinal() + 1);
-//			p.setInt(2, newReimbursement.getAuthor().getId());
-//			p.setInt(3, newReimbursement.getResolver().getId());
-//			p.setDouble(4, newReimbursement.getAmount());
-//			p.setInt(5, newReimbursement.getType().ordinal() + 1);
+//			
+//			p.setInt(1, newReimbursement.getReimb_amount());
+//			p.setInt(2, authorId);
+//			p.setInt(3, statusId + 1);
+//			p.setInt(4, reimbId + 1);
 //
 //			p.executeUpdate();
 //
@@ -220,4 +208,46 @@ public class ReimbursementDAO {
 //
 //		return newReimbursement;
 //	}
+
+	
+	//Gets all reimbursements for a specific user
+	
+public List<Reimbursement> getAll(User author) {
+	
+		
+
+		try (Connection conn = ConnectionFactory.getConnection()) {
+
+			ResultSet rs = null;
+
+			String sql = "SELECT * from ers_reimbursement WHERE reimb_author=?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, author.getId());
+
+			rs = ps.executeQuery();
+
+			List<Reimbursement> reimbursementList = new ArrayList<>();
+
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
+
+				reimbursementList.add(r);
+
+			}
+
+			return reimbursementList;
+
+		} catch (SQLException e) {
+			System.out.println("Something has gone wrong!");
+			e.printStackTrace();
+		}
+
+		// Or an empty list if there are no reimbursements
+		return Collections.emptyList();
+	}
 }

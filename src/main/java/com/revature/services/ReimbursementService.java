@@ -11,6 +11,7 @@ import com.revature.repositories.UserDAO;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The ReimbursementService should handle the submission, processing, and
@@ -36,15 +37,17 @@ public class ReimbursementService {
 	AuthService as = new AuthService();
 	UserService us = new UserService();
 
-	public Reimbursement create(Reimbursement newReimbursement) {
-
-		int Id = newReimbursement.getAuthor().getId();
-
-		System.out.println(Id);
-
-		return rDAO.create(newReimbursement);
-
-	}
+//	public Reimbursement create(Reimbursement newReimbursement, int Id) {
+//		
+//		User author = us.getUserById(Id);
+//		
+//		Reimbursement wAuthor = newReimbursement; 
+//		
+//		wAuthor.setAuthor(author);
+//
+//		return rDAO.create(newReimbursement);
+//
+//	}
 
 	/**
 	 * <ul>
@@ -113,5 +116,17 @@ public class ReimbursementService {
 		//Changing it back for tests; need to check postman to see if it passes
 
 		return rDAO.getByStatus(status);
+	}
+	
+	//Get all reimbursements by Author
+	public List<Reimbursement> getReimbursementByAuthor(User author) {
+
+		//Changing it back for tests; need to check postman to see if it passes
+
+		return rDAO.getAll(author);
+	}
+	
+	public Optional<Reimbursement> getById(int id) {
+		return rDAO.getById(id);
 	}
 }

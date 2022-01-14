@@ -28,10 +28,9 @@ public class Reimbursement extends AbstractReimbursement {
 	private Timestamp submitted;
 	private Timestamp resolved;
 	private ReimbursementType reimb_type;
-	private int typeId;
-	private int rmbId;
-//	private int reimb_status_id;
+//	private int reimb_amount;
 
+//	private int reimb_status_id;
 
 //	private int reimb_status_id;
 //	private int author; 
@@ -44,21 +43,29 @@ public class Reimbursement extends AbstractReimbursement {
 	public Reimbursement(int id, Status status, User author, User resolver, double reimb_amount) {
 		super(id, status, author, resolver, reimb_amount);
 	}
-	
-	
-    //This is what I'm trying now to fix issue with creating reimbursements 1/11/22
-	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) { 
-		
+
+//	reimb_amount, reimb_author"
+//			+ "reimb_status_id, reimb_type_id
+	// Constructor for creating a reimbursement
+//	public Reimbursement(int reimb_amount, User author, Status status, ReimbursementType reimbType) {
+//		this.reimb_amount = reimb_amount; 
+//		super.setAuthor(author);
+//		super.setStatus(status);
+//		this.reimb_type = reimbType; 
+//	}
+
+	// This is what I'm trying now to fix issue with creating reimbursements 1/11/22
+	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) {
+
 		super.setAmount(reimb_amount);
 		super.setAuthor(author);
-		
-		
+
 		super.setStatus(status);
 		this.setType(reimbType);
 
 	}
 
-	//Tried this not working
+	// Tried this not working
 	public Reimbursement(Status pending, User author, User resolver, int d, ReimbursementType type) {
 		super.setStatus(pending);
 		super.setAuthor(author);
@@ -81,7 +88,7 @@ public class Reimbursement extends AbstractReimbursement {
 	public Reimbursement(int id, int typeId, double amount, int status) { //
 
 		super.setId(id);
-		
+
 		// Loding ID to Lodging
 		if (typeId == 1) {
 			this.setType(ReimbursementType.LODGING);
@@ -110,7 +117,7 @@ public class Reimbursement extends AbstractReimbursement {
 		super.setAmount(amount);
 		this.submitted = submitted;
 		this.resolved = resolved;
-		this.reimb_type = type; 
+		this.reimb_type = type;
 	}
 
 	public Timestamp getSubmittedTime() {
@@ -136,14 +143,20 @@ public class Reimbursement extends AbstractReimbursement {
 	public void setType(ReimbursementType type) {
 		this.reimb_type = type;
 	}
-
+//
+//	public int getReimb_amount() {
+//		return reimb_amount;
+//	}
+//
+//	public void setReimb_amount(int reimb_amount) {
+//		this.reimb_amount = reimb_amount;
+//	}
 
 	// constructor if User wants to enter what reimbursement is for --ADD in after
 	// basic func -- create enum for type
 //    public Reimbursement(int id, Status status, User author, User resolver, double amount) {	
 //        super(id, status, author, resolver, amount);
 //    }
-
 
 	@Override
 	public String toString() {
@@ -153,12 +166,5 @@ public class Reimbursement extends AbstractReimbursement {
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + ", getClass()=" + getClass()
 				+ "]";
 	}
-
-
-
-
-
-
-	
 
 }

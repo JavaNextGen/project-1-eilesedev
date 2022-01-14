@@ -4,6 +4,7 @@ document.getElementById("getEmpReimbursements").addEventListener("click", getRei
 
 document.getElementById("userName").innerHTML = sessionStorage.getItem("f_name");
 
+let reimbursement; 
 
 
 async function getReimbursements() {
@@ -18,12 +19,19 @@ async function getReimbursements() {
 
         console.log(data);
 
-        sessionStorage.setItem("id", data.id);
+        let idArr = new Array;
 
 
-        for (let reimbursement of data) {
+
+
+        for (reimbursement of data) {
 
             let row = document.createElement("tr");
+
+            let id = document.createElement("td");
+            id.innerHTML = reimbursement.id;
+            idArr.push(reimbursement.id);
+            row.appendChild(id);
 
             let name = document.createElement("td");
             name.innerHTML = reimbursement.reimb_author.f_Name + " " + reimbursement.reimb_author.l_Name;
@@ -46,30 +54,40 @@ async function getReimbursements() {
             document.getElementById("reimbBody").appendChild(row);
         }
 
+        console.log(idArr);
 
+
+
+        function updateReimbursements(data, idArr) {
+
+            let rId = reimbursement.id; 
+            console.log(rId); 
+
+            let process = confirm("Press okay to confirm this request. To deny press cancel");
+
+                    if (process == true) {
+                        reimbStatus = "APPROVED";
+                        console.log(reimbStatus);
+                        return true;
+                    } else {
+                        reimbStatus = "DENIED";
+                        console.log(reimbStatus);
+                        return false;
+                    }
+            }
+
+        }
 
     }
 
 
-}
 
-let reimbStatus;
 
-function updateReimbursements() {
 
-    let process = confirm("Press okay to confirm this request. To deny press cancel");
 
-    if (process == true) {
-        reimbStatus = "APPROVED";
-        console.log(reimbStatus);
-        return true;
-    } else {
-        reimbStatus = "DENIED";
-        console.log(reimbStatus);
-        return false;
-    }
 
-}
+
+
 
 //then update table
 // alert("this works!"); 
@@ -83,11 +101,7 @@ function updateReimbursements() {
 
 async function updatedReimbursement() {
 
-    let updatedR = {
-        uID: sessionStorage.getItem("userID"),
-        rStatus: reimbStatus,
-        // reimb = sessionStorage.getItem("Id")
-    }
+
 
     console.log(updatedR);
 
@@ -99,7 +113,7 @@ async function updatedReimbursement() {
 
     if (response3.status === 20) {
 
-        document.getElementById("reimbBody").innerHTML = " "; 
+        document.getElementById("reimbBody").innerHTML = " ";
 
         //Refresh table
         for (let reimbursement of data) {

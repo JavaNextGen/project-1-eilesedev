@@ -78,5 +78,28 @@ public class ReimbursementController {
 			ctx.status(401);
 		}
 	};
+	
+	public Handler updateReimbursementHandler = (ctx) -> {
+		
+		if (ctx.req.getSession(true) != null) {
+			
+            String body = ctx.body();
+
+            Gson gson = new Gson();
+
+            Reimbursement updated = gson.fromJson(body, Reimbursement.class);
+            Status status = gson.fromJson(body, Status.class);
+            User resolver = gson.fromJson(body, User.class);
+
+            rs.process(updated, status, resolver);
+
+            ctx.result("Reimbursement successfully updated!");
+            ctx.status(200);
+
+        } else {
+            ctx.result("Reimbursement could not be updated");
+            ctx.status(404);
+        }
+	};
 
 }

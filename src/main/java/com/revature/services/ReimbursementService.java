@@ -64,6 +64,9 @@ public class ReimbursementService {
 	 */
 
 	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver){
+				//resolver should be set from the service layer
+				//reimb status id should be set from service layer
+				//reimb id is just the ID of the unprocessed reimburseemnt
 		
 		try {
 			if(as.login(resolver.getUsername(), resolver.getPassword()) != null && resolver.getUserRole() == Role.FINANCE_MANAGER) {

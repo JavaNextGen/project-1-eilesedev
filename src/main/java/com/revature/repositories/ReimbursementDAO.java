@@ -109,29 +109,34 @@ public class ReimbursementDAO {
 	 * </ul>
 	 */
 	public Reimbursement update(Reimbursement unprocessedReimbursement) {
+		
+		
+		
+		try (Connection conn = ConnectionFactory.getConnection()) {
+			int urId = unprocessedReimbursement.getId(); 
+
+			String sql = "UPDATE ers_reimbursement SET reimb_resolver = ?, reimb_status_id=? WHERE reimb_id =?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, unprocessedReimbursement.getResolver().getId());
+			ps.setInt(2, unprocessedReimbursement.getStatus().ordinal() + 1);
+			ps.setInt(3, urId);
+			
+			ps.executeUpdate(); 
+			
+			System.out.println("DAO msg: your reimbursement is now: " + unprocessedReimbursement.getStatus());
+}
+		catch (SQLException e) {
+			System.out.println("DAO msg: Something has gone wrong!");
+			e.printStackTrace();
+		}
+
 
 		return null;
 	}
 
-	/**
-	 * public void
-	 * testProcessPassesWhenUserIsFinanceManagerAndReimbursementExistsAndUpdateSuccessful()
-	 * {
-	 * when(reimbursementDAO.getById(anyInt())).thenReturn(Optional.of(GENERIC_REIMBURSEMENT_1));
-	 * when(reimbursementDAO.update(any())).thenReturn(GENERIC_REIMBURSEMENT_2);
-	 * 
-	 * assertEquals(GENERIC_REIMBURSEMENT_2,
-	 * reimbursementService.process(REIMBURSEMENT_TO_PROCESS, Status.APPROVED,
-	 * GENERIC_FINANCE_MANAGER_1));
-	 * 
-	 * verify(reimbursementDAO).getById(REIMBURSEMENT_TO_PROCESS.getId());
-	 * verify(reimbursementDAO).update(REIMBURSEMENT_TO_PROCESS); }
-	 * 
-	 * 
-	 * 
-	 */
 
-//	{"typeId":"1","amount":"20000","status":1}
 	
 	public Reimbursement create(Reimbursement newReimbursement) {
 
@@ -147,8 +152,6 @@ public class ReimbursementDAO {
 			System.out.println(reimbId);
 
 
-//			INSERT INTO ers_reimbursement(reimb_amount, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)
-//			VALUES (500.00, 1, NULL, 1, 2); 
 
 			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author"
 					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";

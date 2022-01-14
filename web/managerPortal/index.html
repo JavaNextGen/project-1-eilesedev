@@ -14,7 +14,7 @@
 
     <section class="container border border-info border-2 rounded mx-auto d-grid gap-3" style="margin-top: 3%;">
 
-        <h2 class="mx-auto" style="padding-top: 3%; color: #009888; font-weight: 700;">Welcome VocFinTech Finance Manager [Name]</h2>
+        <h2 class="mx-auto" style="padding-top: 3%; color: #009888; font-weight: 700;">Welcome VocFinTech Finance Manager <span id="userName"></span></h2>
 
         <!-- View all reimbursements for all employees -->
 
@@ -23,7 +23,7 @@
         <!-- Filter requests by status -->
 
         <div id="table-row" class="row">
-            <table id="krustyTable" class="table table-sm table-hover border table-light border-2 rounded">
+            <table id="reimbTable" class="table table-sm table-hover border table-light border-2 rounded">
                 <thead>
                     <tr>
                         <th>Employee</th>
@@ -44,9 +44,8 @@
 
         <div class="btn-group" role="group" style="margin-left: -12px; margin-right: -12px;" >
             <button id="getEmpReimbursements" class="btn btn-primary">View All Reimbursements</button>
-            <button type="button" class="btn btn-secondary"></button>
-            <button type="button" class="btn btn-secondary">Middle</button>
-            <button type="button" class="btn btn-secondary">Right</button>
+            <button id="approveReimbursement" type="button" class="btn btn-success">Approve A Reimbursement</button>
+            <button id="denyReimbursement" type="button" class="btn btn-danger">Deny a Reimbursement</button>
           </div>
 
         

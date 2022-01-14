@@ -55,5 +55,7 @@ public class Driver {
     	
     	app.get("/employee/username/{username}", uc.getUserByUsernameHandler);
     	
+    	app.put("/reimbursements/update", rc.updateReimbursementHandler);
+    	
     }
 }

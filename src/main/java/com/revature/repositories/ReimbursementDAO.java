@@ -164,50 +164,53 @@ public class ReimbursementDAO {
 		return null;
 	}
 
-
+//	public Reimbursement(int statusID, int authorID, double amount, int typeId)
 	
-//	public Reimbursement create(Reimbursement newReimbursement) {
-//
-//		try (Connection conn = ConnectionFactory.getConnection()) {
-//			
-//			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
+	public Reimbursement create(Reimbursement newReimbursement) {
+
+		try (Connection conn = ConnectionFactory.getConnection()) {
+			
+			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
 //			System.out.println(authorId);
-//			
-//			int statusId = newReimbursement.getStatus().ordinal() + 1; //THIS ALSO WORKS
-//			System.out.println(statusId);
-//			
-//			int reimbId = newReimbursement.getType().ordinal() + 1; 
-//			System.out.println(reimbId);
-//
-//
-//
-//			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author"
-//					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
-//
-//			PreparedStatement p = conn.prepareStatement(sql);
-//
-//			
-//			p.setInt(1, newReimbursement.getReimb_amount());
-//			p.setInt(2, authorId);
-//			p.setInt(3, statusId + 1);
-//			p.setInt(4, reimbId + 1);
-//
-//			p.executeUpdate();
-//
-//			// TEST - send to console if successful
-//			System.out.println(newReimbursement.toString());
-//			System.out.println("Reimbursement Successfully added!");
-//			System.out.println("Please check in on the status of your reimbursement in a few weeks");
-//
-//		} catch (SQLException e) {
-//
-//			System.out.println("Reimbursement could not be created!");
-//			e.getStackTrace();
-//
-//		}
-//
-//		return newReimbursement;
-//	}
+			
+			int statusId = newReimbursement.getStatus().ordinal(); //THIS ALSO WORKS
+			System.out.println(statusId);
+			
+			int reimbId = newReimbursement.getType().ordinal(); 
+			System.out.println(reimbId);
+
+
+
+			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author, "
+					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
+			
+			System.out.println(sql);
+
+			PreparedStatement p = conn.prepareStatement(sql);
+
+			
+			p.setDouble(1, 200); //this may be the problem
+			p.setInt(2, authorId);
+//			p.setInt(3,  nu);
+			p.setInt(3, statusId + 1);
+			p.setInt(4, reimbId + 1);
+
+			p.executeUpdate();
+
+			// TEST - send to console if successful
+			System.out.println(newReimbursement.toString());
+			System.out.println("Reimbursement Successfully added!");
+			System.out.println("Please check in on the status of your reimbursement in a few weeks");
+
+		} catch (SQLException e) {
+
+			System.out.println("Reimbursement could not be created!");
+			e.printStackTrace();
+
+		}
+
+		return null;
+	}
 
 	
 	//Gets all reimbursements for a specific user

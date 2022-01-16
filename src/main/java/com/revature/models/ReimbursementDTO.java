@@ -8,25 +8,23 @@ public class ReimbursementDTO {
 
 	private int statusID;
 	private int author;
-	private Timestamp submitted;
 	private double amount;
 	private int typeID;
+	private int resolver;
+	
 	
 	public ReimbursementDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public ReimbursementDTO(int statusID, int author, Timestamp submitted, double amount, int typeID) {
+	
+	public ReimbursementDTO(int statusID, int author, double amount, int typeID) {
 		super();
 		this.statusID = statusID;
 		this.author = author;
-		this.submitted = submitted;
 		this.amount = amount;
 		this.typeID = typeID;
 	}
-
-
 
 	public int getStatusID() {
 		return statusID;
@@ -42,14 +40,6 @@ public class ReimbursementDTO {
 
 	public void setAuthor(int author) {
 		this.author = author;
-	}
-
-	public Timestamp getSubmitted() {
-		return submitted;
-	}
-
-	public void setSubmitted(Timestamp submitted) {
-		this.submitted = submitted;
 	}
 
 	public double getAmount() {
@@ -68,10 +58,15 @@ public class ReimbursementDTO {
 		this.typeID = typeID;
 	}
 
-	@Override
-	public String toString() {
-		return "ReimbursementDTO [statusID=" + statusID + ", author=" + author + ", submitted=" + submitted
-				+ ", amount=" + amount + ", typeID=" + typeID + "]";
+	public int getResolver() {
+		return resolver;
 	}
 
+	public void setResolver(int resolver) {
+		this.resolver = resolver;
+	}
+
+	
+	
+	
 }

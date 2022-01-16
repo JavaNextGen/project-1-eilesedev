@@ -74,22 +74,58 @@ public class Reimbursement extends AbstractReimbursement {
 		this.setType(type);
 
 	}
+//	new Reimbursement(JSONr.getStatus(), JSONr.getAuthor(), JSONr.getAmount(), JSONr.getType())
 
 	// Pulled from previous versions -- WAS WORKING!!!!!!!!!!!!!
-	public Reimbursement(Status status, User author, double amount) {
+	public Reimbursement(Status status, User author, double amount, ReimbursementType type) {
 		super.setStatus(status);
 		super.setAuthor(author);
 		super.setAmount(amount);
+		this.setType(type);
 	}
 
 	// Reimbursement created from front-end
 //	{"typeId":"1","amount":"20000","status":1}
 
-	public Reimbursement(int id, int typeId, double amount, int status) { //
+//	public Reimbursement(int id, int typeId, double amount, int status) { //
+//
+//		super.setId(id);
+//
+//		// Loding ID to Lodging
+//		if (typeId == 1) {
+//			this.setType(ReimbursementType.LODGING);
+//		} else if (typeId == 2) {
+//			this.setType(ReimbursementType.TRAVEL);
+//		} else if (typeId == 3) {
+//			this.setType(ReimbursementType.FOOD);
+//		} else if (typeId == 4) {
+//			this.setType(ReimbursementType.OTHER);
+//		}
+//
+//		// status ID to Status
+//		if (status == 1)
+//			super.setStatus(Status.PENDING);
+//
+//		super.setAmount(amount);
+//
+//	}
+	
+//	Reimbursement(rmbDTO.getStatusID(), rmbDTO.getAuthor(), rmbDTO.getAmount(), rmbDTO.getTypeID(), rmbDTO.getResolver())
 
-		super.setId(id);
-
-		// Loding ID to Lodging
+	//On trying to fix reimbursements, this is what I used
+	public Reimbursement(int statusID, int authorID, double amount, int typeId) {
+		
+		if(statusID == 1) {
+			super.setStatus(Status.PENDING);
+		} else if(statusID == 2) {
+			super.setStatus(Status.APPROVED);
+		} else {
+			super.setStatus(Status.DENIED);
+		}
+		
+		super.setAuthor(us.getUserById(authorID));
+		super.setAmount(amount);
+		
 		if (typeId == 1) {
 			this.setType(ReimbursementType.LODGING);
 		} else if (typeId == 2) {
@@ -99,15 +135,8 @@ public class Reimbursement extends AbstractReimbursement {
 		} else if (typeId == 4) {
 			this.setType(ReimbursementType.OTHER);
 		}
-
-		// status ID to Status
-		if (status == 1)
-			super.setStatus(Status.PENDING);
-
-		super.setAmount(amount);
-
 	}
-
+	
 	public Reimbursement(int id, Status status, int author, int resolver, double amount, Timestamp submitted,
 			Timestamp resolved, ReimbursementType type) {
 		super.setId(id);

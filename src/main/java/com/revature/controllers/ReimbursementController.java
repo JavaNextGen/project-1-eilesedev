@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.google.gson.Gson;
+import com.revature.models.RegistrationDTO;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementDTO;
 import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.services.AuthService;
@@ -18,43 +20,66 @@ public class ReimbursementController {
 	AuthService auth = new AuthService();
 	UserService us = new UserService();
 	ReimbursementService rs = new ReimbursementService();
+	ReimbursementDTO rmb = new ReimbursementDTO(); 
+	
+//	public ReimbursementDTO(int statusID, int author, double amount, int typeID, int resolver) 
+	
+	public Handler createReimbursementHandler = (ctx) -> {
+		if(ctx.req.getSession(true) != null) {
+			
+			String body = ctx.body(); 
+			
+			Gson gson = new Gson(); 
+			
+			ReimbursementDTO rmbDTO = gson.fromJson(body, ReimbursementDTO.class); 
+//			System.out.println(rmbDTO.toString()); //This hits
+			
+			Reimbursement rmbdt = new Reimbursement(rmbDTO.getStatusID(), rmbDTO.getAuthor(), rmbDTO.getAmount(), rmbDTO.getTypeID()); 
+			
+			System.out.println(rmbdt.toString());
+			
+			rs.create(rmbdt);
+			
+			ctx.result(rmbDTO + "Reimbursement Successfully Created!");
+			
+			ctx.status(201);	
+		} else {
+			ctx.result("Registration Unsuccessful");
+			ctx.status(406);
 
-//	public Handler createReimbursementHandler = (ctx) -> {
-//		if (ctx.req.getSession(true) != null) {
-//
-////			String uId = ctx.pathParam("Id");
-////
-////			User userById = us.getUserById(Integer.parseInt(uId));
-////
-////			Gson gson = new Gson();
-////
-////			String JSONEmp = gson.toJson(userById);
-////
-////			ctx.result(JSONEmp);
-//
-//			String author = ctx.pathParam("authorId");
-//
-////			User userAuthor = us.getUserById(Integer.parseInt(author));
-//
-//			Gson gson = new Gson();
-//
-////			String JSONauthor = gson.toJson(userAuthor);
-//
-//			String body = ctx.body();
-//
-//			Reimbursement r = gson.fromJson(body, Reimbursement.class);
-//
-//			rs.create(r, Integer.parseInt(author));
-//
-//			ctx.result("Reimbursement Successfully Added!");
-//
-//			ctx.status(201);
-//		} else {
-//			ctx.result("Reimbursement Could Not be added");
-//			ctx.status(406);
-//
-//		}
-//	};
+		}
+	};
+
+/*public Handler registerUserHandler = (ctx) -> {
+
+		if (ctx.req.getSession(true) != null) {
+			String body = ctx.body();
+
+			Gson gson = new Gson();
+
+			RegistrationDTO rdto = gson.fromJson(body, RegistrationDTO.class);
+			System.out.println(rdto);
+
+//			String username, String password, String fName, String lName, String email, int roleId
+
+			User fromDTO = new User(rdto.getUsername(), rdto.getPassword(), rdto.getfName(), rdto.getlName(),
+					rdto.getEmail(), rdto.getRole());
+			
+			System.out.println(rdto.getfName());
+
+			auth.register(fromDTO);
+
+			ctx.result("User Successfully Registered!");
+
+			ctx.status(201);
+
+		} else {
+			ctx.result("Registration Unsuccessful");
+			ctx.status(406);
+
+		}
+	};
+*/
 
 	public Handler getReimbByStatusHandler = (ctx) -> {
 		if (ctx.req.getSession(true) != null) {

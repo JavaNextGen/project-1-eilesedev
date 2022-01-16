@@ -35,7 +35,7 @@ public class Driver {
     				config -> {
     					config.enableCorsForAllOrigins(); //allows server to process Javascript
     				}
-    			).start(3000); 
+    			).start(3001); 
     	
     	//Register user
     	app.post("/auth/register", ac.registerUserHandler);
@@ -48,7 +48,7 @@ public class Driver {
     	app.get("/employee/{Id}", uc.getUserByIdHandler);
     	
     	//Create Reimbursement
-//    	app.post("/reimbursements/create/{authorId}", rc.createReimbursementHandler); //Half working
+    	app.post("/reimbursements/create", rc.createReimbursementHandler); //Half working
     	
     	app.get("/reimbursements/get/{Status}", rc.getReimbByStatusHandler);
     	

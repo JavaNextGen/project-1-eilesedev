@@ -1,4 +1,4 @@
-const url = "http://localhost:3000/"; 
+const url = "http://localhost:3001/"; 
 
 function redirectLogin(){
     location.replace("file:///C:/Users/jenea/OneDrive/02-Revature%20Paid%20Internship/Projects-FOR%20SUBMISSION/Project%201/project-1-eilesedev/web/login/index.html");

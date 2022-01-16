@@ -37,17 +37,17 @@ public class ReimbursementService {
 	AuthService as = new AuthService();
 	UserService us = new UserService();
 
-//	public Reimbursement create(Reimbursement newReimbursement, int Id) {
-//		
+	public Reimbursement create(Reimbursement newReimbursement) {
+		
 //		User author = us.getUserById(Id);
 //		
 //		Reimbursement wAuthor = newReimbursement; 
 //		
 //		wAuthor.setAuthor(author);
-//
-//		return rDAO.create(newReimbursement);
-//
-//	}
+
+		return rDAO.create(newReimbursement);
+
+	}
 
 	/**
 	 * <ul>

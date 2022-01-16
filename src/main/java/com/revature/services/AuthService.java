@@ -87,41 +87,46 @@ public class AuthService {
 	 * Note: userToBeRegistered will have an id=0, additional fields may be null.
 	 * After registration, the id will be a positive integer.
 	 */
-	public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException, UsernameNotUniqueException, RegistrationUnsuccessfulException {
+	 public User register(User userToBeRegistered) {
+		 	UserDAO uDAO = new UserDAO();
+	    	
+	    	return uDAO.create(userToBeRegistered); 
+	    }
+//	public User register(User userToBeRegistered) throws NewUserHasNonZeroIdException, UsernameNotUniqueException, RegistrationUnsuccessfulException {
+//
+////		NEED TO CREATE A CHECK IF REGISTRATION UNSUCCESSFUL
+//		
+//		UserDAO uDAO = new UserDAO();
+//
+//		if (userToBeRegistered != null) {
+//
+//			User registeredUser = userToBeRegistered;
+//
+//			String registeredUnm = registeredUser.getUsername();
+//
+//			int registeredId = registeredUser.getId();
+//
+//			if (uDAO.getByUsername(registeredUnm).isPresent()) {
+//
+//				System.out.println("Username matches a username saved in the database. \" + \"Please sign in");
+//
+//				throw new UsernameNotUniqueException();
+//
+//			} else if (registeredId != 0) {
+//
+//				System.out.println("ID should be 0!");
+//
+//				throw new NewUserHasNonZeroIdException();
+//
+//			}
+//			
+////			return registeredUser; 
+//
+//		}
 
-//		NEED TO CREATE A CHECK IF REGISTRATION UNSUCCESSFUL
-		
-		UserDAO uDAO = new UserDAO();
-
-		if (userToBeRegistered != null) {
-
-			User registeredUser = userToBeRegistered;
-
-			String registeredUnm = registeredUser.getUsername();
-
-			int registeredId = registeredUser.getId();
-
-			if (uDAO.getByUsername(registeredUnm).isPresent()) {
-
-				System.out.println("Username matches a username saved in the database. \" + \"Please sign in");
-
-				throw new UsernameNotUniqueException();
-
-			} else if (registeredId != 0) {
-
-				System.out.println("ID should be 0!");
-
-				throw new NewUserHasNonZeroIdException();
-
-			}
-			
-			return registeredUser; 
-
-		}
-
-		return uDAO.create(userToBeRegistered);
-
-	}
+//		return uDAO.create(userToBeRegistered);
+//
+//	}
 
 	/**
 	 * This is an example method signature for retrieving the currently logged-in

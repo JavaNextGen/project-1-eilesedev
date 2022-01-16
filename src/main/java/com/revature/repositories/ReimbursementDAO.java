@@ -56,7 +56,7 @@ public class ReimbursementDAO {
 			ps.setInt(1, id);
 			rs = ps.executeQuery(); // Used to retrieve values from database
 			
-
+			
 			Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
 					Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
 					rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
@@ -215,7 +215,6 @@ public class ReimbursementDAO {
 public List<Reimbursement> getAll(User author) {
 	
 		
-
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			ResultSet rs = null;

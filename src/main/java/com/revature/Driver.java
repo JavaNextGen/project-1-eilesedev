@@ -6,7 +6,6 @@ import com.revature.controllers.AuthController;
 import com.revature.controllers.ReimbursementController;
 import com.revature.controllers.UserController;
 import com.revature.exceptions.UserLoginFailedException;
-import com.revature.models.UserMenu;
 import com.revature.util.ConnectionFactory;
 
 import io.javalin.Javalin;
@@ -36,7 +35,7 @@ public class Driver {
     				config -> {
     					config.enableCorsForAllOrigins(); //allows server to process Javascript
     				}
-    			).start(3002); 
+    			).start(3000); 
     	
     	//Register user
     	app.post("/auth/register", ac.registerUserHandler);

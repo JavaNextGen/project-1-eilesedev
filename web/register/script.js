@@ -1,4 +1,4 @@
-const url = "http://localhost:3002/"; 
+const url = "http://localhost:3000/"; 
 
 function redirectLogin(){
     location.replace("file:///C:/Users/jenea/OneDrive/02-Revature%20Paid%20Internship/Projects-FOR%20SUBMISSION/Project%201/project-1-eilesedev/web/login/index.html");
@@ -43,11 +43,12 @@ async function registerUser() {
     });
 
     console.log(response.status); 
-
+    
     if(response.status === 201){
         document.getElementById("login_row").innerText = `Hey ${fname} press the button below to enter your new ERS System!`; 
         let enter = document.getElementById("enter"); 
         enter.hidden = !enter.hidden; 
+        document.getElementById("loginbtns").remove();
     } else{
         document.getElementById("login_row").innerText = "Login Failed! Refresh the page and try again"
     }

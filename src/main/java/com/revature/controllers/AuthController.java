@@ -27,11 +27,14 @@ public class AuthController {
 			Gson gson = new Gson();
 
 			RegistrationDTO rdto = gson.fromJson(body, RegistrationDTO.class);
+			System.out.println(rdto);
 
 //			String username, String password, String fName, String lName, String email, int roleId
 
 			User fromDTO = new User(rdto.getUsername(), rdto.getPassword(), rdto.getfName(), rdto.getlName(),
 					rdto.getEmail(), rdto.getRole());
+			
+			System.out.println(rdto.getfName());
 
 			auth.register(fromDTO);
 

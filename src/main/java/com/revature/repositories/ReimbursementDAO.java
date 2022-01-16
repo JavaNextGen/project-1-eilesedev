@@ -189,7 +189,7 @@ public class ReimbursementDAO {
 			PreparedStatement p = conn.prepareStatement(sql);
 
 			
-			p.setDouble(1, 200); //this may be the problem
+			p.setDouble(1, newReimbursement.getAmount()); //this may be the problem
 			p.setInt(2, authorId);
 //			p.setInt(3,  nu);
 			p.setInt(3, statusId + 1);

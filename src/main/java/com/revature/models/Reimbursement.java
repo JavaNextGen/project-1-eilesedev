@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.repositories.UserDAO;
+import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 import com.revature.util.ConnectionFactory;
 
@@ -24,6 +25,7 @@ public class Reimbursement extends AbstractReimbursement {
 	User u = new User();
 	UserDAO uDAO = new UserDAO();
 	UserService us = new UserService();
+	ReimbursementService rs = new ReimbursementService(); 
 
 	private Timestamp submitted;
 	private Timestamp resolved;
@@ -53,8 +55,23 @@ public class Reimbursement extends AbstractReimbursement {
 //		super.setStatus(status);
 //		this.reimb_type = reimbType; 
 //	}
+	
+	//Update reimbursements
+	public Reimbursement(int statusID, int resolverID) {
+		
+		if(statusID == 1) {
+			super.setStatus(Status.PENDING);
+		} else if(statusID == 2) {
+			super.setStatus(Status.APPROVED);
+		} else {
+			super.setStatus(Status.DENIED);
+		}
+		
+		super.setResolver(us.getUserById(resolverID));
 
-	// This is what I'm trying now to fix issue with creating reimbursements 1/11/22
+	}
+
+	//creating reimbursements
 	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) {
 
 		super.setAmount(reimb_amount);
@@ -74,9 +91,7 @@ public class Reimbursement extends AbstractReimbursement {
 		this.setType(type);
 
 	}
-//	new Reimbursement(JSONr.getStatus(), JSONr.getAuthor(), JSONr.getAmount(), JSONr.getType())
 
-	// Pulled from previous versions -- WAS WORKING!!!!!!!!!!!!!
 	public Reimbursement(Status status, User author, double amount, ReimbursementType type) {
 		super.setStatus(status);
 		super.setAuthor(author);

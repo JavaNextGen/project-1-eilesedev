@@ -66,41 +66,45 @@ public class ReimbursementService {
 	 * changed to either APPROVED or DENIED.
 	 */
 
-	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
-		// resolver should be set from the service layer
-		// reimb status id should be set from service layer
-		// reimb id is just the ID of the unprocessed reimburseemnt
+	public Reimbursement process(Reimbursement processedReimbursement) {
+		
+		System.out.println("From Service layer " + processedReimbursement.toString());
+		
+//		unprocessedReimbursement.setStatus(finalStatus);
+//		unprocessedReimbursement.setResolver(resolver);
 
-		try {
-			if (as.login(resolver.getUsername(), resolver.getPassword()) != null
-					&& resolver.getUserRole() == Role.FINANCE_MANAGER) {
+//		Reimbursement processing = rDAO.getById(unprocessedReimbursement.getId()).get();
 
-				// Check to see that the reimbursement request exists -- how?
-				int rID = unprocessedReimbursement.getId();
-				Reimbursement processedR = rDAO.getById(rID).get();
+//		try {
+//			if (as.login(resolver.getUsername(), resolver.getPassword()) != null
+//					&& resolver.getUserRole() == Role.FINANCE_MANAGER) {
+//
+//				processing.setStatus(finalStatus);
+//				processing.setResolver(resolver);
+//
+////				unprocessedReimbursement.setStatus(finalStatus);
+////				unprocessedReimbursement.setResolver(resolver);
+//
+////					processedR.setStatus(finalStatus);
+////					processedR.setResolver(resolver);
+//				return rDAO.update(processing);
+//
+////				} else {
+////					System.out.println("From Service Layer: Reimbursement Request not found! Please create a request.");
+////					throw new UserLoginFailedException();
+////				}
+//
+//			} else {
+//
+//				System.out.println("From Service Layer: User is not signed in as a Finance Manager!");
+//				throw new UserLoginFailedException();
+//			}
+//		} catch (UserLoginFailedException e) {
+//			System.out.println("From the service layer: Your Reimbursement Request Has Failed");
+//			e.printStackTrace();
+//		}
 
-				if (processedR != null) {
-
-					processedR.setStatus(finalStatus);
-					processedR.setResolver(resolver);
-					return rDAO.update(processedR);
-
-				} else {
-					System.out.println("From Service Layer: Reimbursement Request not found! Please create a request.");
-					throw new UserLoginFailedException();
-				}
-
-			} else {
-
-				System.out.println("From Service Layer: User is not signed in as a Finance Manager!");
-				throw new UserLoginFailedException();
-			}
-		} catch (UserLoginFailedException e) {
-			System.out.println("From the service layer: Your Reimbursement Request Has Failed");
-			e.printStackTrace();
-		}
-
-		return null;
+		return rDAO.update(processedReimbursement);
 	}
 
 	/**

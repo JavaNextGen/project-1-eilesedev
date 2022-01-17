@@ -10,7 +10,10 @@ const reimbArr = [];
 //This gets reimbursements by status -- use this to filter reimbursements
 async function getReimbursements() {
 
-    let response = await fetch(url + "reimbursements/get/" + "Pending", { credentials: "include" });
+    let statusID = document.getElementById("inputGroupSelect01").value;
+    
+
+    let response = await fetch(url + "reimbursements/get/" + statusID, { credentials: "include" });
 
     console.log(response);
 
@@ -149,8 +152,8 @@ async function getAllReimbursements() {
 
 // let updatedRBody;
 let rId; 
-let resolver =  sessionStorage.getItem("userID");
-let reimb_status_id;
+let resolverID =  sessionStorage.getItem("userID");
+let statusID;
 
 
 function approveReimb() {
@@ -159,7 +162,7 @@ function approveReimb() {
     console.log(rId);
 
     if (rId != null) {
-        reimb_status_id = "APPROVED"
+        statusID = 2;
         updateReimbursements(); 
     } else {
         alert("You must enter a Reimbursement ID");
@@ -172,7 +175,7 @@ function denyReimb() {
     console.log(rId);
 
     if (rId != null) {
-        reimb_status_id = "DENIED"
+        statusID = 3;
         updateReimbursements(); 
     } else {
         alert("You must enter a Reimbursement ID");
@@ -181,8 +184,18 @@ function denyReimb() {
 
 async function updateReimbursements() {
 
-    let response1 = await fetch(url + "reimbursements/update/" + rId + "/" + resolver + "/" +   reimb_status_id, { 
+    let processed_reimb = {
+        resolverID:resolverID, 
+        statusID:statusID, 
+    }
+
+    console.log(processed_reimb); 
+
+
+
+    let response1 = await fetch(url + "reimbursements/update/" + rId, { 
         method: "PUT",
+        body: JSON.stringify(processed_reimb), 
         credentials: "include" });
 
     console.log(response1);
@@ -197,3 +210,4 @@ async function updateReimbursements() {
         alert("Reimbursement could not be updated");
     }
 }
+

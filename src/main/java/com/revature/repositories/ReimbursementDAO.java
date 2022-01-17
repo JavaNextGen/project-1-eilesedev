@@ -57,13 +57,18 @@ public class ReimbursementDAO {
 			ps.setInt(1, id);
 			rs = ps.executeQuery(); // Used to retrieve values from database
 
-			Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
-					Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
-					rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-					rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+				
+				System.out.println("Reimbursement " + r.toString() + " exists!");
 
-			System.out.println("Reimbursement " + r.toString() + " exists!");
-			return Optional.ofNullable(r);
+				return Optional.ofNullable(r);
+				
+			}
+			
 		} catch (SQLException e) {
 			System.out.println("Something has gone wrong!");
 			e.printStackTrace();
@@ -135,37 +140,45 @@ public class ReimbursementDAO {
 	 * <li>Should return a Reimbursement object with updated information.</li>
 	 * </ul>
 	 */
-	public Reimbursement update(Reimbursement unprocessedReimbursement) {
+	public Reimbursement update(Reimbursement processedReimbursement) {
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
-			ResultSet rs = null;
+//			ResultSet rs = null;
 
-			int urId = unprocessedReimbursement.getId();
+			int urId = processedReimbursement.getId();
+			System.out.println(urId);
+			
+			int resolverId = processedReimbursement.getResolver().getId();
+			System.out.println(resolverId);
+			
+			int statusId =  processedReimbursement.getStatus().ordinal();
+			System.out.println(statusId);
 
 			String sql = "UPDATE ers_reimbursement SET reimb_resolver=?, reimb_status_id=? WHERE reimb_id =?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setInt(1, unprocessedReimbursement.getResolver().getId());
-			ps.setInt(2, unprocessedReimbursement.getStatus().ordinal() + 1);
+			ps.setInt(1, resolverId);
+			ps.setInt(2,statusId);
 			ps.setInt(3, urId);
 
-			rs = ps.executeQuery();
+//			rs = ps.executeQuery();
+			ps.executeUpdate();
 
 //			List<Reimbursement> allReimbursements = new ArrayList<>();
 
-			while (rs.next()) {
-				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
-						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
-						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+//			while (rs.next()) {
+//				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+//						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+//						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+//						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+//
+//				return r;
+//
+//			}
 
-				return r;
-
-			}
-
-			System.out.println("DAO msg: your reimbursement is now: " + unprocessedReimbursement.getStatus());
+			System.out.println("DAO msg: your reimbursement is now: " + processedReimbursement.getStatus());
 		} catch (SQLException e) {
 			System.out.println("DAO msg: Something has gone wrong!");
 			e.printStackTrace();

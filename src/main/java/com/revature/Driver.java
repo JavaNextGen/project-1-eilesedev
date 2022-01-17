@@ -47,6 +47,8 @@ public class Driver {
 //    	java app.get("/employee/{Id}", cec.getEmpbyIdHandler);
     	app.get("/employee/{Id}", uc.getUserByIdHandler);
     	
+    	app.get("/reimbursements/{Id}", rc.getReimbById);
+    	
     	//Create Reimbursement
     	app.post("/reimbursements/create", rc.createReimbursementHandler); //Half working
     	
@@ -56,7 +58,7 @@ public class Driver {
     	
     	app.get("/employee/username/{username}", uc.getUserByUsernameHandler);
     	
-    	app.put("/reimbursements/update", rc.updateReimbursementHandler);
+    	app.put("/reimbursements/{Id}", rc.updateReimbursementHandler);
     	
     	app.get("/reimbursements/get/all", rc.getAllReimb);
     	

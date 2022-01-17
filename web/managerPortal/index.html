@@ -17,6 +17,18 @@
         <h2 class="mx-auto" style="padding-top: 3%; color: #009888; font-weight: 700;">Welcome VocFinTech Finance
             Manager <span id="userName"></span></h2>
 
+            <div class="input-group mb-3 mx-auto" style="margin-top: 5%;">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Filter Reimbursements By Status</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01">
+                  <option selected>Choose...</option>
+                  <option value="1" class="text-primary">Pending</option>
+                  <option value="2" class="text-success">Approved</option>
+                  <option value="3" class="text-danger">Denied</option>
+                </select>
+              </div>
+
         <div id="table-row" class="row">
             <table id="reimbTable" class="table table-sm table-hover border table-light border-2 rounded">
                 <thead>

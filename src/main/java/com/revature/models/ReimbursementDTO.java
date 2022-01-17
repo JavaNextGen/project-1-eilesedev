@@ -25,6 +25,13 @@ public class ReimbursementDTO {
 		this.amount = amount;
 		this.typeID = typeID;
 	}
+	
+	//Update reimbursements
+	public ReimbursementDTO(int statusID, int resolverID) {
+		super();
+		this.statusID = statusID;
+		this.resolver = resolverID; 
+	}
 
 	public int getStatusID() {
 		return statusID;

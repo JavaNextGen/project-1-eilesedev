@@ -136,41 +136,45 @@ public class ReimbursementController {
 	public Handler updateReimbursementHandler = (ctx) -> {
 
 		if (ctx.req.getSession(true) != null) {
-			
-			String rId = ctx.pathParam("rId");
-			String rsv = ctx.pathParam("resolver");
-			String sts = ctx.pathParam("status");
-			
-			Reimbursement rById = rs.getById(Integer.parseInt(rId)).get();
-			User userR = us.getUserById(Integer.parseInt(rsv));
-			
+						
+		
 
-//            Gson gson = new Gson();
+            Gson gson = new Gson();
+            
+			String body = ctx.body();
+			
+//			Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver)
 			
 			
-			if(sts.equals("APPROVED")) {
-				rById.setStatus(Status.APPROVED);
-			} else if(sts.equals("DENIED")) {
-				rById.setStatus(Status.APPROVED); 
-			}
-			
-			Status s = rById.getStatus(); 
-			
-//			 String body = ctx.body();
+	        Reimbursement updated = gson.fromJson(body, Reimbursement.class);
 
-
-//	            Status status = gson.fromJson(body, Status.class);
-
-				
-
-	            rs.process(rById, s, userR);
-
+			rs.process(updated, updated.getStatus(), updated.getResolver());
 			ctx.result("Reimbursement successfully updated!");
 			ctx.status(200);
 
 		} else {
 			ctx.result("Reimbursement could not be updated");
 			ctx.status(404);
+		}
+	};
+	
+	public Handler getAllReimb = (ctx) -> {
+		if (ctx.req.getSession(true) != null) {
+
+			// How do I pass in an enum into the path param of the ctx object?
+
+			List<Reimbursement> allReimbursements = rs.getAllReimbursements();
+
+			Gson gson = new Gson();
+
+			String JSONReimbursements = gson.toJson(allReimbursements);
+
+			ctx.result(JSONReimbursements);
+			ctx.status(200);
+
+		} else {
+			ctx.result("No reimbursements could be found");
+			ctx.status(400);
 		}
 	};
 

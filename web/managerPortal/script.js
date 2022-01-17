@@ -1,4 +1,4 @@
-const url = "http://localhost:3002/";
+const url = "http://localhost:3001/";
 
 document.getElementById("getEmpReimbursements").addEventListener("click", getReimbursements);
 
@@ -7,7 +7,7 @@ document.getElementById("userName").innerHTML = sessionStorage.getItem("f_name")
 // let reimbursement; 
 const reimbArr = [];
 
-
+//This gets reimbursements by status -- use this to filter reimbursements
 async function getReimbursements() {
 
     let response = await fetch(url + "reimbursements/get/" + "Pending", { credentials: "include" });
@@ -82,6 +82,69 @@ async function getReimbursements() {
     }
 
 }
+//End getting reimbursements by status
+
+// Get all reimbursements
+async function getAllReimbursements() {
+
+    let response = await fetch(url + "reimbursements/get/all", { credentials: "include" });
+
+    console.log(response);
+
+    if (response.status === 200) {
+
+        let data = await response.json();
+
+        console.log(data); //DONE TESTING
+
+
+
+        for (reimbursement of data) {
+            let reimb = {
+                "id": reimbursement.id,
+                "reimb_amount": reimbursement.reimb_amount,
+                "first": reimbursement.reimb_author.f_Name,
+                "last": reimbursement.reimb_author.l_Name,
+                "reimb_status_id": reimbursement.reimb_status_id,
+                "reimb_type": reimbursement.reimb_type
+
+            }
+
+            reimbArr.push(reimb);
+
+            let row = document.createElement("tr");
+
+            let id = document.createElement("td");
+            id.innerHTML = reimb.id;
+            row.appendChild(id);
+
+            let employee = document.createElement("td");
+            employee.innerHTML = reimb.first + " " + reimb.last;
+            row.appendChild(employee);
+
+            let amount = document.createElement("td");
+            amount.innerHTML = reimb.reimb_amount;
+            row.appendChild(amount);
+
+            let reimbStatus = document.createElement("td");
+            reimbStatus.innerHTML = reimb.reimb_status_id;
+            row.appendChild(reimbStatus);
+
+            let reimbType = document.createElement("td");
+            reimbType.innerHTML = reimb.reimb_type;
+            row.appendChild(reimbType);
+
+
+            // Check HTML and come back here
+            document.getElementById("reimbBody").appendChild(row);
+        }
+
+    } else {
+        alert("Reimbursement Update failed Failed! Refresh the page and try again");
+    }
+
+}
+// End getting all reimbursements
 
 
 // let updatedRBody;

@@ -38,7 +38,7 @@ public class ReimbursementService {
 	UserService us = new UserService();
 
 	public Reimbursement create(Reimbursement newReimbursement) {
-		
+
 //		User author = us.getUserById(Id);
 //		
 //		Reimbursement wAuthor = newReimbursement; 
@@ -66,40 +66,40 @@ public class ReimbursementService {
 	 * changed to either APPROVED or DENIED.
 	 */
 
-	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver){
-				//resolver should be set from the service layer
-				//reimb status id should be set from service layer
-				//reimb id is just the ID of the unprocessed reimburseemnt
-		
+	public Reimbursement process(Reimbursement unprocessedReimbursement, Status finalStatus, User resolver) {
+		// resolver should be set from the service layer
+		// reimb status id should be set from service layer
+		// reimb id is just the ID of the unprocessed reimburseemnt
+
 		try {
-			if(as.login(resolver.getUsername(), resolver.getPassword()) != null && resolver.getUserRole() == Role.FINANCE_MANAGER) {
-				
-				//Check to see that the reimbursement request exists -- how?
-				if(rDAO.getById(unprocessedReimbursement.getId()) != null) {
-					
+			if (as.login(resolver.getUsername(), resolver.getPassword()) != null
+					&& resolver.getUserRole() == Role.FINANCE_MANAGER) {
+
+				// Check to see that the reimbursement request exists -- how?
+				int rID = unprocessedReimbursement.getId();
+				Reimbursement processedR = rDAO.getById(rID).get();
+
+				if (processedR != null) {
+
+					processedR.setStatus(finalStatus);
+					processedR.setResolver(resolver);
+					return rDAO.update(processedR);
+
 				} else {
-					System.out.println("Reimbursement Request not found! Please create a request.");
-					throw new UserLoginFailedException(); 
+					System.out.println("From Service Layer: Reimbursement Request not found! Please create a request.");
+					throw new UserLoginFailedException();
 				}
-				
-				Status newStatus = finalStatus; 
-				Reimbursement processedReimb = unprocessedReimbursement; 
-				processedReimb.setStatus(newStatus); 
-				processedReimb.setResolver(resolver);
-				
-				return rDAO.update(processedReimb); 
-				
+
 			} else {
-				
-				System.out.println("Reimbursement could not be processed! Try again!");
-				throw new UserLoginFailedException(); 
+
+				System.out.println("From Service Layer: User is not signed in as a Finance Manager!");
+				throw new UserLoginFailedException();
 			}
 		} catch (UserLoginFailedException e) {
-			System.out.println("You're not logged in as a finance manager!");
+			System.out.println("From the service layer: Your Reimbursement Request Has Failed");
 			e.printStackTrace();
 		}
-		
-		
+
 		return null;
 	}
 
@@ -113,20 +113,25 @@ public class ReimbursementService {
 //	verify(reimbursementDAO).getByStatus(Status.PENDING);
 	public List<Reimbursement> getReimbursementsByStatus(Status status) {
 
-		//Changing it back for tests; need to check postman to see if it passes
+		// Changing it back for tests; need to check postman to see if it passes
 
 		return rDAO.getByStatus(status);
 	}
-	
-	//Get all reimbursements by Author
+
+	// Get all reimbursements by Author
 	public List<Reimbursement> getReimbursementByAuthor(User author) {
 
-		//Changing it back for tests; need to check postman to see if it passes
+		// Changing it back for tests; need to check postman to see if it passes
 
 		return rDAO.getAll(author);
 	}
-	
+
 	public Optional<Reimbursement> getById(int id) {
 		return rDAO.getById(id);
+	}
+
+	public List<Reimbursement> getAllReimbursements() {
+
+		return rDAO.getAll();
 	}
 }

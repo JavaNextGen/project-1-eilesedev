@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +43,7 @@ public class ReimbursementDAO {
 	 * empty optional if there is no match.
 	 */
 	public Optional<Reimbursement> getById(int id) {
-		
+
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			ResultSet rs = null;
@@ -55,22 +56,21 @@ public class ReimbursementDAO {
 
 			ps.setInt(1, id);
 			rs = ps.executeQuery(); // Used to retrieve values from database
-			
-			
+
 			Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
 					Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
 					rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-					rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
-						
-				System.out.println("Reimbursement " + r.toString() + " exists!");
-				return Optional.ofNullable(r);
-			}  catch (SQLException e) {
-				System.out.println("Something has gone wrong!");
-				e.printStackTrace();
-			}
+					rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
 
-			return Optional.ofNullable(null);
-		
+			System.out.println("Reimbursement " + r.toString() + " exists!");
+			return Optional.ofNullable(r);
+		} catch (SQLException e) {
+			System.out.println("Something has gone wrong!");
+			e.printStackTrace();
+		}
+
+		return Optional.ofNullable(null);
+
 	}
 
 	/**
@@ -79,16 +79,15 @@ public class ReimbursementDAO {
 	 */
 
 	public List<Reimbursement> getByStatus(Status status) {
-		
-		int s; 
-		
-		if(status == Status.PENDING)
-			s = 1; 
-		else if(status == Status.APPROVED)
-			s = 2; 
+
+		int s;
+
+		if (status == Status.PENDING)
+			s = 1;
+		else if (status == Status.APPROVED)
+			s = 2;
 		else
-			s = 3; 
-		
+			s = 3;
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
 //			int statusId = (status.ordinal() + 1); 
@@ -100,7 +99,7 @@ public class ReimbursementDAO {
 			String sql = "SELECT * from ers_reimbursement WHERE reimb_status_id=?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setInt(1, s);
 
 			rs = ps.executeQuery();
@@ -111,7 +110,7 @@ public class ReimbursementDAO {
 				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
 						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
 
 				reimbursementList.add(r);
 
@@ -137,59 +136,67 @@ public class ReimbursementDAO {
 	 * </ul>
 	 */
 	public Reimbursement update(Reimbursement unprocessedReimbursement) {
-		
-		
-		
-		try (Connection conn = ConnectionFactory.getConnection()) {
-			int urId = unprocessedReimbursement.getId(); 
 
-			String sql = "UPDATE ers_reimbursement SET reimb_resolver = ?, reimb_status_id=? WHERE reimb_id =?";
+		try (Connection conn = ConnectionFactory.getConnection()) {
+
+			ResultSet rs = null;
+
+			int urId = unprocessedReimbursement.getId();
+
+			String sql = "UPDATE ers_reimbursement SET reimb_resolver=?, reimb_status_id=? WHERE reimb_id =?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setInt(1, unprocessedReimbursement.getResolver().getId());
 			ps.setInt(2, unprocessedReimbursement.getStatus().ordinal() + 1);
 			ps.setInt(3, urId);
-			
-			ps.executeUpdate(); 
-			
+
+			rs = ps.executeQuery();
+
+//			List<Reimbursement> allReimbursements = new ArrayList<>();
+
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+
+				return r;
+
+			}
+
 			System.out.println("DAO msg: your reimbursement is now: " + unprocessedReimbursement.getStatus());
-}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println("DAO msg: Something has gone wrong!");
 			e.printStackTrace();
 		}
-
 
 		return null;
 	}
 
 //	public Reimbursement(int statusID, int authorID, double amount, int typeId)
-	
+
 	public Reimbursement create(Reimbursement newReimbursement) {
 
 		try (Connection conn = ConnectionFactory.getConnection()) {
-			
-			int authorId = newReimbursement.getAuthor().getId(); //THIS WORKS
+
+			int authorId = newReimbursement.getAuthor().getId(); // THIS WORKS
 //			System.out.println(authorId);
-			
-			int statusId = newReimbursement.getStatus().ordinal(); //THIS ALSO WORKS
+
+			int statusId = newReimbursement.getStatus().ordinal(); // THIS ALSO WORKS
 			System.out.println(statusId);
-			
-			int reimbId = newReimbursement.getType().ordinal(); 
+
+			int reimbId = newReimbursement.getType().ordinal();
 			System.out.println(reimbId);
-
-
 
 			String sql = "INSERT INTO ers_reimbursement(reimb_amount, reimb_author, "
 					+ "reimb_status_id, reimb_type_id)" + "VALUES (?, ?, ?, ?)";
-			
+
 			System.out.println(sql);
 
 			PreparedStatement p = conn.prepareStatement(sql);
 
-			
-			p.setDouble(1, newReimbursement.getAmount()); //this may be the problem
+			p.setDouble(1, newReimbursement.getAmount()); // this may be the problem
 			p.setInt(2, authorId);
 //			p.setInt(3,  nu);
 			p.setInt(3, statusId + 1);
@@ -212,12 +219,10 @@ public class ReimbursementDAO {
 		return null;
 	}
 
-	
-	//Gets all reimbursements for a specific user
-	
-public List<Reimbursement> getAll(User author) {
-	
-		
+	// Gets all reimbursements for a specific user
+
+	public List<Reimbursement> getAll(User author) {
+
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			ResultSet rs = null;
@@ -225,7 +230,7 @@ public List<Reimbursement> getAll(User author) {
 			String sql = "SELECT * from ers_reimbursement WHERE reimb_author=?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
+
 			ps.setInt(1, author.getId());
 
 			rs = ps.executeQuery();
@@ -236,7 +241,7 @@ public List<Reimbursement> getAll(User author) {
 				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
 						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
 						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
-						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") -1]);
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
 
 				reimbursementList.add(r);
 
@@ -252,4 +257,40 @@ public List<Reimbursement> getAll(User author) {
 		// Or an empty list if there are no reimbursements
 		return Collections.emptyList();
 	}
+
+//Gets all reimbursements from the DB
+	public List<Reimbursement> getAll() {
+		try (Connection conn = ConnectionFactory.getConnection()) {
+
+			ResultSet rs = null;
+
+			String sql = "SELECT * from ers_reimbursement";
+
+			Statement ps = conn.createStatement();
+
+			rs = ps.executeQuery(sql);
+
+			List<Reimbursement> reimbursementList = new ArrayList<>();
+
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt("reimb_id"),
+						Status.values()[rs.getInt("reimb_status_id") - 1], rs.getInt("reimb_author"),
+						rs.getInt("reimb_resolver"), rs.getInt("reimb_amount"), rs.getTimestamp("reimb_submitted"),
+						rs.getTimestamp("reimb_resolved"), ReimbursementType.values()[rs.getInt("reimb_type_id") - 1]);
+
+				reimbursementList.add(r);
+
+			}
+
+			return reimbursementList;
+
+		} catch (SQLException e) {
+			System.out.println("From the DAO: Something has gone wrong getting all your reimbursements!");
+			e.printStackTrace();
+		}
+
+		// Or an empty list if there are no reimbursements
+		return Collections.emptyList();
+	}
+
 }

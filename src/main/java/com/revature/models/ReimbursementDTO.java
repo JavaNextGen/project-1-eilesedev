@@ -18,12 +18,13 @@ public class ReimbursementDTO {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ReimbursementDTO(int statusID, int author, double amount, int typeID) {
+	public ReimbursementDTO(int statusID, int author, double amount, int typeID, int resolver) {
 		super();
 		this.statusID = statusID;
 		this.author = author;
 		this.amount = amount;
 		this.typeID = typeID;
+		this.resolver = resolver; 
 	}
 	
 	//Update reimbursements

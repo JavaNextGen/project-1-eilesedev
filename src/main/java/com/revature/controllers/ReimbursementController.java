@@ -35,7 +35,7 @@ public class ReimbursementController {
 //			System.out.println(rmbDTO.toString()); //This hits
 
 			Reimbursement rmbdt = new Reimbursement(rmbDTO.getStatusID(), rmbDTO.getAuthor(), rmbDTO.getAmount(),
-					rmbDTO.getTypeID());
+					rmbDTO.getTypeID(), rmbDTO.getResolver());
 
 			System.out.println(rmbdt.toString());
 
@@ -160,31 +160,17 @@ public class ReimbursementController {
 		if (ctx.req.getSession() != null) {
 
 			String eId = ctx.pathParam("Id");
-			String update = ctx.body(); //Resolver and Status Id's 
-			
-			System.out.println(update);
 
-			Reimbursement unprocessedReimb = rs.getById(Integer.parseInt(eId)).get();
+			Reimbursement reimbById = rs.getById(Integer.parseInt(eId)).get();
+
+			System.out.println("From getByIdHandler " + reimbById.toString());
 
 			Gson gson = new Gson();
 
-			String JSONReimb = gson.toJson(unprocessedReimb);
-			
-//			System.out.println(JSONReimb);
+			String JSONReimb = gson.toJson(reimbById);
 
-//			String body = ctx.body();
+			ctx.result(JSONReimb);
 
-			ReimbursementDTO processing = gson.fromJson(JSONReimb, ReimbursementDTO.class);
-
-//			Reimbursement processed = new Reimbursement(processing.getStatusID(), processing.getResolver());
-			
-//			System.out.println("After setting values in Reimbursement " + processed.toString());
-
-			Reimbursement processed = new Reimbursement(processing.getStatusID(), processing.getResolver()); 
-
-			rs.process(processed);
-
-			ctx.result("Reimbursement successfully updated!");
 			ctx.status(200);
 
 		} else {

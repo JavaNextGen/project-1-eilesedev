@@ -72,13 +72,14 @@ public class Reimbursement extends AbstractReimbursement {
 	}
 
 	//creating reimbursements
-	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType) {
+	public Reimbursement(double reimb_amount, User author, Status status, ReimbursementType reimbType, User resolver) {
 
 		super.setAmount(reimb_amount);
 		super.setAuthor(author);
 
 		super.setStatus(status);
 		this.setType(reimbType);
+		super.setResolver(resolver);
 
 	}
 
@@ -128,7 +129,7 @@ public class Reimbursement extends AbstractReimbursement {
 //	Reimbursement(rmbDTO.getStatusID(), rmbDTO.getAuthor(), rmbDTO.getAmount(), rmbDTO.getTypeID(), rmbDTO.getResolver())
 
 	//On trying to fix reimbursements, this is what I used
-	public Reimbursement(int statusID, int authorID, double amount, int typeId) {
+	public Reimbursement(int statusID, int authorID, double amount, int typeId, int resolverID) {
 		
 		if(statusID == 1) {
 			super.setStatus(Status.PENDING);
@@ -140,6 +141,7 @@ public class Reimbursement extends AbstractReimbursement {
 		
 		super.setAuthor(us.getUserById(authorID));
 		super.setAmount(amount);
+		super.setResolver(us.getUserById(resolverID));
 		
 		if (typeId == 1) {
 			this.setType(ReimbursementType.LODGING);
